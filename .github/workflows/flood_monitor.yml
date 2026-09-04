@@ -14,6 +14,7 @@ on:
         options:
           - once
           - test-alert
+          - broadcast-status
           - status
       mock:
         description: 'Force realistic mock data'
@@ -78,6 +79,8 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             if [ "${{ inputs.mode }}" = "test-alert" ]; then
               EXTRA_FLAGS="--test-alert"
+            elif [ "${{ inputs.mode }}" = "broadcast-status" ]; then
+              EXTRA_FLAGS="--broadcast-status"
             elif [ "${{ inputs.mode }}" = "status" ]; then
               EXTRA_FLAGS="--status"
             else

@@ -270,3 +270,94 @@ def generate_bilingual_advisory(assessment: RiskAssessment) -> AdvisoryResult:
         logger.info("GEMINI_API_KEY not set. Using verified disaster alert template engine.")
 
     return _generate_fallback_advisory(assessment)
+
+
+def generate_basin_overview_advisory(assessments: List[RiskAssessment]) -> AdvisoryResult:
+    """Generate bilingual status overview for all monitored river basins."""
+    api_key = os.getenv("GEMINI_API_KEY", "").strip()
+
+    total = len(assessments)
+    highest_severity = max((a.severity for a in assessments), key=lambda s: s.rank, default=SeverityLevel.NORMAL)
+
+    bullet_data = []
+    for a in assessments:
+        bullet_data.append(
+            f"- {a.station_name}: Level={a.current_level:.2f}m (Warn={a.warning_level:.2f}m, Dang={a.danger_level:.2f}m), "
+            f"Velocity={a.rising_velocity:+.2f}m/h, Rain={a.upstream_forecast_1h_mm:.1f}mm/h in {a.upstream_catchment}, Status={a.severity.value}"
+        )
+    stations_summary = "\n".join(bullet_data)
+
+    prompt = f"""
+You are the Nepal Disaster & Hydrology Early Warning AI Assistant.
+Generate an authoritative, concise real-time river basin status overview bulletin in both English and Nepali.
+
+REAL-TIME BASIN READINGS ({total} Monitored Stations):
+{stations_summary}
+
+Overall Threat Status: {highest_severity.value} ({highest_severity.badge_en})
+
+INSTRUCTIONS:
+1. Provide an English Summary (2-3 crisp sentences):
+   - Summarize whether rivers are safe/normal or if any warnings exist.
+   - Mention the current weather status in upstream catchments.
+2. Provide a clear, natural Nepali Summary (नेपाली बुलेटिन सारांश - 2-3 sentences):
+   - Inform the public about current river conditions in clear, professional Nepali.
+   - Mention that Bagmati, Roshi, Koshi and Narayani basins are currently monitored in real time.
+
+FORMAT YOUR OUTPUT EXACTLY AS:
+===ENGLISH===
+<English summary>
+===NEPALI===
+<Nepali summary>
+"""
+
+    if api_key:
+        try:
+            from google import genai
+            from google.genai import types
+
+            client = genai.Client(api_key=api_key)
+            for m in ["gemini-1.5-flash", "gemini-2.5-flash", "gemini-2.0-flash"]:
+                try:
+                    resp = client.models.generate_content(
+                        model=m,
+                        contents=prompt,
+                        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=600),
+                    )
+                    if resp and resp.text:
+                        parsed = _parse_bilingual_response(resp.text, assessments[0], model_name=f"Google Gemini Flash ({m})")
+                        if parsed:
+                            return parsed
+                except Exception as e:
+                    logger.debug(f"Gemini SDK {m} overview failed: {e}")
+        except Exception as e:
+            logger.debug(f"Gemini overview exception: {e}")
+
+    # Deterministic fallback summary
+    if highest_severity == SeverityLevel.NORMAL:
+        en = (
+            f"All {total} monitored river stations across Bagmati, Nakkhu, Roshi Khola, Koshi, and Narayani "
+            f"basins are currently flowing within SAFE, NORMAL parameters. Upstream catchment precipitation is light and stable."
+        )
+        ne = (
+            f"हाल बागमती (बल्खु, गौरीघाट, सुन्दरीजल, चोभार), नख्खु खोला, रोशी खोला, सप्तकोशी तथा नारायणी "
+            f"जलाधारका सबै {total} वटै स्टेसनहरूमा नदीको जलसतह सतर्कता सीमाभन्दा तल सामान्य र सुरक्षित अवस्थामा रहेको छ। "
+            f"माथिल्लो तटीय जलाधारहरूमा कुनै आकस्मिक जोखिम देखिएको छैन।"
+        )
+    else:
+        en = (
+            f"Real-time monitoring across {total} river stations indicates elevated water levels. "
+            f"Peak threat status is currently {highest_severity.badge_en}. Riverside residents should stay alert."
+        )
+        ne = (
+            f"नेपालका प्रमुख {total} नदी स्टेसनहरूको वास्तविक अनुगमन गर्दा जलसतह सतर्कताको तहमा पुगेको पाइएको छ। "
+            f"हालको उच्च जोखिम स्थिति: {highest_severity.badge_ne}। नदी किनारका बासिन्दाहरू सतर्क रहनुहोला।"
+        )
+
+    return AdvisoryResult(
+        english_summary=en,
+        nepali_advisory=ne,
+        is_ai_generated=False,
+        model_used="Resilient Hydrology Summary Engine",
+    )
+

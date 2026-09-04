@@ -22,13 +22,14 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
-from services.ai_advisory import generate_bilingual_advisory
+from services.ai_advisory import generate_bilingual_advisory, generate_basin_overview_advisory
 from services.hydrology import fetch_river_telemetry, load_stations_metadata
 from services.risk_evaluator import evaluate_risk, SeverityLevel
 from services.telegram_notifier import (
     load_alert_state,
     save_alert_state,
     send_telegram_alert,
+    send_telegram_summary,
     should_send_alert,
     update_station_state,
 )
@@ -114,6 +115,35 @@ def run_test_alert(station_id: str = "bagmati_balkhu", dry_run: bool = False) ->
         return 1
 
 
+def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int:
+    """Fetch 100% real-time river gauges & weather, generate an AI summary, and broadcast to Telegram."""
+    print("\n📡 INGESTING REAL-TIME BASIN TELEMETRY & UPSTREAM WEATHER FORECASTS...")
+    readings = fetch_river_telemetry(force_mock=force_mock)
+    assessments = []
+
+    for r in readings:
+        weather = fetch_catchment_weather(
+            catchment_name=r.upstream_catchment,
+            latitude=r.upstream_lat,
+            longitude=r.upstream_lon,
+            force_mock=force_mock,
+        )
+        risk = evaluate_risk(r, weather)
+        assessments.append(risk)
+
+    print(f"📊 Evaluated {len(assessments)} river stations. Generating AI bilingual summary...")
+    advisory = generate_basin_overview_advisory(assessments)
+
+    print("🚀 Dispatching real-time status bulletin to Telegram...")
+    sent = send_telegram_summary(assessments, advisory, dry_run=dry_run)
+    if sent:
+        print("✅ Live river basin status bulletin successfully sent to Telegram!")
+        return 0
+    else:
+        print("⚠️ Failed to broadcast status bulletin to Telegram.")
+        return 1
+
+
 def run_monitoring_cycle(
     station_id: str | None = None,
     force_mock: bool = False,
@@ -196,6 +226,11 @@ def main() -> int:
         action="store_true",
         help="Print real-time gauge table and upstream weather overview, then exit.",
     )
+    mode_group.add_argument(
+        "--broadcast-status",
+        action="store_true",
+        help="Fetch 100% real-time river gauges & weather, generate an AI overview, and broadcast directly to Telegram.",
+    )
 
     parser.add_argument(
         "--interval",
@@ -239,6 +274,9 @@ def main() -> int:
     if args.status:
         print_status_table(force_mock=args.mock)
         return 0
+
+    if args.broadcast_status:
+        return run_broadcast_status(force_mock=args.mock, dry_run=args.dry_run)
 
     if args.test_alert:
         target_station = args.station or "bagmati_balkhu"

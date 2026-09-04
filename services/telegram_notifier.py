@@ -244,3 +244,92 @@ def update_station_state(
         alert_count=count,
     )
     save_alert_state(state)
+
+
+def format_basin_summary_html(assessments: List[RiskAssessment], advisory: AdvisoryResult) -> str:
+    """Format an informative, real-time bulletin for all monitored stations."""
+    highest_severity = max((a.severity for a in assessments), key=lambda s: s.rank, default=SeverityLevel.NORMAL)
+    now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+    parts = [
+        "<b>🌊 NEPAL RIVER BASINS - REAL-TIME STATUS BULLETIN</b>",
+        "<b>नेपाल नदी प्रणाली तथा वर्षा वास्तविक विवरण</b>",
+        "━━━━━━━━━━━━━━━━━━━━━━",
+        f"<b>समग्र अवस्था / Overall Status:</b> {highest_severity.emoji} {highest_severity.badge_ne}",
+        f"<b>अनुगमन गरिएका स्टेसनहरू:</b> {len(assessments)} प्रमुख नदी स्टेसनहरू",
+        "\n📊 <b>वास्तविक जलसतह तथा वर्षा (Real-Time Gauges):</b>",
+    ]
+
+    for a in assessments:
+        trend_symbol = "+" if a.rising_velocity > 0 else ""
+        parts.append(
+            f"📍 <b>{html.escape(a.station_name)}</b>\n"
+            f"• जलसतह (Level): <code>{a.current_level:.2f} m</code> (सतर्कता: {a.warning_level:.2f}m | खतरा: {a.danger_level:.2f}m)\n"
+            f"• बहाव गति (Trend): <code>{trend_symbol}{a.rising_velocity:.2f} m/hr</code> | अवस्था: {a.severity.emoji} {a.severity.value}\n"
+            f"• माथिल्लो तटीय वर्षा: <code>{a.upstream_forecast_1h_mm:.1f} mm/hr</code> ({html.escape(a.upstream_catchment)})\n"
+        )
+
+    parts.append("━━━━━━━━━━━━━━━━━━━━━━")
+    parts.append("🇳🇵 <b>नेपाली स्थिति सारांश (Nepali Overview):</b>")
+    parts.append(html.escape(advisory.nepali_advisory))
+
+    parts.append("\n🇬🇧 <b>ENGLISH SUMMARY:</b>")
+    parts.append(html.escape(advisory.english_summary))
+
+    parts.append("\n━━━━━━━━━━━━━━━━━━━━━━")
+    parts.append(
+        f"📡 <i>स्रोत: नेपाल जल तथा मौसम विज्ञान विभाग (DHM) & Open-Meteo Live API | AI: {html.escape(advisory.model_used)}</i>\n"
+        f"🕒 <i>बुलेटिन समय: {now_str}</i>\n"
+        f"🆘 <i>आपतकालीन सम्पर्क: नेपाल प्रहरी १०० | सशस्त्र प्रहरी १११४</i>"
+    )
+
+    return "\n".join(parts)
+
+
+def send_telegram_summary(
+    assessments: List[RiskAssessment],
+    advisory: AdvisoryResult,
+    bot_token: Optional[str] = None,
+    chat_id: Optional[str] = None,
+    dry_run: bool = False,
+) -> bool:
+    """Send live basin status bulletin to Telegram channel."""
+    message = format_basin_summary_html(assessments, advisory)
+
+    if dry_run:
+        print("\n" + "=" * 60)
+        print("📢 [DRY RUN] REAL-TIME TELEGRAM STATUS BULLETIN:")
+        print("=" * 60)
+        print(message)
+        print("=" * 60 + "\n")
+        return True
+
+    token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    target_chat = chat_id or os.getenv("TELEGRAM_CHAT_ID", "").strip()
+
+    if not token or not target_chat:
+        logger.warning("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not configured.")
+        print("\n⚠️ Telegram credentials not configured. Status bulletin preview:\n")
+        print(message)
+        return False
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": target_chat,
+        "text": message,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }
+
+    try:
+        resp = requests.post(url, json=payload, timeout=10.0)
+        if resp.status_code == 200:
+            logger.info(f"Real-time status bulletin successfully dispatched to {target_chat}.")
+            return True
+        else:
+            logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Failed to transmit Telegram status bulletin: {e}")
+        return False
+
