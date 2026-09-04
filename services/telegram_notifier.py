@@ -238,11 +238,13 @@ def send_telegram_alert(
                 migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
                 if migrate_id:
                     logger.info(f"Group migrated to supergroup {migrate_id}. Retrying delivery...")
-                    payload["chat_id"] = migrate_id
+                    payload["chat_id"] = str(migrate_id)
                     retry_resp = requests.post(url, json=payload, timeout=8.0)
                     if retry_resp.status_code == 200:
                         logger.info(f"Telegram alert delivered to migrated chat {migrate_id}.")
                         return True
+                    else:
+                        logger.error(f"Retry to migrated chat {migrate_id} failed with {retry_resp.status_code}: {retry_resp.text}")
             except Exception:
                 pass
             logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
@@ -357,11 +359,13 @@ def send_telegram_summary(
                 migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
                 if migrate_id:
                     logger.info(f"Group migrated to supergroup {migrate_id}. Retrying bulletin delivery...")
-                    payload["chat_id"] = migrate_id
+                    payload["chat_id"] = str(migrate_id)
                     retry_resp = requests.post(url, json=payload, timeout=10.0)
                     if retry_resp.status_code == 200:
                         logger.info(f"Status bulletin successfully delivered to migrated chat {migrate_id}.")
                         return True
+                    else:
+                        logger.error(f"Retry to migrated chat {migrate_id} failed with {retry_resp.status_code}: {retry_resp.text}")
             except Exception:
                 pass
             logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
