@@ -414,6 +414,7 @@ def send_telegram_summary(
     }
 
     try:
+        resp = requests.post(url, json=payload, timeout=10.0)
         dispatched = False
         if resp.status_code == 200:
             logger.info(f"Real-time status bulletin successfully dispatched to {target_chat}.")
