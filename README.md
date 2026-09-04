@@ -220,7 +220,7 @@ python main.py --station roshi_panauti --once
 
 ## 🛡️ Alert Fatigue Prevention & Cooldown Rules
 
-Repeatedly buzzing subscriber phones when water levels remain static leads to muted channels and ignored warnings. The bot enforces strict state-tracking logic in [`services/telegram_notifier.py`](file:///Users/success/googleweatherbot/services/telegram_notifier.py):
+Repeatedly buzzing subscriber phones when water levels remain static leads to muted channels and ignored warnings. The bot enforces strict state-tracking logic in `services/telegram_notifier.py`:
 
 1. **Normal Flow (Green):** Zero alerts dispatched.
 2. **Threat Escalation:** If severity escalates (e.g., `ADVISORY` ➔ `WARNING`, or `WARNING` ➔ `EMERGENCY`), an alert is dispatched **immediately**, bypassing any active cooldown.
@@ -232,7 +232,7 @@ Repeatedly buzzing subscriber phones when water levels remain static leads to mu
 
 ## ⚙️ 100% Free Automation via GitHub Actions
 
-The repository includes a ready-to-use GitHub Actions workflow [`.github/workflows/flood_monitor.yml`](file:///Users/success/googleweatherbot/.github/workflows/flood_monitor.yml) that polls telemetry **every 15 minutes**:
+The repository includes a ready-to-use GitHub Actions workflow `.github/workflows/flood_monitor.yml` that polls telemetry **every 15 minutes**:
 
 1. Push your repository to GitHub:
    ```bash
@@ -256,7 +256,9 @@ The repository includes a ready-to-use GitHub Actions workflow [`.github/workflo
 
 ## 🗺️ Free 24/7 Live Map Dashboard (GitHub Pages)
 
-The repository includes an interactive Leaflet dark-mode disaster map under [`docs/index.html`](file:///Users/success/googleweatherbot/docs/index.html).
+The repository includes an interactive Leaflet dark-mode disaster map under `docs/index.html`.
+
+🌐 **Live Dashboard URL**: [https://shadowmonarchftw-star.github.io/NpFloodBot/](https://shadowmonarchftw-star.github.io/NpFloodBot/)
 
 ### How to Enable GitHub Pages (100% Free):
 1. Go to your repository on GitHub.

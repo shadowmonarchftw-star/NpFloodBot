@@ -3,7 +3,7 @@
 
 PLIST_DIR="$HOME/Library/LaunchAgents"
 PLIST_FILE="$PLIST_DIR/com.nepalflood.bot.plist"
-WORKSPACE="/Users/success/googleweatherbot"
+WORKSPACE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON_BIN="$WORKSPACE/.venv/bin/python"
 
 mkdir -p "$PLIST_DIR"
