@@ -232,6 +232,19 @@ def send_telegram_alert(
             logger.info(f"Telegram alert successfully dispatched for {assessment.station_id} to {target_chat}.")
             return True
         else:
+            # Check if group was upgraded to supergroup
+            try:
+                err_data = resp.json()
+                migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
+                if migrate_id:
+                    logger.info(f"Group migrated to supergroup {migrate_id}. Retrying delivery...")
+                    payload["chat_id"] = migrate_id
+                    retry_resp = requests.post(url, json=payload, timeout=8.0)
+                    if retry_resp.status_code == 200:
+                        logger.info(f"Telegram alert delivered to migrated chat {migrate_id}.")
+                        return True
+            except Exception:
+                pass
             logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
             return False
     except Exception as e:
@@ -338,6 +351,19 @@ def send_telegram_summary(
             logger.info(f"Real-time status bulletin successfully dispatched to {target_chat}.")
             return True
         else:
+            # Check if group was upgraded to supergroup
+            try:
+                err_data = resp.json()
+                migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
+                if migrate_id:
+                    logger.info(f"Group migrated to supergroup {migrate_id}. Retrying bulletin delivery...")
+                    payload["chat_id"] = migrate_id
+                    retry_resp = requests.post(url, json=payload, timeout=10.0)
+                    if retry_resp.status_code == 200:
+                        logger.info(f"Status bulletin successfully delivered to migrated chat {migrate_id}.")
+                        return True
+            except Exception:
+                pass
             logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
             return False
     except Exception as e:
