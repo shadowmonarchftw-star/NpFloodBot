@@ -165,6 +165,57 @@ def export_stations_live(readings: list) -> None:
         logger.debug(f"Could not export stations_live.json: {e}")
 
 
+def append_history(readings: list) -> None:
+    """Append current readings to a rolling CSV history file for trend analysis.
+
+    Keeps a maximum of ~7 days of 15-minute readings (672 rows per station).
+    The file is committed to the repo by GitHub Actions so the dashboard can
+    render sparkline trends.
+    """
+    import csv
+
+    history_file = BASE_DIR / "data" / "history.csv"
+    header = ["timestamp", "station_id", "current_level", "warning_level", "danger_level", "rising_velocity", "status"]
+    max_rows = 672 * 14  # ~7 days × 96 readings/day × 14 stations
+
+    # Read existing rows
+    existing_rows: list[list[str]] = []
+    if history_file.exists():
+        try:
+            with open(history_file, "r", encoding="utf-8") as f:
+                reader = csv.reader(f)
+                file_header = next(reader, None)
+                existing_rows = list(reader)
+        except Exception:
+            existing_rows = []
+
+    # Append new readings
+    now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    for r in readings:
+        existing_rows.append([
+            now_iso,
+            r.station_id,
+            f"{r.current_level:.2f}",
+            f"{r.warning_level:.2f}",
+            f"{r.danger_level:.2f}",
+            f"{r.rising_velocity:.3f}",
+            r.status,
+        ])
+
+    # Trim to rolling window
+    if len(existing_rows) > max_rows:
+        existing_rows = existing_rows[-max_rows:]
+
+    # Write back
+    try:
+        with open(history_file, "w", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(existing_rows)
+    except Exception as e:
+        logger.debug(f"Could not write history.csv: {e}")
+
+
 def run_monitoring_cycle(
     station_id: str | None = None,
     force_mock: bool = False,
@@ -178,6 +229,7 @@ def run_monitoring_cycle(
     try:
         readings = fetch_river_telemetry(station_id=station_id, force_mock=force_mock)
         export_stations_live(readings)
+        append_history(readings)
     except Exception as e:
         logger.error(f"Failed to fetch river telemetry: {e}")
         return 1

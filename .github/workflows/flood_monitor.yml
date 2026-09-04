@@ -113,13 +113,13 @@ jobs:
           echo "Executing: python main.py $EXTRA_FLAGS"
           python main.py $EXTRA_FLAGS
 
-      - name: Deploy Live Dashboard Snapshot
+      - name: Deploy Live Dashboard Snapshot & History
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/stations_live.json || true
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update live stations dashboard snapshot [skip ci]" && git push origin main) || true
+          git add docs/stations_live.json data/history.csv || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update live dashboard snapshot & history [skip ci]" && git push origin main) || true
 
       - name: Save Alert Cooldown State
         uses: actions/cache/save@v4

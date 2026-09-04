@@ -1,12 +1,16 @@
 # 🌊 Nepal River Basin Flood Early Warning Bot
 ### 100% Free, Production-Ready Hyper-Local Flood Early Warning System in Python with Google Gemini Flash & Telegram Alerts
 
-[![Tests](https://img.shields.io/badge/tests-28%20passed-brightgreen.svg)]()
-[![Cost](https://img.shields.io/badge/cost-$0%20(100%25%20Free)-blue.svg)]()
+[![Flood Monitor](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml/badge.svg)](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml)
+[![Tests](https://img.shields.io/badge/tests-33%20passed-brightgreen.svg)]()
+[![Cost](https://img.shields.io/badge/cost-%240%20(100%25%20Free)-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)]()
-[![License](https://img.shields.io/badge/license-MIT-green.svg)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Made in Nepal](https://img.shields.io/badge/🇳🇵-Made%20in%20Nepal-dc143c.svg)]()
 
----
+> 🗺️ **[Live Dashboard](https://shadowmonarchftw-star.github.io/NpFloodBot/)** · 📱 **[Telegram Group](https://t.me/+your_invite_link)** · 🤖 **[GitHub Repo](https://github.com/shadowmonarchftw-star/NpFloodBot)**
+
+
 
 ## 📌 Context & Motivation
 
