@@ -10,7 +10,7 @@ import html
 import json
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
@@ -21,6 +21,17 @@ from services.ai_advisory import AdvisoryResult
 from services.risk_evaluator import RiskAssessment, SeverityLevel
 
 logger = logging.getLogger(__name__)
+
+# Nepal Standard Time (UTC + 5:45)
+NPT_TIMEZONE = timezone(timedelta(hours=5, minutes=45), name="NPT")
+
+
+def format_npt_time(dt: Optional[datetime] = None) -> str:
+    """Format datetime into Nepal Standard Time (NPT, UTC+5:45)."""
+    target = dt or datetime.now(timezone.utc)
+    npt_dt = target.astimezone(NPT_TIMEZONE)
+    return npt_dt.strftime("%Y-%m-%d %I:%M:%S %p NPT (नेपाल समय)")
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATE_FILE = BASE_DIR / "data" / "state.json"
@@ -167,7 +178,7 @@ def format_telegram_html(assessment: RiskAssessment, advisory: AdvisoryResult) -
     msg_parts.append(f"• {html.escape(assessment.vulnerable_areas_ne)}")
 
     # Footer
-    time_str = assessment.assessed_at.strftime("%Y-%m-%d %H:%M:%S UTC")
+    time_str = format_npt_time(assessment.assessed_at)
     msg_parts.append("\n━━━━━━━━━━━━━━━━━━━━━━")
     msg_parts.append(
         f"📡 <i>स्रोत: DHM Telemetry & Open-Meteo | AI: {html.escape(advisory.model_used)}</i>\n"
@@ -249,7 +260,7 @@ def update_station_state(
 def format_basin_summary_html(assessments: List[RiskAssessment], advisory: AdvisoryResult) -> str:
     """Format an informative, real-time bulletin for all monitored stations."""
     highest_severity = max((a.severity for a in assessments), key=lambda s: s.rank, default=SeverityLevel.NORMAL)
-    now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    now_str = format_npt_time()
 
     parts = [
         "<b>🌊 NEPAL RIVER BASINS - REAL-TIME STATUS BULLETIN</b>",
