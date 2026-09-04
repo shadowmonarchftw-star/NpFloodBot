@@ -29,6 +29,7 @@ wheels/
 # Runtime data & state
 data/state.json.tmp
 data/*.tmp
+data/charts/*.png
 
 # IDEs
 .idea/

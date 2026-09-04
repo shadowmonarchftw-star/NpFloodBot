@@ -22,9 +22,11 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
+import json
 from services.ai_advisory import generate_bilingual_advisory, generate_basin_overview_advisory
 from services.hydrology import fetch_river_telemetry, load_stations_metadata
 from services.risk_evaluator import evaluate_risk, SeverityLevel
+from services.telegram_bot_handler import process_telegram_updates
 from services.telegram_notifier import (
     load_alert_state,
     save_alert_state,
@@ -131,17 +133,36 @@ def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int
         risk = evaluate_risk(r, weather)
         assessments.append(risk)
 
+    export_stations_live(readings)
+
     print(f"📊 Evaluated {len(assessments)} river stations. Generating AI bilingual summary...")
     advisory = generate_basin_overview_advisory(assessments)
 
     print("🚀 Dispatching real-time status bulletin to Telegram...")
     sent = send_telegram_summary(assessments, advisory, dry_run=dry_run)
+    process_telegram_updates()
     if sent:
         print("✅ Live river basin status bulletin successfully sent to Telegram!")
         return 0
     else:
         print("⚠️ Failed to broadcast status bulletin to Telegram.")
         return 1
+
+
+def export_stations_live(readings: list) -> None:
+    """Save live stations snapshot for GitHub Pages interactive map dashboard."""
+    try:
+        docs_dir = BASE_DIR / "docs"
+        if docs_dir.exists():
+            payload = []
+            for r in readings:
+                d = r.model_dump()
+                d["timestamp"] = d["timestamp"].isoformat()
+                payload.append(d)
+            with open(docs_dir / "stations_live.json", "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2)
+    except Exception as e:
+        logger.debug(f"Could not export stations_live.json: {e}")
 
 
 def run_monitoring_cycle(
@@ -156,6 +177,7 @@ def run_monitoring_cycle(
 
     try:
         readings = fetch_river_telemetry(station_id=station_id, force_mock=force_mock)
+        export_stations_live(readings)
     except Exception as e:
         logger.error(f"Failed to fetch river telemetry: {e}")
         return 1
@@ -193,6 +215,14 @@ def run_monitoring_cycle(
                 )
         except Exception as err:
             logger.error(f"Error evaluating station {reading.station_id}: {err}", exc_info=True)
+
+    # Process any interactive slash commands from users (/status, /balkhu, /emergency)
+    try:
+        answered = process_telegram_updates()
+        if answered > 0:
+            logger.info(f"Processed and replied to {answered} interactive Telegram user commands.")
+    except Exception as e:
+        logger.debug(f"Command update check: {e}")
 
     logger.info(
         f"Cycle completed. Monitored {len(readings)} stations; dispatched {alerts_dispatched} alerts."

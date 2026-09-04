@@ -1,1 +1,8 @@
-{}
+{
+  "koshi_chatara": {
+    "last_severity": "ADVISORY",
+    "last_level": 4.83,
+    "last_alert_time": "2026-09-04T06:09:38.206561+00:00",
+    "alert_count": 1
+  }
+}

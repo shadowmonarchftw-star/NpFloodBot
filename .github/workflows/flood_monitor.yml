@@ -36,6 +36,8 @@ jobs:
     name: Poll River Telemetry & Broadcast Advisories
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Codebase
@@ -93,11 +95,31 @@ jobs:
               EXTRA_FLAGS="$EXTRA_FLAGS --dry-run"
             fi
           else
-            EXTRA_FLAGS="--once"
+            # Scheduled run: Check for Daily Morning (01:15 UTC = 7:00 AM NPT)
+            # or Evening Briefing (12:15 UTC = 6:00 PM NPT)
+            CURRENT_HOUR=$(date -u +%H)
+            CURRENT_MIN=$(date -u +%M)
+            if [ "$CURRENT_HOUR" = "01" ] && [ "$CURRENT_MIN" -ge "10" ] && [ "$CURRENT_MIN" -le "25" ]; then
+              echo "🌅 Morning Hydrology Briefing (7:00 AM NPT)"
+              EXTRA_FLAGS="--broadcast-status"
+            elif [ "$CURRENT_HOUR" = "12" ] && [ "$CURRENT_MIN" -ge "10" ] && [ "$CURRENT_MIN" -le "25" ]; then
+              echo "🌆 Evening Hydrology Briefing (6:00 PM NPT)"
+              EXTRA_FLAGS="--broadcast-status"
+            else
+              EXTRA_FLAGS="--once"
+            fi
           fi
 
           echo "Executing: python main.py $EXTRA_FLAGS"
           python main.py $EXTRA_FLAGS
+
+      - name: Deploy Live Dashboard Snapshot
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/stations_live.json || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update live stations dashboard snapshot [skip ci]" && git push origin main) || true
 
       - name: Save Alert Cooldown State
         uses: actions/cache/save@v4

@@ -67,6 +67,12 @@ flowchart TD
 | `roshi_panauti` | Roshi Khola | Koshi Sub-basin | 4.2 m | 5.5 m | Phulchowki & Panauti Hills | Panauti, Bhakundebesi, Roshi Rural Mun., BP Highway, Mangaltar |
 | `koshi_chatara` | Saptakoshi | Koshi Basin | 6.0 m | 7.5 m | Barahakshetra / Tamor | Chatara, Barahakshetra, Prakashpur, Koshi Tappu, Sunsari-Saptari |
 | `narayani_devghat` | Narayani | Narayani Basin | 7.3 m | 9.0 m | Trishuli & Kali Gandaki | Devghat, Narayangarh, Bharatpur, Gaidakot, Meghauli, Susta |
+| `melamchi_helambu` | Melamchi | Koshi Sub-basin | 4.8 m | 6.0 m | Langtang / Jugal Ridges | Helambu, Melamchi Bazaar, Bahunepati, Indrawati confluence |
+| `west_rapti_kusum` | West Rapti | West Rapti Basin | 5.4 m | 6.8 m | Pyuthan / Dang Watershed | Kusum, Agaiya, Fattepur, Holiya, Banke riverfront plains |
+| `babai_chepang` | Babai River | Babai Basin | 6.1 m | 7.4 m | Dang Valley / Chure | Chepang, Gulariya municipal riverside, Barbardiya plains |
+| `karnali_chisapani` | Karnali River | Karnali Basin | 10.0 m | 12.0 m | Western Himalayas | Chisapani, Tikapur, Rajapur island, Kailali-Bardiya plains |
+| `kamala_ranibas` | Kamala River | Kamala Basin | 4.5 m | 5.8 m | Sindhuli / Chure Hills | Ranibas, Bardibas lower plains, Inarwa, Dhanusha-Siraha banks |
+| `kankai_mainachuli` | Kankai River | Kankai Basin | 4.2 m | 5.6 m | Ilam Hills & Mahabharat | Mainachuli, Shivasatakshi, Kankai municipality, Surunga, Jhapa |
 
 ---
 
@@ -245,6 +251,39 @@ The repository includes a ready-to-use GitHub Actions workflow [`.github/workflo
      - `GEMINI_API_KEY`
 3. Enable GitHub Actions in the **Actions** tab. The cron schedule `*/15 * * * *` will automatically run single polling cycles 24 hours a day, 7 days a week at **$0 cost**.
 4. The workflow utilizes `actions/cache` to persist `data/state.json` across runner instances, ensuring alert cooldowns remain active between CI runs!
+
+---
+
+## 🗺️ Free 24/7 Live Map Dashboard (GitHub Pages)
+
+The repository includes an interactive Leaflet dark-mode disaster map under [`docs/index.html`](file:///Users/success/googleweatherbot/docs/index.html).
+
+### How to Enable GitHub Pages (100% Free):
+1. Go to your repository on GitHub.
+2. Navigate to **Settings** > **Pages** (in the left sidebar).
+3. Under **Build and deployment**:
+   * **Source:** Select **Deploy from a branch**.
+   * **Branch:** Select `main` and set the folder to `/docs`.
+   * Click **Save**.
+4. Your live dashboard is instantly accessible at:
+   👉 **`https://<your-username>.github.io/<repo-name>/`**
+
+---
+
+## 🤖 Interactive Telegram Bot Slash Commands
+
+Anyone in your group or in a direct message with the bot can send interactive commands:
+
+| Command | Action |
+|:---|:---|
+| `/status` | Real-time gauge table for all 14 monitored river stations. |
+| `/balkhu` | Bagmati at Balkhu live water level, trend, and vulnerable squatter areas. |
+| `/roshi` | Roshi Khola (Panauti / Bhakunde Besi) live status & BP Highway alert. |
+| `/nakkhu` | Nakkhu Khola (Southern Lalitpur) flash flood gauge reading. |
+| `/koshi` | Saptakoshi at Chatara (Eastern Nepal) live level. |
+| `/narayani` | Narayani at Devghat central basin reading. |
+| `/emergency` | Direct emergency hotline numbers (Police 100, APF 1114, DHM 1155). |
+| `/help` | Complete menu and system overview. |
 
 ---
 

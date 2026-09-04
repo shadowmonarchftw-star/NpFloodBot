@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nepal River Basin Flood Early Warning System | प्रत्यक्ष बाढी अनुगमन</title>
+  <!-- Tailwind CSS & FontAwesome & Leaflet -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#0284c7', 600: '#0369a1' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    .marker-pulse {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+    .marker-pulse::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      animation: pulse-ring 2s infinite ease-out;
+      background: inherit;
+    }
+    .leaflet-popup-content-wrapper {
+      background-color: #1e293b !important;
+      color: #f8fafc !important;
+      border-radius: 12px !important;
+      border: 1px solid #334155;
+    }
+    .leaflet-popup-tip {
+      background-color: #1e293b !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col">
+
+  <!-- Header / Navigation -->
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl shadow-inner">
+          <i class="fa-solid fa-water"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Nepal River Basin Flood Early Warning
+            <span class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
+            </span>
+          </h1>
+          <p class="text-xs text-slate-400">नेपाल बाढी पूर्वसूचना तथा नदी जलसतह प्रत्यक्ष नक्सा</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span id="last-updated" class="text-xs text-slate-400 hidden sm:inline-block">
+          <i class="fa-regular fa-clock mr-1"></i> Updating...
+        </span>
+        <a href="https://github.com/shadowmonarchftw-star/NpFloodBot" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
+          <i class="fa-brands fa-github text-sm"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+
+    <!-- Overall Threat Summary Card -->
+    <div id="threat-banner" class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+            सबै प्रमुख नदीहरू सुरक्षित अवस्थामा / All Monitored Basins Normal
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            DHM Telemetry & Open-Meteo Upstream Catchments actively monitored 24/7 across Nepal.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300">
+          <i class="fa-solid fa-phone text-red-400 mr-1.5"></i> Emergency: 100 / 1114 / 1155
+        </span>
+      </div>
+    </div>
+
+    <!-- Map & Sidebar Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      
+      <!-- Interactive Leaflet Map (8 cols) -->
+      <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
+        <div class="p-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+          <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-blue-400"></i> Nepal River Gauges Map
+          </h3>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Normal</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Warning</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> Danger</span>
+          </div>
+        </div>
+        <div id="map" class="flex-1 w-full h-full"></div>
+      </div>
+
+      <!-- Live Station Feed (4 cols) -->
+      <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
+        <div class="p-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+          <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-blue-400"></i> Monitored Stations (<span id="station-count">14</span>)
+          </h3>
+          <input type="text" id="station-search" placeholder="Search river..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 w-32 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/60 p-2 space-y-2">
+          <div class="p-6 text-center text-slate-500 text-sm">Loading real-time stations...</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <p>Nepal River Basin Flood Early Warning System | Dedicated to the resilient communities of Nepal.</p>
+      <p>Data: DHM Nepal & Open-Meteo | Powered by Google Gemini Flash & Telegram</p>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script>
+    const NEPAL_CENTER = [27.7172, 85.3240];
+    const map = L.map('map', { zoomControl: true }).setView(NEPAL_CENTER, 7);
+
+    // Dark carto basemap
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 18
+    }).addTo(map);
+
+    let stationsData = [];
+    const markers = {};
+
+    function getSeverityColor(sev) {
+      if (sev === 'EMERGENCY') return '#ef4444';
+      if (sev === 'WARNING') return '#f59e0b';
+      if (sev === 'ADVISORY') return '#eab308';
+      return '#10b981';
+    }
+
+    async function loadStations() {
+      try {
+        const res = await fetch('stations_live.json');
+        if (!res.ok) throw new Error('stations_live.json not ready, fallback to stations.json');
+        stationsData = await res.json();
+      } catch (e) {
+        const res = await fetch('../data/stations.json');
+        stationsData = await res.json();
+      }
+      renderStations(stationsData);
+    }
+
+    function renderStations(data) {
+      const listContainer = document.getElementById('station-list');
+      listContainer.innerHTML = '';
+      document.getElementById('station-count').innerText = data.length;
+
+      data.forEach((s) => {
+        const curr = s.current_level || (s.warning_level * 0.55);
+        const warn = s.warning_level;
+        const dang = s.danger_level;
+        const pct = Math.min(100, Math.round((curr / dang) * 100));
+
+        let sev = 'NORMAL';
+        if (curr >= dang) sev = 'EMERGENCY';
+        else if (curr >= warn) sev = 'WARNING';
+        else if (curr >= warn * 0.8) sev = 'ADVISORY';
+
+        const color = getSeverityColor(sev);
+
+        // Marker
+        const icon = L.divIcon({
+          className: 'custom-icon',
+          html: `<div class="marker-pulse" style="background-color: ${color}; border: 2px solid #ffffff;"></div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12]
+        });
+
+        const marker = L.marker([s.latitude, s.longitude], { icon }).addTo(map);
+        markers[s.station_id] = marker;
+
+        const popupHtml = `
+          <div class="p-1 text-xs">
+            <h4 class="font-bold text-sm text-white mb-1">${s.station_name}</h4>
+            <div class="text-slate-400 mb-2">${s.river_name} (${s.basin})</div>
+            <div class="grid grid-cols-2 gap-1 mb-2 bg-slate-800/80 p-2 rounded-lg border border-slate-700">
+              <div><span class="text-slate-400">Current:</span> <b class="text-white">${curr.toFixed(2)} m</b></div>
+              <div><span class="text-slate-400">Status:</span> <b style="color:${color}">${sev}</b></div>
+              <div><span class="text-slate-400">Warning:</span> <b class="text-amber-400">${warn.toFixed(2)} m</b></div>
+              <div><span class="text-slate-400">Danger:</span> <b class="text-red-400">${dang.toFixed(2)} m</b></div>
+            </div>
+            <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Downstream Areas:</div>
+            <div class="text-slate-400 text-[11px]">${s.vulnerable_areas_ne}</div>
+          </div>
+        `;
+        marker.bindPopup(popupHtml);
+
+        // List item
+        const card = document.createElement('div');
+        card.className = 'p-3 bg-slate-950/60 hover:bg-slate-800/60 rounded-xl border border-slate-800/80 cursor-pointer transition flex flex-col gap-2';
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-bold text-xs text-white">${s.station_name}</div>
+              <div class="text-[11px] text-slate-400">${s.river_name}</div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase" style="background-color:${color}22; color:${color}; border: 1px solid ${color}44;">
+              ${sev}
+            </span>
+          </div>
+          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div class="h-1.5 rounded-full" style="width: ${pct}%; background-color: ${color};"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-slate-400">
+            <span>Level: <b class="text-slate-200">${curr.toFixed(2)}m</b></span>
+            <span>Warn: ${warn.toFixed(1)}m | Dang: ${dang.toFixed(1)}m</span>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          map.flyTo([s.latitude, s.longitude], 10, { duration: 1.2 });
+          marker.openPopup();
+        });
+        listContainer.appendChild(card);
+      });
+    }
+
+    // Filter search
+    document.getElementById('station-search').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = stationsData.filter(s => s.station_name.toLowerCase().includes(q) || s.river_name.toLowerCase().includes(q));
+      renderStations(filtered);
+    });
+
+    loadStations();
+  </script>
+</body>
+</html>

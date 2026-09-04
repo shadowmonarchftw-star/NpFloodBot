@@ -227,10 +227,10 @@ def send_telegram_alert(
     }
 
     try:
-        resp = requests.post(url, json=payload, timeout=8.0)
+        dispatched = False
         if resp.status_code == 200:
             logger.info(f"Telegram alert successfully dispatched for {assessment.station_id} to {target_chat}.")
-            return True
+            dispatched = True
         else:
             # Check if group was upgraded to supergroup
             try:
@@ -242,16 +242,82 @@ def send_telegram_alert(
                     retry_resp = requests.post(url, json=payload, timeout=8.0)
                     if retry_resp.status_code == 200:
                         logger.info(f"Telegram alert delivered to migrated chat {migrate_id}.")
-                        return True
+                        dispatched = True
                     else:
                         logger.error(f"Retry to migrated chat {migrate_id} failed with {retry_resp.status_code}: {retry_resp.text}")
             except Exception:
                 pass
-            logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
-            return False
+
+        if dispatched:
+            # Dispatch visual hydrograph chart photo
+            try:
+                from services.chart_generator import generate_station_chart
+                chart_path = generate_station_chart(assessment)
+                caption = f"📊 <b>जलसतह ग्राफ / Hydrograph:</b> {assessment.station_name} | {assessment.severity.badge_ne}"
+                send_telegram_photo(chart_path, caption=caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
+            except Exception as e:
+                logger.debug(f"Could not generate/send station chart: {e}")
+            return True
+
+        logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
+        return False
     except Exception as e:
         logger.error(f"Failed to transmit Telegram message: {e}")
         return False
+
+
+def send_telegram_photo(
+    photo_path: Path,
+    caption: str = "",
+    bot_token: Optional[str] = None,
+    chat_id: Optional[str] = None,
+    dry_run: bool = False,
+) -> bool:
+    """Send a generated chart photo to Telegram channel/group."""
+    if dry_run:
+        print(f"\n🖼️ [DRY RUN] Sent Telegram photo: {photo_path} (Caption length: {len(caption)})\n")
+        return True
+
+    token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    target_chat = chat_id or os.getenv("TELEGRAM_CHAT_ID", "").strip()
+
+    if not token or not target_chat or not photo_path.exists():
+        return False
+
+    url = f"https://api.telegram.org/bot{token}/sendPhoto"
+    data = {
+        "chat_id": target_chat,
+        "caption": caption[:1024],  # Telegram caption max limit
+        "parse_mode": "HTML",
+    }
+
+    try:
+        with open(photo_path, "rb") as f:
+            files = {"photo": f}
+            resp = requests.post(url, data=data, files=files, timeout=12.0)
+
+        if resp.status_code == 200:
+            logger.info(f"Telegram photo successfully dispatched: {photo_path.name}")
+            return True
+        else:
+            try:
+                err_data = resp.json()
+                migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
+                if migrate_id:
+                    data["chat_id"] = str(migrate_id)
+                    with open(photo_path, "rb") as f:
+                        retry_resp = requests.post(url, data=data, files={"photo": f}, timeout=12.0)
+                    if retry_resp.status_code == 200:
+                        logger.info(f"Telegram photo delivered to migrated chat {migrate_id}.")
+                        return True
+            except Exception:
+                pass
+            logger.error(f"Telegram sendPhoto failed ({resp.status_code}): {resp.text}")
+            return False
+    except Exception as err:
+        logger.error(f"Error sending photo to Telegram: {err}")
+        return False
+
 
 
 def update_station_state(
@@ -348,10 +414,10 @@ def send_telegram_summary(
     }
 
     try:
-        resp = requests.post(url, json=payload, timeout=10.0)
+        dispatched = False
         if resp.status_code == 200:
             logger.info(f"Real-time status bulletin successfully dispatched to {target_chat}.")
-            return True
+            dispatched = True
         else:
             # Check if group was upgraded to supergroup
             try:
@@ -363,13 +429,26 @@ def send_telegram_summary(
                     retry_resp = requests.post(url, json=payload, timeout=10.0)
                     if retry_resp.status_code == 200:
                         logger.info(f"Status bulletin successfully delivered to migrated chat {migrate_id}.")
-                        return True
+                        dispatched = True
                     else:
                         logger.error(f"Retry to migrated chat {migrate_id} failed with {retry_resp.status_code}: {retry_resp.text}")
             except Exception:
                 pass
-            logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
-            return False
+
+        if dispatched:
+            # Dispatch visual basin overview chart photo
+            try:
+                from services.chart_generator import generate_basin_overview_chart
+                chart_path = generate_basin_overview_chart(assessments)
+                now_str = format_npt_time()
+                caption = f"📊 <b>नेपाल नदी प्रणाली वास्तविक जलसतह तुलना</b> ({now_str})"
+                send_telegram_photo(chart_path, caption=caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
+            except Exception as e:
+                logger.debug(f"Could not generate/send overview chart: {e}")
+            return True
+
+        logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
+        return False
     except Exception as e:
         logger.error(f"Failed to transmit Telegram status bulletin: {e}")
         return False
