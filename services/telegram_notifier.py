@@ -30,7 +30,7 @@ def format_npt_time(dt: Optional[datetime] = None) -> str:
     """Format datetime into Nepal Standard Time (NPT, UTC+5:45)."""
     target = dt or datetime.now(timezone.utc)
     npt_dt = target.astimezone(NPT_TIMEZONE)
-    return npt_dt.strftime("%Y-%m-%d %I:%M:%S %p NPT (नेपाल समय)")
+    return npt_dt.strftime("%d %b %Y, %I:%M %p NPT")
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -339,40 +339,52 @@ def update_station_state(
 
 
 def format_basin_summary_html(assessments: List[RiskAssessment], advisory: AdvisoryResult) -> str:
-    """Format an informative, real-time bulletin for all monitored stations."""
+    """Format a clean, executive status bulletin that fits neatly on one screen."""
     highest_severity = max((a.severity for a in assessments), key=lambda s: s.rank, default=SeverityLevel.NORMAL)
     now_str = format_npt_time()
+    total = len(assessments)
 
-    parts = [
-        "<b>🌊 NEPAL RIVER BASINS - REAL-TIME STATUS BULLETIN</b>",
-        "<b>नेपाल नदी प्रणाली तथा वर्षा वास्तविक विवरण</b>",
-        "━━━━━━━━━━━━━━━━━━━━━━",
-        f"<b>समग्र अवस्था / Overall Status:</b> {highest_severity.emoji} {highest_severity.badge_ne}",
-        f"<b>अनुगमन गरिएका स्टेसनहरू:</b> {len(assessments)} प्रमुख नदी स्टेसनहरू",
-        "\n📊 <b>वास्तविक जलसतह तथा वर्षा (Real-Time Gauges):</b>",
+    # Detect any stations that need attention (advisory, warning, emergency, or rapid rise)
+    elevated = [
+        a for a in assessments
+        if a.severity in (SeverityLevel.WARNING, SeverityLevel.EMERGENCY, SeverityLevel.ADVISORY)
+        or a.rising_velocity >= 0.20
     ]
 
-    for a in assessments:
-        trend_symbol = "+" if a.rising_velocity > 0 else ""
-        parts.append(
-            f"📍 <b>{html.escape(a.station_name)}</b>\n"
-            f"• जलसतह (Level): <code>{a.current_level:.2f} m</code> (सतर्कता: {a.warning_level:.2f}m | खतरा: {a.danger_level:.2f}m)\n"
-            f"• बहाव गति (Trend): <code>{trend_symbol}{a.rising_velocity:.2f} m/hr</code> | अवस्था: {a.severity.emoji} {a.severity.value}\n"
-            f"• माथिल्लो तटीय वर्षा: <code>{a.upstream_forecast_1h_mm:.1f} mm/hr</code> ({html.escape(a.upstream_catchment)})\n"
-        )
+    parts = [
+        "🌊 <b>NEPAL RIVER BASIN BULLETIN | राष्ट्रिय जलसतह विवरण</b>",
+        f"🕒 <i>{now_str}</i>",
+        "━━━━━━━━━━━━━━━━━━━━━━",
+    ]
 
-    parts.append("━━━━━━━━━━━━━━━━━━━━━━")
-    parts.append("🇳🇵 <b>नेपाली स्थिति सारांश (Nepali Overview):</b>")
-    parts.append(html.escape(advisory.nepali_advisory))
+    if not elevated:
+        parts.append(f"🟢 <b>समग्र अवस्था (Status): सबै नदी सामान्य (ALL NORMAL)</b>")
+        parts.append(f"📊 <b>अनुगमन:</b> {total} वटै स्टेसनहरू खतरा तथा सतर्कता तहभन्दा तल सुरक्षित छन्।\n")
+        parts.append("🟢 <b>प्रमुख जलाधार स्थिति:</b>")
+        parts.append("• काठमाडौँ उपत्यका (बागमती, नख्खु, विष्णुमती): सुरक्षित")
+        parts.append("• कोशी, नारायणी, कर्णाली, राप्ती, बबई, कमला, कन्काई: सामान्य")
+    else:
+        parts.append(f"{highest_severity.emoji} <b>समग्र अवस्था: {highest_severity.badge_ne} ({highest_severity.value})</b>")
+        parts.append(f"📊 <b>अनुगमन:</b> {total} स्टेसन | <b>{len(elevated)}</b> स्टेसनमा सतर्कता आवश्यक\n")
+        parts.append("⚠️ <b>सचेत रहनुपर्ने नदी स्टेसनहरू:</b>")
+        for a in elevated:
+            trend_sym = "+" if a.rising_velocity > 0 else ""
+            parts.append(
+                f"• <b>{html.escape(a.station_name)}:</b> <code>{a.current_level:.2f}m</code> "
+                f"({trend_sym}{a.rising_velocity:.2f}m/h) | {a.severity.emoji} {a.severity.badge_ne}"
+            )
 
-    parts.append("\n🇬🇧 <b>ENGLISH SUMMARY:</b>")
-    parts.append(html.escape(advisory.english_summary))
+    parts.append("\n🇳🇵 <b>नेपाली सारांश:</b>")
+    parts.append(html.escape(advisory.nepali_advisory.strip()))
+
+    parts.append("\n🇬🇧 <b>Summary:</b>")
+    parts.append(html.escape(advisory.english_summary.strip()))
 
     parts.append("\n━━━━━━━━━━━━━━━━━━━━━━")
     parts.append(
-        f"📡 <i>स्रोत: नेपाल जल तथा मौसम विज्ञान विभाग (DHM) & Open-Meteo Live API | AI: {html.escape(advisory.model_used)}</i>\n"
-        f"🕒 <i>बुलेटिन समय: {now_str}</i>\n"
-        f"🆘 <i>आपतकालीन सम्पर्क: नेपाल प्रहरी १०० | सशस्त्र प्रहरी १११४</i>"
+        "🗺️ <b>लाइभ नक्सा (Dashboard):</b> https://shadowmonarchftw-star.github.io/NpFloodBot/\n"
+        "⚡ <b>द्रुत विवरण:</b> /status • /balkhu • /roshi • /emergency\n"
+        "🆘 <b>आपतकालीन:</b> DHM ११५५ | विपद् ११४९ | १००"
     )
 
     return "\n".join(parts)
@@ -385,7 +397,7 @@ def send_telegram_summary(
     chat_id: Optional[str] = None,
     dry_run: bool = False,
 ) -> bool:
-    """Send live basin status bulletin to Telegram channel."""
+    """Send live basin status bulletin as a single beautiful visual photo card with caption."""
     message = format_basin_summary_html(assessments, advisory)
 
     if dry_run:
@@ -405,6 +417,29 @@ def send_telegram_summary(
         print(message)
         return False
 
+    # Generate multi-basin comparison chart
+    chart_path = None
+    try:
+        from services.chart_generator import generate_basin_overview_chart
+        chart_path = generate_basin_overview_chart(assessments)
+    except Exception as e:
+        logger.debug(f"Could not generate overview chart: {e}")
+
+    # Approach 1: If chart exists and message fits Telegram photo caption limit (1024 chars),
+    # deliver as a single, beautiful unified photo card!
+    if chart_path and chart_path.exists() and len(message) <= 1024:
+        photo_sent = send_telegram_photo(
+            photo_path=chart_path,
+            caption=message,
+            bot_token=token,
+            chat_id=target_chat,
+            dry_run=dry_run,
+        )
+        if photo_sent:
+            logger.info("Real-time visual status bulletin successfully dispatched as unified card.")
+            return True
+
+    # Approach 2: If message > 1024 chars or photo fails, send message text then photo
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = {
         "chat_id": target_chat,
@@ -420,36 +455,26 @@ def send_telegram_summary(
             logger.info(f"Real-time status bulletin successfully dispatched to {target_chat}.")
             dispatched = True
         else:
-            # Check if group was upgraded to supergroup
             try:
                 err_data = resp.json()
                 migrate_id = err_data.get("parameters", {}).get("migrate_to_chat_id")
                 if migrate_id:
-                    logger.info(f"Group migrated to supergroup {migrate_id}. Retrying bulletin delivery...")
+                    logger.info(f"Group migrated to supergroup {migrate_id}. Retrying delivery...")
                     payload["chat_id"] = str(migrate_id)
                     retry_resp = requests.post(url, json=payload, timeout=10.0)
                     if retry_resp.status_code == 200:
-                        logger.info(f"Status bulletin successfully delivered to migrated chat {migrate_id}.")
+                        logger.info(f"Bulletin successfully delivered to migrated chat {migrate_id}.")
                         dispatched = True
-                    else:
-                        logger.error(f"Retry to migrated chat {migrate_id} failed with {retry_resp.status_code}: {retry_resp.text}")
             except Exception:
                 pass
 
-        if dispatched:
-            # Dispatch visual basin overview chart photo
-            try:
-                from services.chart_generator import generate_basin_overview_chart
-                chart_path = generate_basin_overview_chart(assessments)
-                now_str = format_npt_time()
-                caption = f"📊 <b>नेपाल नदी प्रणाली वास्तविक जलसतह तुलना</b> ({now_str})"
-                send_telegram_photo(chart_path, caption=caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
-            except Exception as e:
-                logger.debug(f"Could not generate/send overview chart: {e}")
+        if dispatched and chart_path and chart_path.exists():
+            now_str = format_npt_time()
+            caption = f"📊 <b>नेपाल नदी जलसतह प्रत्यक्ष ग्राफ (Gauges Comparison):</b> {now_str}"
+            send_telegram_photo(chart_path, caption=caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
             return True
 
-        logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
-        return False
+        return dispatched
     except Exception as e:
         logger.error(f"Failed to transmit Telegram status bulletin: {e}")
         return False

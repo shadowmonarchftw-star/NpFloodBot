@@ -63,6 +63,8 @@ class RiverReading(BaseModel):
     upstream_catchment: str
     upstream_lat: float
     upstream_lon: float
+    latitude: float = 0.0
+    longitude: float = 0.0
     vulnerable_areas_ne: str
     vulnerable_areas_en: str
     timestamp: datetime
@@ -204,6 +206,8 @@ def generate_realistic_mock_reading(
         upstream_catchment=station.upstream_catchment,
         upstream_lat=station.upstream_lat,
         upstream_lon=station.upstream_lon,
+        latitude=station.latitude,
+        longitude=station.longitude,
         vulnerable_areas_ne=station.vulnerable_areas_ne,
         vulnerable_areas_en=station.vulnerable_areas_en,
         timestamp=now,
@@ -273,6 +277,8 @@ def fetch_river_telemetry(
                     upstream_catchment=station.upstream_catchment,
                     upstream_lat=station.upstream_lat,
                     upstream_lon=station.upstream_lon,
+                    latitude=station.latitude,
+                    longitude=station.longitude,
                     vulnerable_areas_ne=station.vulnerable_areas_ne,
                     vulnerable_areas_en=station.vulnerable_areas_en,
                     timestamp=now,

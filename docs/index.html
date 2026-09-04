@@ -23,15 +23,16 @@
   </script>
   <style>
     @keyframes pulse-ring {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.3); opacity: 0; }
-      100% { transform: scale(0.95); opacity: 0; }
+      0% { transform: scale(0.95); opacity: 0.85; }
+      50% { transform: scale(1.4); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0.85; }
     }
     .marker-pulse {
       position: relative;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     .marker-pulse::after {
       content: '';
@@ -41,21 +42,37 @@
       top: 0;
       left: 0;
       border-radius: 50%;
-      animation: pulse-ring 2s infinite ease-out;
+      animation: pulse-ring 2.2s infinite ease-out;
       background: inherit;
     }
     .leaflet-popup-content-wrapper {
-      background-color: #1e293b !important;
+      background-color: #0f172a !important;
       color: #f8fafc !important;
-      border-radius: 12px !important;
+      border-radius: 14px !important;
       border: 1px solid #334155;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7);
     }
     .leaflet-popup-tip {
-      background-color: #1e293b !important;
+      background-color: #0f172a !important;
     }
+    .leaflet-control-layers {
+      background: #0f172a !important;
+      color: #f8fafc !important;
+      border: 1px solid #334155 !important;
+      border-radius: 10px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+    }
+    .leaflet-control-layers-expanded {
+      padding: 8px 12px !important;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #020617; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col selection:bg-blue-500 selection:text-white">
 
   <!-- Header / Navigation -->
   <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-50">
@@ -65,19 +82,19 @@
           <i class="fa-solid fa-water"></i>
         </div>
         <div>
-          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Nepal River Basin Flood Early Warning
-            <span class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1.5">
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Nepal River Basin Flood Monitor
+            <span class="text-[10px] sm:text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
             </span>
           </h1>
-          <p class="text-xs text-slate-400">नेपाल बाढी पूर्वसूचना तथा नदी जलसतह प्रत्यक्ष नक्सा</p>
+          <p class="text-[11px] sm:text-xs text-slate-400">नेपाल बाढी पूर्वसूचना तथा नदी जलसतह प्रत्यक्ष नक्सा (100% Free & Open-Source)</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <span id="last-updated" class="text-xs text-slate-400 hidden sm:inline-block">
-          <i class="fa-regular fa-clock mr-1"></i> Updating...
+        <span id="last-updated" class="text-xs text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700/60">
+          <i class="fa-regular fa-clock text-blue-400 mr-1"></i> <span id="update-text">Updating...</span>
         </span>
         <a href="https://github.com/shadowmonarchftw-star/NpFloodBot" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
           <i class="fa-brands fa-github text-sm"></i> GitHub
@@ -87,43 +104,43 @@
   </header>
 
   <!-- Main Content Layout -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-5">
 
     <!-- Overall Threat Summary Card -->
-    <div id="threat-banner" class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div id="threat-banner" class="bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+        <div id="banner-icon" class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div>
-          <h2 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+          <h2 id="banner-title" class="text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-2">
             सबै प्रमुख नदीहरू सुरक्षित अवस्थामा / All Monitored Basins Normal
           </h2>
           <p class="text-xs text-slate-400 mt-0.5">
-            DHM Telemetry & Open-Meteo Upstream Catchments actively monitored 24/7 across Nepal.
+            DHM Telemetry & Open-Meteo Upstream Catchments actively monitored 24/7 across 14 stations.
           </p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-medium text-slate-300">
-          <i class="fa-solid fa-phone text-red-400 mr-1.5"></i> Emergency: 100 / 1114 / 1155
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-300">
+          <i class="fa-solid fa-phone text-red-400 mr-1.5"></i> Emergency: <b>1155</b> (Flood) | <b>1149</b> (NEOC) | <b>100</b> (Police)
         </span>
       </div>
     </div>
 
     <!-- Map & Sidebar Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
       
       <!-- Interactive Leaflet Map (8 cols) -->
       <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
-        <div class="p-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+        <div class="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
           <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <i class="fa-solid fa-map-location-dot text-blue-400"></i> Nepal River Gauges Map
           </h3>
-          <div class="flex items-center gap-2 text-xs">
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Normal</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Warning</span>
-            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> Danger</span>
+          <div class="flex items-center gap-3 text-xs">
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block ring-2 ring-emerald-500/20"></span> Normal</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block ring-2 ring-amber-500/20"></span> Warning</span>
+            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block ring-2 ring-red-500/20"></span> Danger</span>
           </div>
         </div>
         <div id="map" class="flex-1 w-full h-full"></div>
@@ -131,14 +148,14 @@
 
       <!-- Live Station Feed (4 cols) -->
       <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
-        <div class="p-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
+        <div class="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
           <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-blue-400"></i> Monitored Stations (<span id="station-count">14</span>)
+            <i class="fa-solid fa-list-check text-blue-400"></i> Stations (<span id="station-count">14</span>)
           </h3>
-          <input type="text" id="station-search" placeholder="Search river..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 w-32 focus:outline-none focus:border-blue-500" />
+          <input type="text" id="station-search" placeholder="Search river/station..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 w-36 focus:outline-none focus:border-blue-500 transition" />
         </div>
-        <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/60 p-2 space-y-2">
-          <div class="p-6 text-center text-slate-500 text-sm">Loading real-time stations...</div>
+        <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/40 p-2 space-y-2">
+          <div class="p-6 text-center text-slate-500 text-xs">Loading real-time river telemetry...</div>
         </div>
       </div>
 
@@ -156,34 +173,78 @@
 
   <!-- App Script -->
   <script>
-    const NEPAL_CENTER = [27.7172, 85.3240];
-    const map = L.map('map', { zoomControl: true }).setView(NEPAL_CENTER, 7);
+    // Focus bounds accurately on Nepal
+    const nepalBounds = L.latLngBounds([26.2, 80.0], [30.6, 88.3]);
+    const map = L.map('map', { 
+      zoomControl: true,
+      maxBounds: L.latLngBounds([25.0, 78.0], [32.0, 90.0]),
+      minZoom: 6
+    }).fitBounds(nepalBounds, { padding: [25, 25] });
 
-    // Dark carto basemap
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-      subdomains: 'abcd',
+    // 100% Free Tile Layers (NO API KEY REQUIRED, NO WATERMARKS)
+    // 1. Esri ArcGIS Dark Gray Canvas (Default - clean, sleek, watermark-free)
+    const darkBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16
+    });
+    const darkLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '',
+      maxZoom: 16
+    });
+    const darkGroup = L.layerGroup([darkBase, darkLabels]).addTo(map);
+
+    // 2. Esri World Imagery (Satellite)
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Maxar, Earthstar Geographics',
       maxZoom: 18
-    }).addTo(map);
+    });
+
+    // 3. OpenStreetMap (Standard Street Map)
+    const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
+    });
+
+    // Layer switcher control
+    const baseLayers = {
+      "🌙 Dark Canvas": darkGroup,
+      "🛰️ Satellite": satelliteLayer,
+      "🗺️ Streets": osmLayer
+    };
+    L.control.layers(baseLayers, null, { position: 'topright' }).addTo(map);
 
     let stationsData = [];
     const markers = {};
 
     function getSeverityColor(sev) {
       if (sev === 'EMERGENCY') return '#ef4444';
-      if (sev === 'WARNING') return '#f59e0b';
+      if (sev === 'WARNING') return '#f97316';
       if (sev === 'ADVISORY') return '#eab308';
       return '#10b981';
     }
 
+    function formatNpt(isoStr) {
+      try {
+        const d = new Date(isoStr);
+        return d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu', hour: '2-digit', minute: '2-digit' }) + ' NPT';
+      } catch {
+        return 'Live';
+      }
+    }
+
     async function loadStations() {
       try {
-        const res = await fetch('stations_live.json');
-        if (!res.ok) throw new Error('stations_live.json not ready, fallback to stations.json');
+        const res = await fetch('stations_live.json?t=' + Date.now());
+        if (!res.ok) throw new Error('stations_live.json not available');
         stationsData = await res.json();
       } catch (e) {
-        const res = await fetch('../data/stations.json');
-        stationsData = await res.json();
+        try {
+          const res = await fetch('../data/stations.json');
+          stationsData = await res.json();
+        } catch (err) {
+          console.error("Could not load stations:", err);
+          return;
+        }
       }
       renderStations(stationsData);
     }
@@ -193,61 +254,75 @@
       listContainer.innerHTML = '';
       document.getElementById('station-count').innerText = data.length;
 
+      // Clear existing markers
+      Object.values(markers).forEach(m => map.removeLayer(m));
+
+      let hasWarning = false;
+      let hasEmergency = false;
+
       data.forEach((s) => {
-        const curr = s.current_level || (s.warning_level * 0.55);
+        const curr = s.current_level != null ? s.current_level : (s.warning_level * 0.55);
         const warn = s.warning_level;
         const dang = s.danger_level;
-        const pct = Math.min(100, Math.round((curr / dang) * 100));
+        const pct = Math.min(100, Math.max(10, Math.round((curr / dang) * 100)));
 
         let sev = 'NORMAL';
-        if (curr >= dang) sev = 'EMERGENCY';
-        else if (curr >= warn) sev = 'WARNING';
-        else if (curr >= warn * 0.8) sev = 'ADVISORY';
+        if (curr >= dang) { sev = 'EMERGENCY'; hasEmergency = true; }
+        else if (curr >= warn) { sev = 'WARNING'; hasWarning = true; }
+        else if (curr >= warn * 0.8) { sev = 'ADVISORY'; }
 
         const color = getSeverityColor(sev);
+        const lat = s.latitude || s.upstream_lat || 27.7;
+        const lon = s.longitude || s.upstream_lon || 85.3;
 
-        // Marker
+        // Custom pulsing marker
         const icon = L.divIcon({
           className: 'custom-icon',
           html: `<div class="marker-pulse" style="background-color: ${color}; border: 2px solid #ffffff;"></div>`,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
+          iconSize: [22, 22],
+          iconAnchor: [11, 11]
         });
 
-        const marker = L.marker([s.latitude, s.longitude], { icon }).addTo(map);
+        const marker = L.marker([lat, lon], { icon }).addTo(map);
         markers[s.station_id] = marker;
+
+        const trendIcon = (s.rising_velocity > 0.05) ? '↗️' : ((s.rising_velocity < -0.05) ? '↘️' : '➡️');
+        const trendSymbol = (s.rising_velocity > 0) ? '+' : '';
 
         const popupHtml = `
           <div class="p-1 text-xs">
-            <h4 class="font-bold text-sm text-white mb-1">${s.station_name}</h4>
+            <h4 class="font-bold text-sm text-white mb-0.5">${s.station_name}</h4>
             <div class="text-slate-400 mb-2">${s.river_name} (${s.basin})</div>
-            <div class="grid grid-cols-2 gap-1 mb-2 bg-slate-800/80 p-2 rounded-lg border border-slate-700">
+            <div class="grid grid-cols-2 gap-1.5 mb-2 bg-slate-900/90 p-2 rounded-lg border border-slate-800">
               <div><span class="text-slate-400">Current:</span> <b class="text-white">${curr.toFixed(2)} m</b></div>
               <div><span class="text-slate-400">Status:</span> <b style="color:${color}">${sev}</b></div>
               <div><span class="text-slate-400">Warning:</span> <b class="text-amber-400">${warn.toFixed(2)} m</b></div>
               <div><span class="text-slate-400">Danger:</span> <b class="text-red-400">${dang.toFixed(2)} m</b></div>
             </div>
-            <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Downstream Areas:</div>
-            <div class="text-slate-400 text-[11px]">${s.vulnerable_areas_ne}</div>
+            <div class="flex items-center justify-between text-[11px] text-slate-300 mb-2 px-1">
+              <span>Velocity: <code>${trendSymbol}${(s.rising_velocity || 0).toFixed(2)} m/hr ${trendIcon}</code></span>
+            </div>
+            <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Areas:</div>
+            <div class="text-slate-400 text-[11px] leading-relaxed">${s.vulnerable_areas_ne || s.vulnerable_areas_en}</div>
           </div>
         `;
         marker.bindPopup(popupHtml);
 
-        // List item
+        // Sidebar card
         const card = document.createElement('div');
-        card.className = 'p-3 bg-slate-950/60 hover:bg-slate-800/60 rounded-xl border border-slate-800/80 cursor-pointer transition flex flex-col gap-2';
+        card.className = 'p-3 bg-slate-950/70 hover:bg-slate-800/80 rounded-xl border border-slate-800/80 cursor-pointer transition flex flex-col gap-2 shadow-sm';
         card.innerHTML = `
           <div class="flex items-start justify-between">
-            <div>
+            <div class="pr-2">
               <div class="font-bold text-xs text-white">${s.station_name}</div>
               <div class="text-[11px] text-slate-400">${s.river_name}</div>
             </div>
-            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase" style="background-color:${color}22; color:${color}; border: 1px solid ${color}44;">
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider whitespace-nowrap" style="background-color:${color}22; color:${color}; border: 1px solid ${color}55;">
               ${sev}
             </span>
           </div>
           <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-            <div class="h-1.5 rounded-full" style="width: ${pct}%; background-color: ${color};"></div>
+            <div class="h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${color};"></div>
           </div>
           <div class="flex justify-between text-[10px] text-slate-400">
             <span>Level: <b class="text-slate-200">${curr.toFixed(2)}m</b></span>
@@ -255,21 +330,49 @@
           </div>
         `;
         card.addEventListener('click', () => {
-          map.flyTo([s.latitude, s.longitude], 10, { duration: 1.2 });
+          map.flyTo([lat, lon], 11, { duration: 1.2 });
           marker.openPopup();
         });
         listContainer.appendChild(card);
       });
+
+      // Update header banner if elevated threats exist
+      const banner = document.getElementById('threat-banner');
+      const bannerTitle = document.getElementById('banner-title');
+      const bannerIcon = document.getElementById('banner-icon');
+
+      if (hasEmergency) {
+        banner.className = 'bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-500/40 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 text-2xl flex-shrink-0';
+        bannerIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+        bannerTitle.className = 'text-sm sm:text-base font-bold text-red-400 flex items-center gap-2';
+        bannerTitle.innerText = '🚨 उच्च सतर्कता: नदी जलसतह खतरा तह पार / EMERGENCY ALERT';
+      } else if (hasWarning) {
+        banner.className = 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-2xl flex-shrink-0';
+        bannerIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
+        bannerTitle.className = 'text-sm sm:text-base font-bold text-amber-400 flex items-center gap-2';
+        bannerTitle.innerText = '⚠️ सतर्कता सूचना: नदी जलसतह बढ्दो क्रममा / FLOOD WARNING ACTIVE';
+      }
+
+      if (data.length > 0 && data[0].timestamp) {
+        document.getElementById('update-text').innerText = formatNpt(data[0].timestamp);
+      }
     }
 
     // Filter search
     document.getElementById('station-search').addEventListener('input', (e) => {
       const q = e.target.value.toLowerCase();
-      const filtered = stationsData.filter(s => s.station_name.toLowerCase().includes(q) || s.river_name.toLowerCase().includes(q));
+      const filtered = stationsData.filter(s => 
+        s.station_name.toLowerCase().includes(q) || 
+        s.river_name.toLowerCase().includes(q) ||
+        (s.basin && s.basin.toLowerCase().includes(q))
+      );
       renderStations(filtered);
     });
 
     loadStations();
+    setInterval(loadStations, 60000); // Auto-refresh every minute
   </script>
 </body>
 </html>

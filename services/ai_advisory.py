@@ -297,12 +297,10 @@ REAL-TIME BASIN READINGS ({total} Monitored Stations):
 Overall Threat Status: {highest_severity.value} ({highest_severity.badge_en})
 
 INSTRUCTIONS:
-1. Provide an English Summary (2-3 crisp sentences):
-   - Summarize whether rivers are safe/normal or if any warnings exist.
-   - Mention the current weather status in upstream catchments.
-2. Provide a clear, natural Nepali Summary (नेपाली बुलेटिन सारांश - 2-3 sentences):
-   - Inform the public about current river conditions in clear, professional Nepali.
-   - Mention that Bagmati, Roshi, Koshi and Narayani basins are currently monitored in real time.
+1. Provide an English Summary (1-2 concise, punchy sentences):
+   - Executive status of monitored basins and upstream weather.
+2. Provide a clear, natural Nepali Summary (नेपाली बुलेटिन सारांश - 1-2 sentences):
+   - Professional, concise summary for the public.
 
 FORMAT YOUR OUTPUT EXACTLY AS:
 ===ENGLISH===
@@ -317,12 +315,12 @@ FORMAT YOUR OUTPUT EXACTLY AS:
             from google.genai import types
 
             client = genai.Client(api_key=api_key)
-            for m in ["gemini-1.5-flash", "gemini-2.5-flash", "gemini-2.0-flash"]:
+            for m in ["gemini-2.0-flash", "gemini-1.5-flash"]:
                 try:
                     resp = client.models.generate_content(
                         model=m,
                         contents=prompt,
-                        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=600),
+                        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=300),
                     )
                     if resp and resp.text:
                         parsed = _parse_bilingual_response(resp.text, assessments[0], model_name=f"Google Gemini Flash ({m})")
@@ -336,21 +334,20 @@ FORMAT YOUR OUTPUT EXACTLY AS:
     # Deterministic fallback summary
     if highest_severity == SeverityLevel.NORMAL:
         en = (
-            f"All {total} monitored river stations across Bagmati, Nakkhu, Roshi Khola, Koshi, and Narayani "
-            f"basins are currently flowing within SAFE, NORMAL parameters. Upstream catchment precipitation is light and stable."
+            f"All {total} monitored river stations across Nepal are currently flowing safely below warning thresholds. "
+            f"Upstream catchment weather remains stable."
         )
         ne = (
-            f"हाल बागमती (बल्खु, गौरीघाट, सुन्दरीजल, चोभार), नख्खु खोला, रोशी खोला, सप्तकोशी तथा नारायणी "
-            f"जलाधारका सबै {total} वटै स्टेसनहरूमा नदीको जलसतह सतर्कता सीमाभन्दा तल सामान्य र सुरक्षित अवस्थामा रहेको छ। "
-            f"माथिल्लो तटीय जलाधारहरूमा कुनै आकस्मिक जोखिम देखिएको छैन।"
+            f"हाल बागमती, नख्खु, रोशी, कोशी तथा नारायणी लगायत सबै {total} वटै स्टेसनहरूमा जलसतह सामान्य र सुरक्षित छ। "
+            f"माथिल्लो जलाधारमा कुनै आकस्मिक बाढीको जोखिम छैन।"
         )
     else:
         en = (
             f"Real-time monitoring across {total} river stations indicates elevated water levels. "
-            f"Peak threat status is currently {highest_severity.badge_en}. Riverside residents should stay alert."
+            f"Peak threat status is currently {highest_severity.badge_en}. Riverside communities should remain vigilant."
         )
         ne = (
-            f"नेपालका प्रमुख {total} नदी स्टेसनहरूको वास्तविक अनुगमन गर्दा जलसतह सतर्कताको तहमा पुगेको पाइएको छ। "
+            f"नेपालका प्रमुख {total} नदी स्टेसनहरूको अनुगमन गर्दा जलसतह बढेको पाइएको छ। "
             f"हालको उच्च जोखिम स्थिति: {highest_severity.badge_ne}। नदी किनारका बासिन्दाहरू सतर्क रहनुहोला।"
         )
 

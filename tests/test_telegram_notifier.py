@@ -146,3 +146,16 @@ def test_format_telegram_html(base_assessment, sample_advisory):
 def test_send_telegram_alert_dry_run(base_assessment, sample_advisory):
     success = send_telegram_alert(base_assessment, sample_advisory, dry_run=True)
     assert success is True
+
+
+def test_format_basin_summary_html(base_assessment, sample_advisory):
+    from services.telegram_notifier import format_basin_summary_html, send_telegram_summary
+    summary_html = format_basin_summary_html([base_assessment], sample_advisory)
+    assert "NEPAL RIVER BASIN BULLETIN" in summary_html
+    assert "Bagmati at Balkhu" in summary_html
+    assert "लाइभ नक्सा" in summary_html
+    assert len(summary_html) <= 1024
+
+    # Test dry run summary dispatch
+    success = send_telegram_summary([base_assessment], sample_advisory, dry_run=True)
+    assert success is True
