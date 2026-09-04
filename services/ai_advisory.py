@@ -152,8 +152,8 @@ FORMAT YOUR OUTPUT EXACTLY AS:
         from google.genai import types
 
         client = genai.Client(api_key=api_key)
-        # We test gemini-2.5-flash then gemini-2.0-flash
-        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash"]
+        # We test gemini-2.5-flash, gemini-2.0-flash, and gemini-1.5-flash
+        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
         for m in models_to_try:
             try:
                 response = client.models.generate_content(
