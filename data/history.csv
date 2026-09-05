@@ -257,3 +257,17 @@ timestamp,station_id,current_level,warning_level,danger_level,rising_velocity,st
 2026-09-05T19:31:27+00:00,karnali_chisapani,6.48,10.00,12.00,-0.070,FALLING
 2026-09-05T19:31:27+00:00,kamala_ranibas,2.57,4.50,5.80,0.070,RISING
 2026-09-05T19:31:27+00:00,kankai_mainachuli,2.27,4.20,5.60,0.070,RISING
+2026-09-05T21:42:49+00:00,bagmati_balkhu,3.27,5.50,7.00,-0.040,STEADY
+2026-09-05T21:42:49+00:00,bagmati_gaurighat,4.26,6.80,8.00,0.150,RISING
+2026-09-05T21:42:49+00:00,bagmati_sundarijal,2.64,4.50,5.80,-0.080,FALLING
+2026-09-05T21:42:49+00:00,bagmati_chobhar,4.58,7.00,8.50,-0.010,STEADY
+2026-09-05T21:42:49+00:00,nakkhu_lele,2.23,4.00,5.20,-0.050,STEADY
+2026-09-05T21:42:49+00:00,roshi_panauti,2.49,4.20,5.50,-0.090,FALLING
+2026-09-05T21:42:49+00:00,koshi_chatara,4.89,6.00,7.50,0.140,RISING
+2026-09-05T21:42:49+00:00,narayani_devghat,5.49,7.30,9.00,0.020,STEADY
+2026-09-05T21:42:49+00:00,melamchi_helambu,2.85,4.80,6.00,0.130,RISING
+2026-09-05T21:42:49+00:00,west_rapti_kusum,3.28,5.40,6.80,-0.070,FALLING
+2026-09-05T21:42:49+00:00,babai_chepang,3.87,6.10,7.40,0.100,RISING
+2026-09-05T21:42:49+00:00,karnali_chisapani,6.71,10.00,12.00,0.110,RISING
+2026-09-05T21:42:49+00:00,kamala_ranibas,2.55,4.50,5.80,0.090,RISING
+2026-09-05T21:42:49+00:00,kankai_mainachuli,2.42,4.20,5.60,-0.040,STEADY
