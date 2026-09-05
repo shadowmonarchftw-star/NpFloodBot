@@ -42,6 +42,14 @@ class CatchmentForecast(BaseModel):
         ...,
         description="True if peak hourly rainfall >= 25mm/hr, triggering flash flood risk.",
     )
+    past_24h_rain_mm: float = Field(
+        0.0,
+        description="Cumulative precipitation in the past 24 hours (mm) indicating catchment soil saturation.",
+    )
+    is_soil_saturated: bool = Field(
+        False,
+        description="True if past 24-hour rainfall >= 50mm, indicating saturated soil and high runoff risk.",
+    )
     weather_description: str
     timestamp: datetime
     is_mock: bool = False
@@ -77,6 +85,7 @@ def fetch_catchment_weather(
         c_rain = round(random.uniform(28.0, 45.0), 1)
         f_1h = round(random.uniform(32.0, 55.0), 1)
         f_3h = round(f_1h + random.uniform(50.0, 80.0), 1)
+        p_24h = round(random.uniform(110.0, 165.0), 1)
         peak = max(c_rain, f_1h)
         forecast = CatchmentForecast(
             catchment_name=catchment_name,
@@ -87,6 +96,8 @@ def fetch_catchment_weather(
             forecast_3h_mm=f_3h,
             max_hourly_rain_mm=peak,
             is_heavy_rain=True,
+            past_24h_rain_mm=p_24h,
+            is_soil_saturated=True,
             weather_description="Torrential Downpour / Extreme Convective Storm (>25mm/hr)",
             timestamp=now,
             is_mock=True,
@@ -101,6 +112,7 @@ def fetch_catchment_weather(
                 f"?latitude={latitude}&longitude={longitude}"
                 f"&current=precipitation,rain"
                 f"&hourly=precipitation,rain"
+                f"&past_hours=24"
                 f"&forecast_hours=6"
                 f"&timezone=Asia/Kathmandu"
             )
@@ -114,11 +126,20 @@ def fetch_catchment_weather(
                 hourly_block = data.get("hourly", {})
                 hourly_rain = [float(x or 0.0) for x in hourly_block.get("precipitation", [])]
 
-                f_1h = hourly_rain[0] if len(hourly_rain) > 0 else current_rain
-                f_3h = round(sum(hourly_rain[:3]), 1) if len(hourly_rain) >= 3 else round(f_1h * 3, 1)
-                peak = round(max(hourly_rain[:6]), 1) if hourly_rain else f_1h
+                # First 24 points represent past 24 hours precipitation
+                if len(hourly_rain) >= 24:
+                    past_24h = round(sum(hourly_rain[:24]), 1)
+                    future_rain = hourly_rain[24:]
+                else:
+                    past_24h = round(current_rain * 4.0, 1)
+                    future_rain = hourly_rain
+
+                f_1h = future_rain[0] if len(future_rain) > 0 else current_rain
+                f_3h = round(sum(future_rain[:3]), 1) if len(future_rain) >= 3 else round(f_1h * 3, 1)
+                peak = round(max(future_rain[:6]), 1) if future_rain else f_1h
 
                 is_heavy = peak >= HEAVY_RAIN_THRESHOLD_MM_HR or f_1h >= HEAVY_RAIN_THRESHOLD_MM_HR
+                is_sat = past_24h >= 50.0
 
                 desc = "Clear / Light Drizzle"
                 if peak >= 25.0:
@@ -139,6 +160,8 @@ def fetch_catchment_weather(
                     forecast_3h_mm=f_3h,
                     max_hourly_rain_mm=peak,
                     is_heavy_rain=is_heavy,
+                    past_24h_rain_mm=past_24h,
+                    is_soil_saturated=is_sat,
                     weather_description=desc,
                     timestamp=now,
                     is_mock=False,
@@ -146,7 +169,7 @@ def fetch_catchment_weather(
                 )
                 _WEATHER_CACHE[cache_key] = forecast
                 logger.info(
-                    f"Fetched weather for {catchment_name}: current={current_rain}mm, 1h={f_1h}mm, peak={peak}mm/hr"
+                    f"Fetched weather for {catchment_name}: current={current_rain}mm, 1h={f_1h}mm, past24h={past_24h}mm, peak={peak}mm/hr"
                 )
                 return forecast
         except Exception as err:
@@ -158,6 +181,7 @@ def fetch_catchment_weather(
     simulated_curr = round(random.uniform(0.0, 3.5), 1)
     simulated_1h = round(random.uniform(0.0, 4.0), 1)
     simulated_3h = round(simulated_1h * 2.8, 1)
+    simulated_24h = round(random.uniform(12.0, 38.0), 1)
     peak = max(simulated_curr, simulated_1h)
 
     forecast = CatchmentForecast(
@@ -169,6 +193,8 @@ def fetch_catchment_weather(
         forecast_3h_mm=simulated_3h,
         max_hourly_rain_mm=peak,
         is_heavy_rain=False,
+        past_24h_rain_mm=simulated_24h,
+        is_soil_saturated=simulated_24h >= 50.0,
         weather_description="Normal Weather / Scattered Clouds",
         timestamp=now,
         is_mock=True,

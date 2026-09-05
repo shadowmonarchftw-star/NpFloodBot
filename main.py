@@ -43,6 +43,49 @@ logging.basicConfig(
 )
 logger = logging.getLogger("NepalFloodBot")
 
+BASIN_CASCADES = {
+    "bagmati_sundarijal": {
+        "downstream_id": "bagmati_gaurighat",
+        "transit_hours": 1.5,
+        "upstream_label": "सुन्दरीजल (Sundarijal)",
+    },
+    "bagmati_gaurighat": {
+        "downstream_id": "bagmati_balkhu",
+        "transit_hours": 2.0,
+        "upstream_label": "पशुपति / गौरीघाट (Gaurighat)",
+    },
+    "bagmati_balkhu": {
+        "downstream_id": "bagmati_chobhar",
+        "transit_hours": 1.0,
+        "upstream_label": "बल्खु करिडोर (Balkhu)",
+    },
+    "melamchi_helambu": {
+        "downstream_id": "koshi_chatara",
+        "transit_hours": 5.0,
+        "upstream_label": "मेलम्ची / हेलम्बु (Melamchi)",
+    },
+}
+
+
+def get_cascade_alerts(readings: list) -> dict[str, tuple[str, str]]:
+    """Detect upstream flood pulses and project downstream cascading impact."""
+    alerts: dict[str, tuple[str, str]] = {}
+    r_map = {r.station_id: r for r in readings}
+
+    for up_id, info in BASIN_CASCADES.items():
+        if up_id in r_map:
+            up_r = r_map[up_id]
+            # If upstream is surging or rising rapidly
+            if up_r.rising_velocity >= 0.20 or up_r.current_level >= up_r.warning_level:
+                down_id = info["downstream_id"]
+                transit = info["transit_hours"]
+                up_label = info["upstream_label"]
+                vel = up_r.rising_velocity
+                ne_msg = f"{up_label} मा जलसतह तीव्र गतिमा बढ्दैछ (+{vel:.2f} m/h)। करिब {transit} घण्टाभित्र यहाँ बाढीको बहाव आइपुग्ने पूर्वानुमान छ।"
+                en_msg = f"Rapid rise detected upstream at {up_label} (+{vel:.2f} m/h); flood crest expected downstream within ~{transit} hours."
+                alerts[down_id] = (ne_msg, en_msg)
+    return alerts
+
 
 def print_status_table(force_mock: bool = False) -> None:
     """Print an ASCII status table of all monitored stations and upstream weather."""
@@ -120,6 +163,7 @@ def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int
     """Fetch 100% real-time river gauges & weather, generate an AI summary, and broadcast to Telegram."""
     print("\n📡 INGESTING REAL-TIME BASIN TELEMETRY & UPSTREAM WEATHER FORECASTS...")
     readings = fetch_river_telemetry(force_mock=force_mock)
+    cascade_alerts = get_cascade_alerts(readings)
     assessments = []
 
     for r in readings:
@@ -129,10 +173,11 @@ def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int
             longitude=r.upstream_lon,
             force_mock=force_mock,
         )
-        risk = evaluate_risk(r, weather)
+        c_ne, c_en = cascade_alerts.get(r.station_id, (None, None))
+        risk = evaluate_risk(r, weather, cascade_alert_ne=c_ne, cascade_alert_en=c_en)
         assessments.append(risk)
 
-    export_stations_live(readings)
+    export_stations_live(readings, assessments=assessments)
 
     print(f"📊 Evaluated {len(assessments)} river stations. Generating AI bilingual summary...")
     advisory = generate_basin_overview_advisory(assessments)
@@ -147,15 +192,29 @@ def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int
         return 1
 
 
-def export_stations_live(readings: list) -> None:
+def export_stations_live(readings: list, assessments: list | None = None) -> None:
     """Save live stations snapshot for GitHub Pages interactive map dashboard."""
     try:
         docs_dir = BASE_DIR / "docs"
         if docs_dir.exists():
             payload = []
+            assess_map = {a.station_id: a for a in assessments} if assessments else {}
             for r in readings:
                 d = r.model_dump()
                 d["timestamp"] = d["timestamp"].isoformat()
+
+                if r.station_id in assess_map:
+                    a = assess_map[r.station_id]
+                    d["severity"] = a.severity.value
+                    d["lead_time_formatted_en"] = a.lead_time_formatted_en
+                    d["lead_time_formatted_ne"] = a.lead_time_formatted_ne
+                    d["past_24h_rain_mm"] = a.past_24h_rain_mm
+                    d["is_soil_saturated"] = a.is_soil_saturated
+                    d["upstream_cascade_alert_ne"] = a.upstream_cascade_alert_ne
+                    d["upstream_cascade_alert_en"] = a.upstream_cascade_alert_en
+                    d["forecast_1h_mm"] = a.upstream_forecast_1h_mm
+                    d["current_rain_mm"] = a.upstream_current_rain_mm
+
                 # Generate sparkline PNG for this station and add its URL
                 try:
                     from services.sparkline_generator import generate_sparkline
@@ -234,12 +293,13 @@ def run_monitoring_cycle(
 
     try:
         readings = fetch_river_telemetry(station_id=station_id, force_mock=force_mock)
-        export_stations_live(readings)
         append_history(readings)
     except Exception as e:
         logger.error(f"Failed to fetch river telemetry: {e}")
         return 1
 
+    cascade_alerts = get_cascade_alerts(readings)
+    assessments = []
     alerts_dispatched = 0
 
     for reading in readings:
@@ -250,7 +310,9 @@ def run_monitoring_cycle(
                 longitude=reading.upstream_lon,
                 force_mock=force_mock,
             )
-            assessment = evaluate_risk(reading, weather)
+            c_ne, c_en = cascade_alerts.get(reading.station_id, (None, None))
+            assessment = evaluate_risk(reading, weather, cascade_alert_ne=c_ne, cascade_alert_en=c_en)
+            assessments.append(assessment)
 
             should_alert, reason = should_send_alert(
                 assessment=assessment,
@@ -273,6 +335,8 @@ def run_monitoring_cycle(
                 )
         except Exception as err:
             logger.error(f"Error evaluating station {reading.station_id}: {err}", exc_info=True)
+
+    export_stations_live(readings, assessments=assessments)
 
     logger.info(
         f"Cycle completed. Monitored {len(readings)} stations; dispatched {alerts_dispatched} alerts."

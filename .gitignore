@@ -30,6 +30,8 @@ wheels/
 data/state.json.tmp
 data/*.tmp
 data/charts/*.png
+data/voice_alerts/*.mp3
+data/voice_alerts/
 
 # IDEs
 .idea/

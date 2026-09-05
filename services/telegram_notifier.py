@@ -155,12 +155,27 @@ def format_telegram_html(assessment: RiskAssessment, advisory: AdvisoryResult) -
         f"📈 <b>जलसतहको गति (Trend):</b> <code>{'+' if assessment.rising_velocity > 0 else ''}{assessment.rising_velocity:.2f} m/hr</code> ({assessment.rising_velocity and 'RISING' or 'STEADY'})",
     ]
 
-    # Upstream rain
+    # Lead-Time Prediction
+    if assessment.lead_time_formatted_ne:
+        msg_parts.append(
+            f"⏳ <b>उल्लङ्घन समय अनुमान (Lead Time):</b> <code>{html.escape(assessment.lead_time_formatted_en or '')}</code>\n"
+            f"   👉 <i>{html.escape(assessment.lead_time_formatted_ne)}</i>"
+        )
+
+    # Upstream rain & Soil Saturation
     rain_icon = "⛈️" if assessment.is_heavy_rain else "🌧️"
+    sat_text = " | ⚠️ माटो संतृप्त (High Saturation)" if assessment.is_soil_saturated else ""
     msg_parts.append(
         f"{rain_icon} <b>माथिल्लो तटीय वर्षा ({html.escape(assessment.upstream_catchment)}):</b> "
         f"हाल: <code>{assessment.upstream_current_rain_mm:.1f} mm</code> | १ घण्टा: <code>{assessment.upstream_forecast_1h_mm:.1f} mm</code>"
+        f" | २४ घण्टा: <code>{assessment.past_24h_rain_mm:.1f} mm</code>{sat_text}"
     )
+
+    if assessment.upstream_cascade_alert_ne:
+        msg_parts.append(
+            f"🌊 <b>माथिल्लो बहाव सूचना (Cascading Basin Alert):</b>\n"
+            f"• {html.escape(assessment.upstream_cascade_alert_ne)}"
+        )
 
     if assessment.compound_risk:
         msg_parts.append("\n⚡ <b>चेतावनी: दोहोरो जोखिम (Compound Flood Threat)!</b> उच्च जलसतह + माथिल्लो तटीय भीषण वर्षा।")
@@ -277,12 +292,64 @@ def send_telegram_alert(
                 send_telegram_photo(chart_path, caption=caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
             except Exception as e:
                 logger.debug(f"Could not generate/send station chart: {e}")
+
+            # Dispatch spoken Nepali voice note for high-urgency alerts
+            if assessment.severity in (SeverityLevel.WARNING, SeverityLevel.EMERGENCY):
+                try:
+                    from services.voice_alert import generate_nepali_voice_alert
+                    voice_path = generate_nepali_voice_alert(assessment)
+                    if voice_path and voice_path.exists():
+                        v_caption = f"🔊 <b>नेपाली आपतकालीन अडियो / Voice Broadcast:</b> {assessment.station_name}"
+                        send_telegram_voice(voice_path, caption=v_caption, bot_token=token, chat_id=payload["chat_id"], dry_run=dry_run)
+                except Exception as e:
+                    logger.debug(f"Could not generate/send voice alert: {e}")
+
             return True
 
         logger.error(f"Telegram API responded with {resp.status_code}: {resp.text}")
         return False
     except Exception as e:
         logger.error(f"Failed to transmit Telegram message: {e}")
+        return False
+
+
+def send_telegram_voice(
+    voice_path: Path,
+    caption: str = "",
+    bot_token: Optional[str] = None,
+    chat_id: Optional[str] = None,
+    dry_run: bool = False,
+) -> bool:
+    """Send spoken audio/voice note broadcast to Telegram."""
+    if dry_run:
+        print(f"\n🔊 [DRY RUN] Sent Telegram voice note: {voice_path.name} (Caption: {caption})\n")
+        return True
+
+    token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    target_chat = chat_id or os.getenv("TELEGRAM_CHAT_ID", "").strip()
+
+    if not token or not target_chat or not voice_path.exists():
+        return False
+
+    url = f"https://api.telegram.org/bot{token}/sendVoice"
+    data = {
+        "chat_id": target_chat,
+        "caption": caption[:1024],
+        "parse_mode": "HTML",
+    }
+
+    try:
+        with open(voice_path, "rb") as f:
+            files = {"voice": f}
+            resp = requests.post(url, data=data, files=files, timeout=15.0)
+
+        if resp.status_code == 200:
+            logger.info(f"Telegram voice note successfully dispatched: {voice_path.name}")
+            return True
+        logger.error(f"Telegram sendVoice failed ({resp.status_code}): {resp.text}")
+        return False
+    except Exception as err:
+        logger.error(f"Error sending voice note to Telegram: {err}")
         return False
 
 

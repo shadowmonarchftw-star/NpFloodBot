@@ -165,6 +165,12 @@
           </h3>
           <input type="text" id="station-search" placeholder="Search river/station..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 w-36 focus:outline-none focus:border-blue-500 transition" />
         </div>
+        <div class="px-2.5 py-1.5 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto text-[11px] bg-slate-950/40">
+          <button class="basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer" data-basin="all">All (14)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="bagmati">Kathmandu (5)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="koshi">Koshi (3)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="terai">Terai & West (6)</button>
+        </div>
         <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/40 p-2 space-y-2">
           <div class="p-6 text-center text-slate-500 text-xs">Loading real-time river telemetry...</div>
         </div>
@@ -260,6 +266,27 @@
       renderStations(stationsData);
     }
 
+    function getBasinGroup(s) {
+      const b = (s.basin || '').toLowerCase();
+      const id = (s.station_id || '').toLowerCase();
+      if (b.includes('bagmati') || id.includes('bagmati') || id.includes('nakkhu')) return 'bagmati';
+      if (b.includes('koshi') || id.includes('koshi') || id.includes('melamchi') || id.includes('roshi')) return 'koshi';
+      return 'terai';
+    }
+
+    let currentBasinFilter = 'all';
+    let searchQuery = '';
+
+    function applyFilters() {
+      const filtered = stationsData.filter(s => {
+        const basinMatch = currentBasinFilter === 'all' || getBasinGroup(s) === currentBasinFilter;
+        const text = (s.station_name + ' ' + s.river_name + ' ' + (s.basin || '')).toLowerCase();
+        const searchMatch = !searchQuery || text.includes(searchQuery);
+        return basinMatch && searchMatch;
+      });
+      renderStations(filtered);
+    }
+
     function renderStations(data) {
       const listContainer = document.getElementById('station-list');
       listContainer.innerHTML = '';
@@ -277,7 +304,7 @@
         const dang = s.danger_level;
         const pct = Math.min(100, Math.max(10, Math.round((curr / dang) * 100)));
 
-        let sev = 'NORMAL';
+        let sev = s.severity || 'NORMAL';
         if (curr >= dang) { sev = 'EMERGENCY'; hasEmergency = true; }
         else if (curr >= warn) { sev = 'WARNING'; hasWarning = true; }
         else if (curr >= warn * 0.8) { sev = 'ADVISORY'; }
@@ -310,15 +337,25 @@
               <div><span class="text-slate-400">Warning:</span> <b class="text-amber-400">${warn.toFixed(2)} m</b></div>
               <div><span class="text-slate-400">Danger:</span> <b class="text-red-400">${dang.toFixed(2)} m</b></div>
             </div>
-            <div class="flex items-center justify-between text-[11px] text-slate-300 mb-2 px-1">
+            <div class="flex items-center justify-between text-[11px] text-slate-300 mb-1 px-1">
               <span>Velocity: <code>${trendSymbol}${(s.rising_velocity || 0).toFixed(2)} m/hr ${trendIcon}</code></span>
+              <span>Past 24h: <b>${(s.past_24h_rain_mm || 0).toFixed(0)} mm</b> ${s.is_soil_saturated ? '<span class="text-amber-400 font-bold">(Sat)</span>' : ''}</span>
             </div>
+            ${s.lead_time_formatted_en ? `
+            <div class="mb-2 p-1.5 bg-amber-950/40 border border-amber-500/40 rounded text-[10px] text-amber-300 font-mono flex items-center gap-1.5">
+              <i class="fa-regular fa-clock text-amber-400"></i> <b>Lead Time:</b> ${s.lead_time_formatted_en}
+            </div>` : ''}
+            ${s.upstream_cascade_alert_ne ? `
+            <div class="mb-2 p-1.5 bg-sky-950/50 border border-sky-500/40 rounded text-[10px] text-sky-300 leading-tight">
+              <i class="fa-solid fa-water text-sky-400 mr-1"></i> ${s.upstream_cascade_alert_ne}
+            </div>` : ''}
             <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Areas:</div>
+            <div class="text-slate-400 text-[11px] leading-relaxed mb-2">${s.vulnerable_areas_ne || s.vulnerable_areas_en}</div>
             ${s.sparkline_url ? `
-            <div class="mt-2 pt-2 border-t border-slate-800/80">
+            <div class="mt-1 pt-2 border-t border-slate-800/80">
               <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                <span><i class="fa-solid fa-chart-line text-sky-400 mr-1"></i>48h Trend Sparkline</span>
-                <span class="text-[9px] text-slate-400">15m logs</span>
+                <span><i class="fa-solid fa-chart-line text-sky-400 mr-1"></i>48h Water Level Trend</span>
+                <span class="text-[9px] text-slate-400">15m rolling log</span>
               </div>
               <img src="${s.sparkline_url}" alt="Water Level Trend" class="w-full h-9 rounded bg-slate-950/80 border border-slate-800 object-contain">
             </div>` : ''}
@@ -326,7 +363,7 @@
         `;
         marker.bindPopup(popupHtml);
 
-        // Sidebar card
+        // Sidebar card with mini sparkline & lead times
         const card = document.createElement('div');
         card.className = 'p-3 bg-slate-950/70 hover:bg-slate-800/80 rounded-xl border border-slate-800/80 cursor-pointer transition flex flex-col gap-2 shadow-sm';
         card.innerHTML = `
@@ -342,10 +379,22 @@
           <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
             <div class="h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${color};"></div>
           </div>
-          <div class="flex justify-between text-[10px] text-slate-400">
+          <div class="flex items-center justify-between text-[10px] text-slate-400">
             <span>Level: <b class="text-slate-200">${curr.toFixed(2)}m</b></span>
             <span>Warn: ${warn.toFixed(1)}m | Dang: ${dang.toFixed(1)}m</span>
           </div>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[10px] text-slate-400">
+            <span>🌧️ 24h: <b>${(s.past_24h_rain_mm || 0).toFixed(0)}mm</b> ${s.is_soil_saturated ? '<span class="text-amber-400 font-bold">(Sat)</span>' : ''}</span>
+            ${s.sparkline_url ? `<img src="${s.sparkline_url}" class="h-5 w-16 object-contain rounded bg-slate-900 border border-slate-800" alt="Trend" />` : ''}
+          </div>
+          ${s.lead_time_formatted_en ? `
+          <div class="text-[10px] text-amber-300 bg-amber-950/30 border border-amber-800/40 px-2 py-0.5 rounded font-mono flex items-center gap-1">
+            <i class="fa-regular fa-clock text-amber-400"></i> ${s.lead_time_formatted_en}
+          </div>` : ''}
+          ${s.upstream_cascade_alert_ne ? `
+          <div class="text-[10px] text-sky-300 bg-sky-950/30 border border-sky-800/40 px-2 py-1 rounded leading-tight">
+            <i class="fa-solid fa-water text-sky-400 mr-1"></i> Upstream surge incoming
+          </div>` : ''}
         `;
         card.addEventListener('click', () => {
           map.flyTo([lat, lon], 11, { duration: 1.2 });
@@ -371,6 +420,12 @@
         bannerIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
         bannerTitle.className = 'text-sm sm:text-base font-bold text-amber-400 flex items-center gap-2';
         bannerTitle.innerText = '⚠️ सतर्कता सूचना: नदी जलसतह बढ्दो क्रममा / FLOOD WARNING ACTIVE';
+      } else {
+        banner.className = 'bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
+        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0';
+        bannerIcon.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+        bannerTitle.className = 'text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-2';
+        bannerTitle.innerText = '🟢 सामान्य अवस्था: सबै नदी सतर्कता तहभन्दा तल / ALL NORMAL';
       }
 
       if (data.length > 0 && data[0].timestamp) {
@@ -378,15 +433,22 @@
       }
     }
 
-    // Filter search
+    // Basin filter button listeners
+    document.querySelectorAll('.basin-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.basin-filter').forEach(b => {
+          b.className = 'basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer';
+        });
+        btn.className = 'basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer';
+        currentBasinFilter = btn.getAttribute('data-basin');
+        applyFilters();
+      });
+    });
+
+    // Search input listener
     document.getElementById('station-search').addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      const filtered = stationsData.filter(s => 
-        s.station_name.toLowerCase().includes(q) || 
-        s.river_name.toLowerCase().includes(q) ||
-        (s.basin && s.basin.toLowerCase().includes(q))
-      );
-      renderStations(filtered);
+      searchQuery = e.target.value.toLowerCase();
+      applyFilters();
     });
 
     loadStations();
