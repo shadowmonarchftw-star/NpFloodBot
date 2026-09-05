@@ -276,20 +276,16 @@ The repository includes an interactive Leaflet dark-mode disaster map under `doc
 
 ---
 
-## 🤖 Interactive Telegram Bot Slash Commands
+## 📡 Automated Broadcast Channel & Interactive Buttons
 
-Anyone in your group or in a direct message with the bot can send interactive commands:
+NpFloodBot operates as an **automated 24/7 disaster broadcast service** ($0 cost via GitHub Actions):
 
-| Command | Action |
-|:---|:---|
-| `/status` | Real-time gauge table for all 14 monitored river stations. |
-| `/balkhu` | Bagmati at Balkhu live water level, trend, and vulnerable squatter areas. |
-| `/roshi` | Roshi Khola (Panauti / Bhakunde Besi) live status & BP Highway alert. |
-| `/nakkhu` | Nakkhu Khola (Southern Lalitpur) flash flood gauge reading. |
-| `/koshi` | Saptakoshi at Chatara (Eastern Nepal) live level. |
-| `/narayani` | Narayani at Devghat central basin reading. |
-| `/emergency` | Direct emergency hotline numbers (Police 100, APF 1114, DHM 1155). |
-| `/help` | Complete menu and system overview. |
+* **Zero-Spam Flood Warnings**: Pushes instant alerts to your Telegram channel or group when dangerous water surges, threshold breaches, or upstream cloudbursts are detected.
+* **Twice-Daily Executive Bulletins**: Posts morning (7:00 AM NPT) and evening (6:00 PM NPT) bilingual basin overviews with visual hydrograph comparison charts.
+* **Interactive Inline Action Buttons**: Every dispatch includes one-tap inline buttons:
+  * `[ 🗺️ लाइभ नक्सा (Live Dashboard) ]` — Direct link to the Leaflet interactive map with 48h trend sparklines.
+  * `[ 🌊 DHM Telemetry ]` — Direct link to official Department of Hydrology & Meteorology telemetry.
+* **No User Input Needed**: Fully automated push architecture eliminates bot downtime, latency delays, and Telegram command privacy issues.
 
 ---
 

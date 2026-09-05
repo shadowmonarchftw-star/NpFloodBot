@@ -403,9 +403,8 @@ def format_basin_summary_html(assessments: List[RiskAssessment], advisory: Advis
 
     parts.append("\n━━━━━━━━━━━━━━━━━━━━━━")
     parts.append(
-        "🗺️ <b>लाइभ नक्सा (Dashboard):</b> https://shadowmonarchftw-star.github.io/NpFloodBot/\n"
-        "⚡ <b>द्रुत विवरण:</b> /status • /balkhu • /roshi • /emergency\n"
-        "🆘 <b>आपतकालीन:</b> DHM ११५५ | विपद् ११४९ | १००"
+        "🗺️ <b>प्रत्यक्ष नक्सा तथा विवरण:</b> तलको 'लाइभ नक्सा' बटन थिच्नुहोस्\n"
+        "🆘 <b>आपतकालीन हटलाइन:</b> DHM ११५५ | विपद् ११४९ | नेपाल प्रहरी १००"
     )
 
     return "\n".join(parts)

@@ -26,7 +26,6 @@ import json
 from services.ai_advisory import generate_bilingual_advisory, generate_basin_overview_advisory
 from services.hydrology import fetch_river_telemetry, load_stations_metadata
 from services.risk_evaluator import evaluate_risk, SeverityLevel
-from services.telegram_bot_handler import process_telegram_updates
 from services.telegram_notifier import (
     load_alert_state,
     save_alert_state,
@@ -140,7 +139,6 @@ def run_broadcast_status(force_mock: bool = False, dry_run: bool = False) -> int
 
     print("🚀 Dispatching real-time status bulletin to Telegram...")
     sent = send_telegram_summary(assessments, advisory, dry_run=dry_run)
-    process_telegram_updates()
     if sent:
         print("✅ Live river basin status bulletin successfully sent to Telegram!")
         return 0
@@ -275,14 +273,6 @@ def run_monitoring_cycle(
                 )
         except Exception as err:
             logger.error(f"Error evaluating station {reading.station_id}: {err}", exc_info=True)
-
-    # Process any interactive slash commands from users (/status, /balkhu, /emergency)
-    try:
-        answered = process_telegram_updates()
-        if answered > 0:
-            logger.info(f"Processed and replied to {answered} interactive Telegram user commands.")
-    except Exception as e:
-        logger.debug(f"Command update check: {e}")
 
     logger.info(
         f"Cycle completed. Monitored {len(readings)} stations; dispatched {alerts_dispatched} alerts."
