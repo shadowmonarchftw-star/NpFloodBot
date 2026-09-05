@@ -315,6 +315,9 @@
             </div>
             <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Areas:</div>
             <div class="text-slate-400 text-[11px] leading-relaxed">${s.vulnerable_areas_ne || s.vulnerable_areas_en}</div>
+            <div class="mt-1">
+                <img src="${s.sparkline_url}" alt="Trend" class="w-full h-auto">
+            </div>
           </div>
         `;
         marker.bindPopup(popupHtml);

@@ -158,6 +158,14 @@ def export_stations_live(readings: list) -> None:
             for r in readings:
                 d = r.model_dump()
                 d["timestamp"] = d["timestamp"].isoformat()
+                # Generate sparkline PNG for this station and add its URL
+                try:
+                    from services.sparkline_generator import generate_sparkline
+                    spark_path = generate_sparkline(r.station_id)
+                    if spark_path and spark_path.exists():
+                        d["sparkline_url"] = f"trends/{spark_path.name}"
+                except Exception as e:
+                    logger.debug(f"Sparkline generation failed for {r.station_id}: {e}")
                 payload.append(d)
             with open(docs_dir / "stations_live.json", "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=2)

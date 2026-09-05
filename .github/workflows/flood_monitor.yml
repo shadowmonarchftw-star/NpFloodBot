@@ -110,6 +110,12 @@ jobs:
             fi
           fi
 
+          # Verify Gemini API key before running the bot
+          if [ -z "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "::error::GEMINI_API_KEY secret is not set"
+            exit 1
+          fi
+          echo "✅ GEMINI_API_KEY is present"
           echo "Executing: python main.py $EXTRA_FLAGS"
           python main.py $EXTRA_FLAGS
 

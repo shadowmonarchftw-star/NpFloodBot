@@ -7,8 +7,13 @@ pre-written template fallbacks when API is unavailable, unconfigured, or rate-li
 
 from __future__ import annotations
 
-import logging
 import os
+
+# Verify Gemini API key is set; if missing, log and raise to avoid silent fallback
+if not os.getenv("GEMINI_API_KEY"):
+    logger.error("GEMINI_API_KEY environment variable not set. AI advisories will not be generated.")
+    # Raising here will cause the monitoring cycle to abort, making the issue visible
+    raise RuntimeError("Missing GEMINI_API_KEY secret")
 import re
 from typing import Optional, Tuple
 
