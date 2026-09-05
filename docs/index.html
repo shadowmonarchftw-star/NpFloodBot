@@ -314,10 +314,14 @@
               <span>Velocity: <code>${trendSymbol}${(s.rising_velocity || 0).toFixed(2)} m/hr ${trendIcon}</code></span>
             </div>
             <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Areas:</div>
-            <div class="text-slate-400 text-[11px] leading-relaxed">${s.vulnerable_areas_ne || s.vulnerable_areas_en}</div>
-            <div class="mt-1">
-                <img src="${s.sparkline_url}" alt="Trend" class="w-full h-auto">
-            </div>
+            ${s.sparkline_url ? `
+            <div class="mt-2 pt-2 border-t border-slate-800/80">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                <span><i class="fa-solid fa-chart-line text-sky-400 mr-1"></i>48h Trend Sparkline</span>
+                <span class="text-[9px] text-slate-400">15m logs</span>
+              </div>
+              <img src="${s.sparkline_url}" alt="Water Level Trend" class="w-full h-9 rounded bg-slate-950/80 border border-slate-800 object-contain">
+            </div>` : ''}
           </div>
         `;
         marker.bindPopup(popupHtml);

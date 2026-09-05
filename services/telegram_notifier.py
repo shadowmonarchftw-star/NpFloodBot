@@ -189,6 +189,24 @@ def format_telegram_html(assessment: RiskAssessment, advisory: AdvisoryResult) -
     return "\n".join(msg_parts)
 
 
+def get_inline_keyboard() -> dict:
+    """Return inline keyboard markup with quick-action links."""
+    return {
+        "inline_keyboard": [
+            [
+                {
+                    "text": "🗺️ लाइभ नक्सा (Live Dashboard)",
+                    "url": "https://shadowmonarchftw-star.github.io/NpFloodBot/",
+                },
+                {
+                    "text": "🌊 DHM Telemetry",
+                    "url": "http://hydrology.gov.np/",
+                },
+            ]
+        ]
+    }
+
+
 def send_telegram_alert(
     assessment: RiskAssessment,
     advisory: AdvisoryResult,
@@ -224,9 +242,11 @@ def send_telegram_alert(
         "text": message,
         "parse_mode": "HTML",
         "disable_web_page_preview": True,
+        "reply_markup": get_inline_keyboard(),
     }
 
     try:
+        resp = requests.post(url, json=payload, timeout=8.0)
         dispatched = False
         if resp.status_code == 200:
             logger.info(f"Telegram alert successfully dispatched for {assessment.station_id} to {target_chat}.")
@@ -289,6 +309,7 @@ def send_telegram_photo(
         "chat_id": target_chat,
         "caption": caption[:1024],  # Telegram caption max limit
         "parse_mode": "HTML",
+        "reply_markup": json.dumps(get_inline_keyboard()),
     }
 
     try:
@@ -446,6 +467,7 @@ def send_telegram_summary(
         "text": message,
         "parse_mode": "HTML",
         "disable_web_page_preview": True,
+        "reply_markup": get_inline_keyboard(),
     }
 
     try:
