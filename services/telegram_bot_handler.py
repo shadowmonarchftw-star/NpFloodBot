@@ -10,14 +10,17 @@ import html
 import logging
 import os
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import requests
 
 from services.hydrology import fetch_river_telemetry
 from services.risk_evaluator import evaluate_risk
-from services.telegram_notifier import format_npt_time
+from services.telegram_notifier import format_npt_time, get_inline_keyboard
 from services.weather import fetch_catchment_weather
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +63,22 @@ def process_telegram_updates(bot_token: Optional[str] = None) -> int:
         return 0
 
     url = f"https://api.telegram.org/bot{token}/getUpdates"
+    offset_file = BASE_DIR / "data" / "telegram_offset.txt"
+    offset = None
+    if offset_file.exists():
+        try:
+            offset = int(offset_file.read_text(encoding="utf-8").strip())
+        except Exception:
+            offset = None
+
+    params: Dict[str, Any] = {"timeout": 3, "limit": 100}
+    if offset is not None:
+        params["offset"] = offset
+    else:
+        params["offset"] = -20
+
     try:
-        resp = requests.get(url, params={"timeout": 3, "limit": 20}, timeout=5.0)
+        resp = requests.get(url, params=params, timeout=5.0)
         if resp.status_code != 200:
             return 0
         data = resp.json()
@@ -150,6 +167,7 @@ def process_telegram_updates(bot_token: Optional[str] = None) -> int:
                         "text": reply_text,
                         "parse_mode": "HTML",
                         "disable_web_page_preview": True,
+                        "reply_markup": get_inline_keyboard(),
                     },
                     timeout=6.0,
                 )
@@ -160,7 +178,10 @@ def process_telegram_updates(bot_token: Optional[str] = None) -> int:
     # Confirm receipt of updates by updating offset
     if max_update_id > 0:
         try:
-            requests.get(url, params={"offset": max_update_id + 1}, timeout=3.0)
+            next_offset = max_update_id + 1
+            offset_file.parent.mkdir(parents=True, exist_ok=True)
+            offset_file.write_text(str(next_offset), encoding="utf-8")
+            requests.get(url, params={"offset": next_offset}, timeout=3.0)
         except Exception:
             pass
 
