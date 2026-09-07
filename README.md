@@ -2,13 +2,15 @@
 ### 100% Free, Production-Ready Hyper-Local Flood Early Warning System in Python with Google Gemini Flash & Telegram Alerts
 
 [![Flood Monitor](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml/badge.svg)](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml)
-[![Tests](https://img.shields.io/badge/tests-33%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-35%20passed-brightgreen.svg)]()
 [![Cost](https://img.shields.io/badge/cost-%240%20(100%25%20Free)-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Made in Nepal](https://img.shields.io/badge/🇳🇵-Made%20in%20Nepal-dc143c.svg)]()
 
-> 🗺️ **[Live Dashboard](https://shadowmonarchftw-star.github.io/NpFloodBot/)** · 📱 **[Telegram Group](https://t.me/+your_invite_link)** · 🤖 **[GitHub Repo](https://github.com/shadowmonarchftw-star/NpFloodBot)**
+> 🗺️ **[Live Interactive Dashboard](https://shadowmonarchftw-star.github.io/NpFloodBot/)** · 📱 **[Telegram Channel](https://t.me/npfloodbot)** · 🤖 **[GitHub Repo](https://github.com/shadowmonarchftw-star/NpFloodBot)**
+> 
+> 🆘 **National 24/7 Flood Hotline: `1155` (Toll-Free)** | Police: `100` | APF Rescue: `1114` | Red Cross: `1130` | NEOC: `1149`
 
 
 
@@ -56,6 +58,28 @@ flowchart TD
     AI --> Dispatcher
     Dispatcher --> TG
 ```
+
+---
+
+## 🛡️ Citizen-First Life-Saving Features
+
+1. **🏥 Designated Emergency Shelters & Local Ward Contacts:**
+   - Every station includes verified safe high-ground community buildings, schools, and covered halls (e.g. *Janakalyan School* for Balkhu, *Indreshwar School* for Panauti, *Gulariya Multi-purpose Shelter* for Babai).
+   - Direct local ward disaster management committee phone numbers and local police desks.
+2. **📞 1-Tap Direct National Emergency Dialing:**
+   - **1155**: DHM 24/7 Toll-Free Monsoon Flood Early Warning Hotline
+   - **100**: Nepal Police Emergency
+   - **1114**: Armed Police Force (APF) Disaster Rescue Division
+   - **1130**: Nepal Red Cross Society (Ambulance & Blood Bank)
+   - **1149**: National Emergency Operation Center (NEOC, MoHA)
+3. **🇳🇵 Instant Bilingual Language Switcher (`नेपाली` / `English`):**
+   - The web dashboard supports seamless one-click switching with saved local preferences for local community accessibility.
+4. **🎒 Flood Safety, Go-Bag & Evacuation Checklist Modal:**
+   - Actionable guides: Go-Bag essential packing (water, dry food, waterproof pouches for citizenship & land title deeds, battery torch, powerbanks), electrical breaker shutoff protocol, and livestock protection.
+5. **📲 1-Tap Emergency Sharing (WhatsApp & Clipboard):**
+   - Quickly broadcast formatted flood warnings and shelter coordinates to family and community groups on WhatsApp with one click.
+6. **📡 PWA & Offline Caching Support (`sw.js` + `manifest.json`):**
+   - Installable on mobile phones; displays last cached river levels and emergency hotlines even when heavy rains disrupt grid power or cellular data.
 
 ---
 

@@ -106,6 +106,8 @@ class RiskAssessment(BaseModel):
     is_soil_saturated: bool = False
     upstream_cascade_alert_ne: Optional[str] = None
     upstream_cascade_alert_en: Optional[str] = None
+    emergency_shelters: list = Field(default_factory=list)
+    ward_contacts: list = Field(default_factory=list)
 
     @property
     def requires_immediate_alert(self) -> bool:
@@ -287,4 +289,6 @@ def evaluate_risk(
         is_soil_saturated=is_sat,
         upstream_cascade_alert_ne=cascade_alert_ne,
         upstream_cascade_alert_en=cascade_alert_en,
+        emergency_shelters=reading.emergency_shelters,
+        ward_contacts=reading.ward_contacts,
     )

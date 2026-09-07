@@ -43,6 +43,8 @@ class StationMetadata(BaseModel):
     vulnerable_areas_ne: str
     vulnerable_areas_en: str
     description: str
+    emergency_shelters: list = Field(default_factory=list)
+    ward_contacts: list = Field(default_factory=list)
 
 
 class RiverReading(BaseModel):
@@ -70,6 +72,8 @@ class RiverReading(BaseModel):
     timestamp: datetime
     is_mock: bool = False
     source: str = "DHM Telemetry"
+    emergency_shelters: list = Field(default_factory=list)
+    ward_contacts: list = Field(default_factory=list)
 
     @property
     def is_above_warning(self) -> bool:
@@ -213,6 +217,8 @@ def generate_realistic_mock_reading(
         timestamp=now,
         is_mock=True,
         source="DHM Resilient Telemetry (Realistic Model)",
+        emergency_shelters=station.emergency_shelters,
+        ward_contacts=station.ward_contacts,
     )
 
 
@@ -284,6 +290,8 @@ def fetch_river_telemetry(
                     timestamp=now,
                     is_mock=False,
                     source="DHM Public Telemetry",
+                    emergency_shelters=station.emergency_shelters,
+                    ward_contacts=station.ward_contacts,
                 )
             )
         else:

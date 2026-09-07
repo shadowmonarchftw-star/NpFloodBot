@@ -192,13 +192,34 @@ def format_telegram_html(assessment: RiskAssessment, advisory: AdvisoryResult) -
     msg_parts.append("\n🚨 <b>उच्च जोखिमयुक्त तटीय क्षेत्रहरू (Vulnerable Downstream Areas):</b>")
     msg_parts.append(f"• {html.escape(assessment.vulnerable_areas_ne)}")
 
+    # Nearby emergency shelters & ward contact during elevated threat
+    if assessment.severity in (SeverityLevel.WARNING, SeverityLevel.EMERGENCY):
+        if assessment.emergency_shelters:
+            shelter_lines = []
+            for s in assessment.emergency_shelters[:2]:
+                s_name = s.get("name_ne") or s.get("name_en", "")
+                s_phone = s.get("phone", "")
+                phone_part = f" (📞 {s_phone})" if s_phone else ""
+                shelter_lines.append(f"• 🏫 {html.escape(s_name)}{phone_part}")
+            if shelter_lines:
+                msg_parts.append("\n🏥 <b>सुरक्षित आश्रयस्थल (Designated Safe Shelters):</b>\n" + "\n".join(shelter_lines))
+
+        if assessment.ward_contacts:
+            ward_lines = []
+            for w in assessment.ward_contacts[:2]:
+                w_name = w.get("name_ne") or w.get("name_en", "")
+                w_phone = w.get("phone", "")
+                ward_lines.append(f"• 📞 {html.escape(w_name)}: <code>{w_phone}</code>")
+            if ward_lines:
+                msg_parts.append("\n🏛️ <b>स्थानीय आपतकालीन सम्पर्क (Local Emergency Desk):</b>\n" + "\n".join(ward_lines))
+
     # Footer
     time_str = format_npt_time(assessment.assessed_at)
     msg_parts.append("\n━━━━━━━━━━━━━━━━━━━━━━")
     msg_parts.append(
         f"📡 <i>स्रोत: DHM Telemetry & Open-Meteo | AI: {html.escape(advisory.model_used)}</i>\n"
         f"🕒 <i>अपडेट समय: {time_str}</i>\n"
-        f"🆘 <i>आपतकालीन नम्बरहरू: नेपाल प्रहरी १०० | सशस्त्र प्रहरी बल १११४</i>"
+        f"🆘 <i>आपतकालीन हटलाइन: बाढी ११५५ (टोल-फ्री) | नेपाल प्रहरी १०० | एम्बुलेन्स ११३० | आपतकालीन केन्द्र ११४९</i>"
     )
 
     return "\n".join(msg_parts)

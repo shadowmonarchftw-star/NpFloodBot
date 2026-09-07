@@ -96,3 +96,18 @@ def test_rapid_surge_detection(base_reading, base_weather):
     risk = evaluate_risk(surging_reading, base_weather)
     assert risk.is_surging is True
     assert risk.severity == SeverityLevel.WARNING
+
+
+def test_emergency_shelters_and_contacts_propagated(base_reading, base_weather):
+    reading = base_reading.model_copy(
+        update={
+            "emergency_shelters": [{"name_ne": "परीक्षण आश्रय", "name_en": "Test Shelter", "phone": "100"}],
+            "ward_contacts": [{"name_ne": "वडा सम्पर्क", "name_en": "Ward Desk", "phone": "1159"}],
+        }
+    )
+    risk = evaluate_risk(reading, base_weather)
+    assert len(risk.emergency_shelters) == 1
+    assert risk.emergency_shelters[0]["name_en"] == "Test Shelter"
+    assert len(risk.ward_contacts) == 1
+    assert risk.ward_contacts[0]["phone"] == "1159"
+

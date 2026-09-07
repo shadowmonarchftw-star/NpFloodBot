@@ -225,7 +225,7 @@ def export_stations_live(readings: list, assessments: list | None = None) -> Non
                     logger.debug(f"Sparkline generation failed for {r.station_id}: {e}")
                 payload.append(d)
             with open(docs_dir / "stations_live.json", "w", encoding="utf-8") as f:
-                json.dump(payload, f, indent=2)
+                json.dump(payload, f, indent=2, ensure_ascii=False)
     except Exception as e:
         logger.debug(f"Could not export stations_live.json: {e}")
 

@@ -10,11 +10,44 @@
     "latitude": 27.6833,
     "longitude": 85.2972,
     "upstream_catchment": "Shivapuri & Sundarijal Hilltops",
-    "upstream_lat": 27.8000,
-    "upstream_lon": 85.3900,
+    "upstream_lat": 27.8,
+    "upstream_lon": 85.39,
     "vulnerable_areas_ne": "बल्खु, सुकुम्बासी बस्ती, सुन्दरीघाट, टेकु, चोभार, कालिमाटी करिडोर, नदी किनारका होचा भूभागहरू",
     "vulnerable_areas_en": "Balkhu, informal squatter settlements (Sukumbasi basti), Sundarighat, Teku, Kalimati corridor, low-lying riverside communities",
-    "description": "Critical confluence point in Kathmandu valley prone to severe flash flooding during heavy upstream rains in Shivapuri range."
+    "description": "Critical confluence point in Kathmandu valley prone to severe flash flooding during heavy upstream rains in Shivapuri range.",
+    "emergency_shelters": [
+      {
+        "name_ne": "जनकल्याण माध्यमिक विद्यालय",
+        "name_en": "Janakalyan Secondary School",
+        "location": "Balkhu, Ward 14",
+        "type": "School / Safe High Ground",
+        "phone": "01-4272100"
+      },
+      {
+        "name_ne": "कालीमाटी तरकारी बजार उच्च भवन परिसर",
+        "name_en": "Kalimati High Ground Area",
+        "location": "Kalimati High Ground",
+        "type": "Elevated Community Ground",
+        "phone": "100"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "काठमाडौँ वडा नं १४ विपद् सम्पर्क",
+        "name_en": "KMC Ward 14 Disaster Desk",
+        "phone": "01-4272100"
+      },
+      {
+        "name_ne": "का.म.पा. विपद् व्यवस्थापन नियन्त्रण कक्ष",
+        "name_en": "KMC Disaster Control Room",
+        "phone": "1159"
+      },
+      {
+        "name_ne": "कालीमाटी प्रहरी वृत्त",
+        "name_en": "Kalimati Police Circle",
+        "phone": "01-4271199"
+      }
+    ]
   },
   {
     "station_id": "bagmati_gaurighat",
@@ -27,11 +60,39 @@
     "latitude": 27.7125,
     "longitude": 85.3522,
     "upstream_catchment": "Shivapuri & Gokarna Catchment",
-    "upstream_lat": 27.7600,
-    "upstream_lon": 85.3900,
+    "upstream_lat": 27.76,
+    "upstream_lon": 85.39,
     "vulnerable_areas_ne": "गौरीघाट, गुह्येश्वरी, तिलगंगा, सिनामंगल, पशुपति तटीय क्षेत्र",
     "vulnerable_areas_en": "Gaurighat, Guhyeshwari, Tilganga, Sinamangal, Pashupati riverbanks",
-    "description": "Upper Kathmandu river gauge monitoring water emerging from Gokarna and Sundarijal foothills."
+    "description": "Upper Kathmandu river gauge monitoring water emerging from Gokarna and Sundarijal foothills.",
+    "emergency_shelters": [
+      {
+        "name_ne": "गुह्येश्वरी माध्यमिक विद्यालय",
+        "name_en": "Guhyeshwari Secondary School",
+        "location": "Sinamangal / Gaurighat",
+        "type": "School Shelter",
+        "phone": "01-4470358"
+      },
+      {
+        "name_ne": "पशुपति क्षेत्र विकास कोष उच्च परिसर",
+        "name_en": "Pashupati Area Elevated Grounds",
+        "location": "Pashupati Ridge",
+        "type": "Elevated Community Safe Center",
+        "phone": "01-4470358"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "काठमाडौँ वडा नं ८ वडा कार्यालय",
+        "name_en": "KMC Ward 8 Office",
+        "phone": "01-4470123"
+      },
+      {
+        "name_ne": "गौशाला प्रहरी वृत्त",
+        "name_en": "Gaushala Police Circle",
+        "phone": "01-4470094"
+      }
+    ]
   },
   {
     "station_id": "bagmati_sundarijal",
@@ -44,11 +105,32 @@
     "latitude": 27.7667,
     "longitude": 85.4167,
     "upstream_catchment": "Shivapuri National Park Ridge",
-    "upstream_lat": 27.8200,
-    "upstream_lon": 85.4200,
+    "upstream_lat": 27.82,
+    "upstream_lon": 85.42,
     "vulnerable_areas_ne": "सुन्दरीजल, नयाँ बस्ती, गोकर्णेश्वर, जोरपाटी, गौरीघाट",
     "vulnerable_areas_en": "Sundarijal, Naya Basti, Gokarneshwar, Jorpati riverside corridor",
-    "description": "Primary headwater monitoring point directly below Shivapuri watershed."
+    "description": "Primary headwater monitoring point directly below Shivapuri watershed.",
+    "emergency_shelters": [
+      {
+        "name_ne": "ओख्रेनी माध्यमिक विद्यालय",
+        "name_en": "Okhreni Secondary School",
+        "location": "Sundarijal Higher Ridge",
+        "type": "School / High Elevation Shelter",
+        "phone": "01-4450123"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "गोकर्णेश्वर नगरपालिका आपतकालीन सम्पर्क",
+        "name_en": "Gokarneshwar Municipality Emergency Desk",
+        "phone": "01-4914120"
+      },
+      {
+        "name_ne": "सुन्दरीजल प्रहरी चौकी",
+        "name_en": "Sundarijal Police Post",
+        "phone": "01-4450100"
+      }
+    ]
   },
   {
     "station_id": "bagmati_chobhar",
@@ -61,11 +143,32 @@
     "latitude": 27.6583,
     "longitude": 85.2861,
     "upstream_catchment": "Kathmandu Valley Central Confluence",
-    "upstream_lat": 27.6800,
-    "upstream_lon": 85.3000,
+    "upstream_lat": 27.68,
+    "upstream_lon": 85.3,
     "vulnerable_areas_ne": "चोभार गल्छी, नख्खु दोभान, बागमती तटीय क्षेत्र, दक्षिणकाली सडक किनार",
     "vulnerable_areas_en": "Chobhar gorge, Nakkhu confluence, lower Bagmati riverside, Dakshinkali road corridor",
-    "description": "Valley bottleneck exit. When choked or overwhelmed, causes massive upstream backwater inundation across Balkhu and Teku."
+    "description": "Valley bottleneck exit. When choked or overwhelmed, causes massive upstream backwater inundation across Balkhu and Teku.",
+    "emergency_shelters": [
+      {
+        "name_ne": "जलविनायक सामुदायिक भवन तथा चोभार डाँडा",
+        "name_en": "Jalbinayak Community Hall / Chobhar Ridge",
+        "location": "Chobhar Elevated Hill",
+        "type": "Elevated Ground Shelter",
+        "phone": "01-4330100"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "कीर्तिपुर नगरपालिका विपद् शाखा",
+        "name_en": "Kirtipur Municipality Disaster Unit",
+        "phone": "01-4331372"
+      },
+      {
+        "name_ne": "कीर्तिपुर प्रहरी प्रभाग",
+        "name_en": "Kirtipur Police Post",
+        "phone": "01-4330100"
+      }
+    ]
   },
   {
     "station_id": "nakkhu_lele",
@@ -78,11 +181,32 @@
     "latitude": 27.6333,
     "longitude": 85.3167,
     "upstream_catchment": "Lele & Southern Lalitpur Hills",
-    "upstream_lat": 27.5600,
-    "upstream_lon": 85.3300,
+    "upstream_lat": 27.56,
+    "upstream_lon": 85.33,
     "vulnerable_areas_ne": "नख्खुडोल, टीकाभैरव, बुङमती, सैंबु सुकुम्बासी टोल, नख्खु पुल आसपास बस्ती",
     "vulnerable_areas_en": "Nakkhudol, Tikabhairab, Bungamati, Saibu squatter settlements, Nakkhu bridge corridor",
-    "description": "Steep mountainous sub-basin prone to intense flash floods. Swept away riverside settlements in September 2024."
+    "description": "Steep mountainous sub-basin prone to intense flash floods. Swept away riverside settlements in September 2024.",
+    "emergency_shelters": [
+      {
+        "name_ne": "सैंबु उच्च विद्यालय तथा वडा २५ सामुदायिक भवन",
+        "name_en": "Saibu High School / Ward 25 Community Shelter",
+        "location": "Bhaisepati / Saibu",
+        "type": "School / Community Safe Center",
+        "phone": "01-5591244"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "ललितपुर महानगर विपद् सहायता कक्ष",
+        "name_en": "Lalitpur Metro Disaster Helpline",
+        "phone": "01-5544415"
+      },
+      {
+        "name_ne": "प्रहरी प्रभाग भैंसेपाटी",
+        "name_en": "Bhaisepati Police Division",
+        "phone": "01-5591244"
+      }
+    ]
   },
   {
     "station_id": "roshi_panauti",
@@ -95,11 +219,39 @@
     "latitude": 27.5833,
     "longitude": 85.5167,
     "upstream_catchment": "Phulchowki & Panauti Hills",
-    "upstream_lat": 27.5800,
-    "upstream_lon": 85.5200,
+    "upstream_lat": 27.58,
+    "upstream_lon": 85.52,
     "vulnerable_areas_ne": "पनौती, भकुण्डेबेसी, रोशी गाउँपालिका, बिपी राजमार्ग तटीय क्षेत्र, मङ्गलटार",
     "vulnerable_areas_en": "Panauti, Bhakundebesi, Roshi rural municipality, BP Highway riverside settlements, Mangaltar",
-    "description": "Site of catastrophic late September 2024 flash floods that destroyed the BP Highway and downstream communities."
+    "description": "Site of catastrophic late September 2024 flash floods that destroyed the BP Highway and downstream communities.",
+    "emergency_shelters": [
+      {
+        "name_ne": "इन्द्रेश्वर माध्यमिक विद्यालय",
+        "name_en": "Indreshwar Secondary School",
+        "location": "Panauti Bazar High Ground",
+        "type": "Municipal Evacuation Shelter",
+        "phone": "011-440156"
+      },
+      {
+        "name_ne": "पनौती नगर बहुउद्देश्यीय कभर्डहल",
+        "name_en": "Panauti Municipal Covered Hall",
+        "location": "Panauti 7",
+        "type": "Indoor Stadium Shelter",
+        "phone": "011-440156"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "पनौती नगरपालिका विपद् आपतकालीन कक्ष",
+        "name_en": "Panauti Municipality Emergency Desk",
+        "phone": "011-440156"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी कार्यालय काभ्रे",
+        "name_en": "Kavre District Police Office",
+        "phone": "011-490510"
+      }
+    ]
   },
   {
     "station_id": "koshi_chatara",
@@ -109,14 +261,42 @@
     "warning_level": 6.0,
     "danger_level": 7.5,
     "current_level": 4.8,
-    "latitude": 26.8500,
+    "latitude": 26.85,
     "longitude": 87.1667,
     "upstream_catchment": "Barahakshetra & Eastern Himalayas",
-    "upstream_lat": 26.8800,
-    "upstream_lon": 87.1500,
+    "upstream_lat": 26.88,
+    "upstream_lon": 87.15,
     "vulnerable_areas_ne": "चतरा, बराहक्षेत्र, प्रकाशपुर, कोशी टप्पु, मधुवन, राजावास, सुनसरी र सप्तरी तटीय क्षेत्र",
     "vulnerable_areas_en": "Chatara, Barahakshetra, Prakashpur, Koshi Tappu, Madhuwan, Sunsari-Saptari embankment zones",
-    "description": "Major trans-Himalayan river gorge discharging into the Gangetic plains. Critical for eastern Nepal flood defense."
+    "description": "Major trans-Himalayan river gorge discharging into the Gangetic plains. Critical for eastern Nepal flood defense.",
+    "emergency_shelters": [
+      {
+        "name_ne": "बराहक्षेत्र नगरपालिका आपतकालीन केन्द्र",
+        "name_en": "Barahakshetra Municipality Emergency Center",
+        "location": "Chatara Elevated Ground",
+        "type": "Disaster Safe Center",
+        "phone": "025-560123"
+      },
+      {
+        "name_ne": "चतरा माध्यमिक विद्यालय",
+        "name_en": "Chatara Secondary School",
+        "location": "Chatara Bazaar",
+        "type": "School Evacuation Center",
+        "phone": "025-560111"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "बराहक्षेत्र विपद् व्यवस्थापन शाखा",
+        "name_en": "Barahakshetra Disaster Branch",
+        "phone": "025-560123"
+      },
+      {
+        "name_ne": "जिल्ला आपतकालीन कार्यसञ्चालन केन्द्र सुनसरी",
+        "name_en": "DEOC Sunsari",
+        "phone": "025-520144"
+      }
+    ]
   },
   {
     "station_id": "narayani_devghat",
@@ -129,11 +309,32 @@
     "latitude": 27.7167,
     "longitude": 84.4167,
     "upstream_catchment": "Trishuli & Kali Gandaki Confluence",
-    "upstream_lat": 27.7300,
-    "upstream_lon": 84.4300,
+    "upstream_lat": 27.73,
+    "upstream_lon": 84.43,
     "vulnerable_areas_ne": "देवघाट, नारायणगढ, भरतपुर, गैंडाकोट, मेघौली, त्रिवेणी सुस्ता क्षेत्र",
     "vulnerable_areas_en": "Devghat, Narayangarh, Bharatpur riverside, Gaidakot, Meghauli, Susta downstream plains",
-    "description": "Massive central river basin fed by Annapurna, Manaslu and Langtang catchments. High volume flood hazard."
+    "description": "Massive central river basin fed by Annapurna, Manaslu and Langtang catchments. High volume flood hazard.",
+    "emergency_shelters": [
+      {
+        "name_ne": "देवघाट धर्मशाला तथा उच्च आश्रम परिसर",
+        "name_en": "Devghat High Ground Ashram & Dharamshala",
+        "location": "Devghat High Ridge",
+        "type": "Elevated Community Safe Center",
+        "phone": "056-520100"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "भरतपुर महानगरपालिका विपद् व्यवस्थापन केन्द्र",
+        "name_en": "Bharatpur Metro Disaster Control Room",
+        "phone": "056-525555"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी कार्यालय चितवन",
+        "name_en": "Chitwan District Police",
+        "phone": "056-520155"
+      }
+    ]
   },
   {
     "station_id": "melamchi_helambu",
@@ -146,11 +347,32 @@
     "latitude": 27.8333,
     "longitude": 85.5833,
     "upstream_catchment": "Langtang & Jugal Himalayan Ridges",
-    "upstream_lat": 27.9500,
-    "upstream_lon": 85.6000,
+    "upstream_lat": 27.95,
+    "upstream_lon": 85.6,
     "vulnerable_areas_ne": "हेलम्बु, मेलम्ची बजार, बाहुनेपाटी, सिपाघाट, इन्द्रावती तटीय क्षेत्र",
     "vulnerable_areas_en": "Helambu, Melamchi Bazaar, Bahunepati, Sipaghat, Indrawati confluence corridor",
-    "description": "Notorious high-altitude glacial debris flow and flash flood basin (site of the historic 2021 disaster)."
+    "description": "Notorious high-altitude glacial debris flow and flash flood basin (site of the historic 2021 disaster).",
+    "emergency_shelters": [
+      {
+        "name_ne": "मेलम्ची घ्याङ मा.वि. तथा उच्च सामुदायिक भवन",
+        "name_en": "Melamchi Ghyang School / Elevated Safe Shelter",
+        "location": "Melamchi Ridge High Ground",
+        "type": "School & High Shelter",
+        "phone": "011-401020"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "मेलम्ची नगरपालिका विपद् कक्ष",
+        "name_en": "Melamchi Municipality Emergency Desk",
+        "phone": "011-401020"
+      },
+      {
+        "name_ne": "इलाका प्रहरी कार्यालय मेलम्ची",
+        "name_en": "Melamchi Area Police Office",
+        "phone": "011-401011"
+      }
+    ]
   },
   {
     "station_id": "west_rapti_kusum",
@@ -163,11 +385,32 @@
     "latitude": 27.9833,
     "longitude": 82.1333,
     "upstream_catchment": "Pyuthan & Dang Mountain Watersheds",
-    "upstream_lat": 28.1000,
-    "upstream_lon": 82.2500,
+    "upstream_lat": 28.1,
+    "upstream_lon": 82.25,
     "vulnerable_areas_ne": "कुसुम, अगैया, फत्तेपुर, होलिका, कमैया बस्ती, नेपालगञ्ज दक्षिण तटीय क्षेत्र",
     "vulnerable_areas_en": "Kusum, Agaiya, Fattepur, Holiya, Kamaiya basti, southern Banke low-lying plains",
-    "description": "Prone to severe broad-scale river inundation affecting thousands of households in Banke and Dang."
+    "description": "Prone to severe broad-scale river inundation affecting thousands of households in Banke and Dang.",
+    "emergency_shelters": [
+      {
+        "name_ne": "कुसुम आधारभूत विद्यालय उच्च भवन",
+        "name_en": "Kusum Basic School High Elevation Building",
+        "location": "Kusum High Embankment",
+        "type": "School & Disaster Shelter",
+        "phone": "081-540112"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "राप्तीसोनारी गाउँपालिका विपद् शाखा",
+        "name_en": "Rapti Sonari Disaster Desk",
+        "phone": "081-540112"
+      },
+      {
+        "name_ne": "जिल्ला आपतकालीन कार्यसञ्चालन केन्द्र बाँके",
+        "name_en": "DEOC Banke",
+        "phone": "081-520088"
+      }
+    ]
   },
   {
     "station_id": "babai_chepang",
@@ -177,14 +420,35 @@
     "warning_level": 6.1,
     "danger_level": 7.4,
     "current_level": 3.8,
-    "latitude": 28.3500,
+    "latitude": 28.35,
     "longitude": 81.7167,
     "upstream_catchment": "Dang Valley & Chure Ridges",
-    "upstream_lat": 28.4000,
-    "upstream_lon": 81.8500,
+    "upstream_lat": 28.4,
+    "upstream_lon": 81.85,
     "vulnerable_areas_ne": "चेपाङ, गुलरिया, बारबर्दिया, मधुवन, बबई तटीय बस्तीहरू",
     "vulnerable_areas_en": "Chepang, Gulariya municipal riverside, Barbardiya, Madhuwan, southern Bardiya plains",
-    "description": "Major flood hazard river in western Terai causing rapid inundation in Gulariya and Bardiya district."
+    "description": "Major flood hazard river in western Terai causing rapid inundation in Gulariya and Bardiya district.",
+    "emergency_shelters": [
+      {
+        "name_ne": "गुलरिया नगरपालिका विपद् बहुउद्देश्यीय आश्रयस्थल",
+        "name_en": "Gulariya Municipal Multi-purpose Flood Shelter",
+        "location": "Gulariya High Ground",
+        "type": "Engineered Flood Shelter",
+        "phone": "084-420120"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "गुलरिया नगर विपद् नियन्त्रण कक्ष",
+        "name_en": "Gulariya City Disaster Room",
+        "phone": "084-420120"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी कार्यालय बर्दिया",
+        "name_en": "Bardiya District Police",
+        "phone": "084-420133"
+      }
+    ]
   },
   {
     "station_id": "karnali_chisapani",
@@ -197,11 +461,31 @@
     "latitude": 28.6417,
     "longitude": 81.2861,
     "upstream_catchment": "Western High Himalayas (Humla / Jumla)",
-    "upstream_lat": 28.8500,
-    "upstream_lon": 81.3500,
+    "upstream_lat": 28.85,
+    "upstream_lon": 81.35,
     "vulnerable_areas_ne": "चिसापानी, दौलतपुर, टीकापुर, राजापुर टापु, जानकी गाउँपालिका, कैलाली-बर्दिया तटबन्ध क्षेत्र",
     "vulnerable_areas_en": "Chisapani, Daulatpur, Tikapur, Rajapur island, Janaki rural municipality, Kailali-Bardiya plains",
-    "description": "Nepal's largest river by discharge emerging onto the Gangetic plains at the Karnali bridge."
+    "description": "Nepal's largest river by discharge emerging onto the Gangetic plains at the Karnali bridge.",
+    "emergency_shelters": [
+      {
+        "name_ne": "चिसापानी उच्च विद्यालय तथा टीकापुर सुरक्षित आश्रय केन्द्र",
+        "name_en": "Chisapani High School / Tikapur Flood Shelter",
+        "location": "Chisapani Hilltop & Tikapur Safe Center",
+        "type": "Elevated Community Safe Center",
+        "phone": "091-560100"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "टीकापुर नगरपालिका विपद् शाखा",
+        "name_en": "Tikapur Municipality Disaster Unit",
+        "phone": "091-560100"
+      },
+      {
+        "name_ne": "Chisapani Area Police",
+        "phone": "091-560010"
+      }
+    ]
   },
   {
     "station_id": "kamala_ranibas",
@@ -212,13 +496,34 @@
     "danger_level": 5.8,
     "current_level": 2.5,
     "latitude": 27.0167,
-    "longitude": 85.9500,
+    "longitude": 85.95,
     "upstream_catchment": "Sindhuli Hills & Chure Foothills",
-    "upstream_lat": 27.1500,
-    "upstream_lon": 85.9800,
+    "upstream_lat": 27.15,
+    "upstream_lon": 85.98,
     "vulnerable_areas_ne": "रानीबास, बर्दिबास, इनर्वा, धनुषा-सिरहा तटीय क्षेत्र, कमला तटबन्ध आसपास बस्ती",
     "vulnerable_areas_en": "Ranibas, Bardibas lower plains, Inarwa, Dhanusha-Siraha riverbanks, Kamala embankment zone",
-    "description": "Steep Chure-fed river prone to flash flooding and devastating embankment erosions in Madhesh province."
+    "description": "Steep Chure-fed river prone to flash flooding and devastating embankment erosions in Madhesh province.",
+    "emergency_shelters": [
+      {
+        "name_ne": "रानीबास स्वास्थ्य चौकी तथा उच्च मा.वि.",
+        "name_en": "Ranibas Health Post & Higher Secondary School",
+        "location": "Ranibas Elevated Ground",
+        "type": "Health & Shelter Facility",
+        "phone": "047-520111"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "कमलामाई नगरपालिका विपद् कक्ष",
+        "name_en": "Kamalamai Municipality Disaster Desk",
+        "phone": "047-520111"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी कार्यालय सिन्धुली",
+        "name_en": "Sindhuli District Police",
+        "phone": "047-520133"
+      }
+    ]
   },
   {
     "station_id": "kankai_mainachuli",
@@ -229,12 +534,33 @@
     "danger_level": 5.6,
     "current_level": 2.2,
     "latitude": 26.6667,
-    "longitude": 87.9000,
+    "longitude": 87.9,
     "upstream_catchment": "Ilam Hills & Southern Mahabharat Range",
-    "upstream_lat": 26.8500,
-    "upstream_lon": 87.9500,
+    "upstream_lat": 26.85,
+    "upstream_lon": 87.95,
     "vulnerable_areas_ne": "मैनाचुली, शिवसताक्षी, कन्काई नगरपालिका, सुरुङ्गा, झापा तटीय क्षेत्र",
     "vulnerable_areas_en": "Mainachuli, Shivasatakshi, Kankai municipality, Surunga, southern Jhapa plains",
-    "description": "Primary river of Jhapa district prone to flash inundation during heavy torrential rainfall in Ilam hills."
+    "description": "Primary river of Jhapa district prone to flash inundation during heavy torrential rainfall in Ilam hills.",
+    "emergency_shelters": [
+      {
+        "name_ne": "कन्काई उच्च माध्यमिक विद्यालय तथा सुरुङ्गा सामुदायिक भवन",
+        "name_en": "Kankai Higher Secondary School & Surunga Community Shelter",
+        "location": "Surunga High Ground",
+        "type": "School & Community Safe Center",
+        "phone": "023-550125"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "कन्काई नगरपालिका विपद् व्यवस्थापन शाखा",
+        "name_en": "Kankai Municipality Emergency Desk",
+        "phone": "023-550125"
+      },
+      {
+        "name_ne": "जिल्ला आपतकालीन कार्यसञ्चालन केन्द्र झापा",
+        "name_en": "DEOC Jhapa",
+        "phone": "023-520144"
+      }
+    ]
   }
 ]

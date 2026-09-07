@@ -61,3 +61,14 @@ def test_fetch_single_station():
     assert len(readings) == 1
     assert readings[0].station_id == "roshi_panauti"
     assert readings[0].river_name == "Roshi Khola"
+
+
+def test_stations_emergency_shelters_and_ward_contacts():
+    readings = fetch_river_telemetry(station_id="bagmati_balkhu", force_mock=True)
+    assert len(readings) == 1
+    balkhu = readings[0]
+    assert len(balkhu.emergency_shelters) > 0
+    assert any("जनकल्याण" in s.get("name_ne", "") for s in balkhu.emergency_shelters)
+    assert len(balkhu.ward_contacts) > 0
+    assert any(c.get("phone") == "1159" or "14" in c.get("name_ne", "") for c in balkhu.ward_contacts)
+

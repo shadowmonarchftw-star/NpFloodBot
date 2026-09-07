@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nepal River Basin Flood Early Warning System | प्रत्यक्ष बाढी अनुगमन</title>
-  <meta name="description" content="Free, real-time flood early warning dashboard for 14 river basins across Nepal. Live water levels, upstream rainfall, and bilingual AI advisories powered by DHM telemetry & Open-Meteo.">
+  <title>Nepal Flood Early Warning System | नेपाल बाढी पूर्वसूचना प्रणाली</title>
+  <meta name="description" content="Free real-time flood early warning system for 14 river basins across Nepal. Live river telemetry, upstream rainfall, safe emergency shelters, and bilingual alerts.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0284c7">
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://shadowmonarchftw-star.github.io/NpFloodBot/">
   <meta property="og:title" content="Nepal River Basin Flood Early Warning System">
-  <meta property="og:description" content="Live monitoring of 14 river stations across Nepal — Bagmati, Koshi, Narayani, Karnali & more. Free, open-source, 24/7 automated alerts via Telegram.">
-  <meta property="og:image" content="https://img.shields.io/badge/🇳🇵_Nepal_Flood_Monitor-LIVE-dc143c?style=for-the-badge&labelColor=0f172a">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Nepal River Basin Flood Early Warning System">
-  <meta name="twitter:description" content="Free, real-time flood monitoring for 14 river basins across Nepal. Open-source, 24/7 automated.">
+  <meta property="og:description" content="Live monitoring of 14 river stations across Nepal — Bagmati, Koshi, Narayani, Karnali & more. Free, 24/7 automated alerts, safe emergency shelters & offline support.">
+  
   <!-- Tailwind CSS & FontAwesome & Leaflet -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -32,6 +31,7 @@
       }
     }
   </script>
+
   <style>
     @keyframes pulse-ring {
       0% { transform: scale(0.95); opacity: 0.85; }
@@ -62,6 +62,7 @@
       border-radius: 14px !important;
       border: 1px solid #334155;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7);
+      padding: 4px !important;
     }
     .leaflet-popup-tip {
       background-color: #0f172a !important;
@@ -73,10 +74,6 @@
       border-radius: 10px !important;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
     }
-    .leaflet-control-layers-expanded {
-      padding: 8px 12px !important;
-    }
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #020617; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
@@ -85,94 +82,144 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col selection:bg-blue-500 selection:text-white">
 
+  <!-- Offline Status Toast Banner -->
+  <div id="offline-banner" class="hidden bg-amber-500 text-slate-950 font-bold px-4 py-1.5 text-center text-xs shadow-md sticky top-0 z-50 flex items-center justify-center gap-2">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="offline-text">अफलाइन मोड: इन्टरनेट विच्छेद भएको छ। पछिल्लो सुरक्षित विवरण प्रदर्शित भइरहेको छ। (Offline Mode - Viewing Cached Data)</span>
+  </div>
+
   <!-- Header / Navigation -->
-  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <header class="bg-slate-900/95 border-b border-slate-800 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Title -->
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl shadow-inner">
           <i class="fa-solid fa-water"></i>
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Nepal River Basin Flood Monitor
-            <span class="text-[10px] sm:text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
+          <h1 class="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
+            <span id="ui-title">Nepal Flood Early Warning</span>
+            <span class="text-[10px] sm:text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> <span id="ui-live-badge">LIVE</span>
             </span>
           </h1>
-          <p class="text-[11px] sm:text-xs text-slate-400">नेपाल बाढी पूर्वसूचना तथा नदी जलसतह प्रत्यक्ष नक्सा (100% Free & Open-Source)</p>
+          <p id="ui-subtitle" class="text-[11px] sm:text-xs text-slate-400">नेपाल बाढी पूर्वसूचना तथा नदी जलसतह प्रत्यक्ष नक्सा (100% Free & Open-Source)</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <span id="last-updated" class="text-xs text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700/60">
-          <i class="fa-regular fa-clock text-blue-400 mr-1"></i> <span id="update-text">Updating...</span>
-        </span>
-        <a href="https://github.com/shadowmonarchftw-star/NpFloodBot" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
-          <i class="fa-brands fa-github text-sm"></i> GitHub
+      <!-- Quick Actions (Language Switcher, Safety Checklist Modal Trigger, GitHub) -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <!-- Safety Guide Button -->
+        <button onclick="openSafetyModal()" class="px-2.5 py-1.5 rounded-lg bg-red-950/70 hover:bg-red-900/80 text-red-200 border border-red-700/50 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <i class="fa-solid fa-kit-medical text-red-400"></i>
+          <span id="ui-safety-btn">सुरक्षा निर्देशिका</span>
+        </button>
+
+        <!-- Bilingual Language Toggle -->
+        <button id="lang-toggle" onclick="toggleLanguage()" class="px-2.5 py-1.5 rounded-lg bg-blue-950/60 hover:bg-blue-900/80 text-blue-200 border border-blue-700/50 text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-language text-blue-400 text-sm"></i>
+          <span id="lang-label">🇳🇵 नेपाली</span>
+        </button>
+
+        <!-- Telegram Channel Link -->
+        <a href="https://t.me/npfloodbot" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-sky-950/70 hover:bg-sky-900/80 text-sky-200 text-xs font-semibold border border-sky-700/50 transition flex items-center gap-1.5">
+          <i class="fa-brands fa-telegram text-sky-400 text-sm"></i>
+          <span class="hidden sm:inline">Telegram Alerts</span>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/shadowmonarchftw-star/NpFloodBot" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
+          <i class="fa-brands fa-github text-sm"></i>
         </a>
       </div>
+    </div>
+
+    <!-- National Emergency Hotlines Bar (One-Tap Direct Dialing) -->
+    <div class="bg-slate-950/90 border-t border-slate-800/80 px-3 sm:px-6 lg:px-8 py-1.5 overflow-x-auto text-[11px] flex items-center gap-2 sm:gap-4 justify-start sm:justify-center text-slate-300">
+      <span class="font-bold text-red-400 whitespace-nowrap flex items-center gap-1">
+        <i class="fa-solid fa-phone-volume"></i> <span id="ui-hotline-label">आपतकालीन हटलाइन:</span>
+      </span>
+      <a href="tel:1155" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
+        🌊 <b>1155</b> <span class="text-slate-400">(बाढी टोल-फ्री)</span>
+      </a>
+      <a href="tel:100" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
+        🚓 <b>100</b> <span class="text-slate-400">(प्रहरी)</span>
+      </a>
+      <a href="tel:1114" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
+        🛡️ <b>1114</b> <span class="text-slate-400">(सशस्त्र विपद्)</span>
+      </a>
+      <a href="tel:1130" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
+        🚑 <b>1130</b> <span class="text-slate-400">(रेडक्रस एम्बुलेन्स)</span>
+      </a>
+      <a href="tel:1149" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
+        🏛️ <b>1149</b> <span class="text-slate-400">(NEOC आपतकालीन)</span>
+      </a>
     </div>
   </header>
 
   <!-- Main Content Layout -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-5">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 flex flex-col gap-4">
 
-    <!-- Overall Threat Summary Card -->
-    <div id="threat-banner" class="bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <div id="banner-icon" class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0">
+    <!-- Overall Threat Summary Banner -->
+    <div id="threat-banner" class="bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div id="banner-icon" class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl flex-shrink-0">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div>
-          <h2 id="banner-title" class="text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-2">
+          <h2 id="banner-title" class="text-xs sm:text-sm font-bold text-emerald-400 flex items-center gap-2">
             सबै प्रमुख नदीहरू सुरक्षित अवस्थामा / All Monitored Basins Normal
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
+          <p id="banner-desc" class="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             DHM Telemetry & Open-Meteo Upstream Catchments actively monitored 24/7 across 14 stations.
           </p>
         </div>
       </div>
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-300">
-          <i class="fa-solid fa-phone text-red-400 mr-1.5"></i> Emergency: <b>1155</b> (Flood) | <b>1149</b> (NEOC) | <b>100</b> (Police)
+      <div class="flex items-center gap-2 self-stretch md:self-auto justify-between md:justify-end">
+        <span id="last-updated" class="text-[11px] text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700/60">
+          <i class="fa-regular fa-clock text-blue-400 mr-1"></i> <span id="update-text">Updating...</span>
         </span>
       </div>
     </div>
 
     <!-- Map & Sidebar Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
       
       <!-- Interactive Leaflet Map (8 cols) -->
-      <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
-        <div class="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+      <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[480px] sm:h-[540px]">
+        <div class="p-2.5 sm:p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
           <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-blue-400"></i> Nepal River Gauges Map
+            <i class="fa-solid fa-map-location-dot text-blue-400"></i> <span id="ui-map-title">Nepal River Gauges Map</span>
           </h3>
-          <div class="flex items-center gap-3 text-xs">
-            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block ring-2 ring-emerald-500/20"></span> Normal</span>
-            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block ring-2 ring-amber-500/20"></span> Warning</span>
-            <span class="flex items-center gap-1.5 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block ring-2 ring-red-500/20"></span> Danger</span>
+          <div class="flex items-center gap-2 sm:gap-3 text-[11px]">
+            <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block ring-2 ring-emerald-500/20"></span> <span id="ui-legend-normal">Normal</span></span>
+            <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block ring-2 ring-amber-500/20"></span> <span id="ui-legend-warning">Warning</span></span>
+            <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block ring-2 ring-red-500/20"></span> <span id="ui-legend-danger">Danger</span></span>
           </div>
         </div>
         <div id="map" class="flex-1 w-full h-full"></div>
       </div>
 
       <!-- Live Station Feed (4 cols) -->
-      <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[520px]">
-        <div class="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
-          <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-blue-400"></i> Stations (<span id="station-count">14</span>)
+      <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col h-[480px] sm:h-[540px]">
+        <div class="p-2.5 sm:p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/80 gap-2">
+          <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap">
+            <i class="fa-solid fa-list-check text-blue-400"></i> <span id="ui-stations-label">Stations</span> (<span id="station-count">14</span>)
           </h3>
-          <input type="text" id="station-search" placeholder="Search river/station..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 w-36 focus:outline-none focus:border-blue-500 transition" />
+          <input type="text" id="station-search" placeholder="Search river/station..." class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 w-32 sm:w-40 focus:outline-none focus:border-blue-500 transition" />
         </div>
-        <div class="px-2.5 py-1.5 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto text-[11px] bg-slate-950/40">
-          <button class="basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer" data-basin="all">All (14)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="bagmati">Kathmandu (5)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="koshi">Koshi (3)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="terai">Terai & West (6)</button>
+        
+        <!-- Basin Filter Pills -->
+        <div class="px-2 py-1.5 border-b border-slate-800 flex items-center gap-1 overflow-x-auto text-[11px] bg-slate-950/40">
+          <button class="basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer" data-basin="all" id="filter-all">All (14)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="bagmati" id="filter-bagmati">Kathmandu (5)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="koshi" id="filter-koshi">Koshi (3)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="terai" id="filter-terai">Terai & West (6)</button>
         </div>
+
         <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/40 p-2 space-y-2">
-          <div class="p-6 text-center text-slate-500 text-xs">Loading real-time river telemetry...</div>
+          <div class="p-6 text-center text-slate-500 text-xs" id="ui-loading-text">Loading real-time river telemetry...</div>
         </div>
       </div>
 
@@ -180,16 +227,276 @@
 
   </main>
 
+  <!-- Emergency Evacuation & Safety Checklist Modal -->
+  <div id="safety-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-400">
+            <i class="fa-solid fa-person-shelter text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white" id="modal-title">बाढी पूर्वतयारी तथा उद्धार सुरक्षा निर्देशिका</h3>
+            <p class="text-[11px] text-slate-400" id="modal-subtitle">Flood Preparedness, Evacuation & Safety Checklist</p>
+          </div>
+        </div>
+        <button onclick="closeSafetyModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed" id="modal-content">
+        
+        <!-- Checklist 1: Emergency Go-Bag -->
+        <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-amber-400 text-xs sm:text-sm flex items-center gap-2 mb-2">
+            🎒 १. आकस्मिक झोला (Emergency Go-Bag) पूर्वतयारी
+          </h4>
+          <ul class="list-disc pl-5 space-y-1 text-slate-300 text-xs">
+            <li><b>महत्वपूर्ण कागजातहरू:</b> नागरिकता, जग्गाधनी प्रमाणपुर्जा, जन्मदर्ता, शैक्षिक प्रमाणपत्रहरूलाई प्लास्टिकको वाटरप्रूफ ब्यागमा राख्नुहोस्।</li>
+            <li><b>खाद्य तथा पानी:</b> प्रतिव्यक्ति कम्तिमा २ लिटर पिउने पानी, सुक्खा खानेकुरा (चिउरा, बिस्कुट, चाउचाउ)।</li>
+            <li><b>सञ्चार र प्रकाश:</b> टर्चलाइट, थप ब्याट्री, पूर्ण चार्ज गरिएको पावर बैंक (Powerbank)।</li>
+            <li><b>औषधि:</b> नियमित खाने औषधिहरू, सिटामोल, जीवनजल (ORS), सिपिङ ब्यान्डेज।</li>
+          </ul>
+        </div>
+
+        <!-- Checklist 2: Action During Flood -->
+        <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-red-400 text-xs sm:text-sm flex items-center gap-2 mb-2">
+            🚨 २. जलसतह बढ्दा र चेतावनी पाउँदा तुरुन्त गर्नुपर्ने काम
+          </h4>
+          <ul class="list-disc pl-5 space-y-1 text-slate-300 text-xs">
+            <li><b>विद्युत र ग्यास बन्द गर्नुहोस्:</b> घर छाड्नु अघि मुख्य बिजुलीको मेन स्विच (Main Breaker) र एलपीजी ग्यास सिलिन्डरको रेगुलेटर अनिवार्य बन्द गर्नुहोस्।</li>
+            <li><b>नदी किनारबाट सुरक्षित दूरी:</b> नदी वा बाढी पसेको ठाउँ हेर्न नदी किनार नजानुहोस्। ६ इन्च (१५ सेमी) बगिरहेको पानीले मानिसलाई बगाउन सक्छ।</li>
+            <li><b>पशुचौपायालाई फुकाउनुहोस्:</b> बाँधिएका गाईवस्तु, बाख्रा आदि चौपायालाई समयमै सुरक्षित उच्च ठाउँमा लैजानुहोस् वा डोरी फुकाइदिनुहोस्।</li>
+            <li><b>कमजोर वर्गलाई प्राथमिकता:</b> बालबालिका, गर्भवती महिला, वृद्धवृद्धा तथा अपाङ्गता भएका व्यक्तिहरूलाई पहिले सुरक्षित आश्रयस्थल लैजानुहोस्।</li>
+          </ul>
+        </div>
+
+        <!-- Checklist 3: After Flood -->
+        <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-emerald-400 text-xs sm:text-sm flex items-center gap-2 mb-2">
+            ✅ ३. बाढी घटेपछि अपनाउनुपर्ने सतर्कता
+          </h4>
+          <ul class="list-disc pl-5 space-y-1 text-slate-300 text-xs">
+            <li><b>सर्प तथा किराको जोखिम:</b> हिलो तथा भग्नावशेषमा सर्प वा विषालु किरा लुकेका हुन सक्छन्, लाठीको प्रयोग गर्नुहोस्।</li>
+            <li><b>पानी उमालेर मात्र पिउनुहोस्:</b> झाडापखाला, हैजा जस्ता महामारीबाट बच्न पानी राम्ररी उमालेर वा पियूष प्रयोग गरेर मात्र पिउनुहोस्।</li>
+            <li>बिजुलीका तार र पर्खाल सुरक्षित भएको प्राविधिक प्रमाणीकरण बिना घरभित्र प्रवेश नगर्नुहोस्।</li>
+          </ul>
+        </div>
+
+        <!-- Emergency Hotlines Directory -->
+        <div class="p-3.5 bg-blue-950/40 rounded-xl border border-blue-900/50">
+          <h4 class="font-bold text-blue-300 text-xs sm:text-sm flex items-center gap-2 mb-2">
+            📞 आपतकालीन उद्धार तथा सूचना सम्पर्क नम्बरहरू
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 flex justify-between items-center">
+              <span>जल तथा मौसम विभाग (बाढी पूर्वसूचना)</span>
+              <a href="tel:1155" class="text-blue-400 font-bold bg-blue-950 px-2 py-0.5 rounded">1155 (Toll Free)</a>
+            </div>
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 flex justify-between items-center">
+              <span>नेपाल प्रहरी (Nepal Police)</span>
+              <a href="tel:100" class="text-red-400 font-bold bg-red-950 px-2 py-0.5 rounded">100</a>
+            </div>
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 flex justify-between items-center">
+              <span>सशस्त्र प्रहरी विपद् उद्धार (APF Rescue)</span>
+              <a href="tel:1114" class="text-amber-400 font-bold bg-amber-950 px-2 py-0.5 rounded">1114</a>
+            </div>
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 flex justify-between items-center">
+              <span>नेपाल रेडक्रस (Ambulance / Relief)</span>
+              <a href="tel:1130" class="text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded">1130</a>
+            </div>
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 flex justify-between items-center sm:col-span-2">
+              <span>राष्ट्रिय आपतकालीन कार्यसञ्चालन केन्द्र (NEOC, MoHA)</span>
+              <a href="tel:1149" class="text-purple-400 font-bold bg-purple-950 px-2 py-0.5 rounded">1149</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 border-t border-slate-800 bg-slate-950/60 flex justify-end">
+        <button onclick="closeSafetyModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition cursor-pointer">
+          बन्द गर्नुहोस् (Close)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 pointer-events-none">
+    <i class="fa-solid fa-check"></i> <span id="toast-text">Alert Copied!</span>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-slate-900 border-t border-slate-800 py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
-      <p>Nepal River Basin Flood Early Warning System | Dedicated to the resilient communities of Nepal.</p>
-      <p>Data: DHM Nepal & Open-Meteo | Powered by Google Gemini Flash & Telegram</p>
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 text-center sm:text-left">
+      <p id="ui-footer-text">Nepal River Basin Flood Early Warning System | Dedicated to the resilient communities of Nepal.</p>
+      <p>Data: DHM Nepal & Open-Meteo | Powered by Google Gemini & Telegram</p>
     </div>
   </footer>
 
-  <!-- App Script -->
+  <!-- Main JavaScript Application -->
   <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('ServiceWorker registered:', reg.scope);
+        }).catch((err) => {
+          console.log('ServiceWorker registration failed:', err);
+        });
+      });
+    }
+
+    // Offline / Online Network Detection
+    function checkConnectivity() {
+      const banner = document.getElementById('offline-banner');
+      if (!navigator.onLine) {
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+    window.addEventListener('online', checkConnectivity);
+    window.addEventListener('offline', checkConnectivity);
+    checkConnectivity();
+
+    // Bilingual Dictionary
+    let currentLang = localStorage.getItem('npflood_lang') || 'ne'; // Default to Nepali for high community utility
+
+    const i18n = {
+      en: {
+        title: "Nepal Flood Early Warning",
+        subtitle: "Real-time Nepal River Basin Flood Early Warning Map (100% Free & Open-Source)",
+        safetyBtn: "Safety Guide",
+        hotlineLabel: "Emergency Hotlines:",
+        mapTitle: "Nepal River Gauges Map",
+        stationsLabel: "Stations",
+        searchPlaceholder: "Search river/station...",
+        filterAll: "All (14)",
+        filterBagmati: "Kathmandu (5)",
+        filterKoshi: "Koshi (3)",
+        filterTerai: "Terai & West (6)",
+        legendNormal: "Normal",
+        legendWarning: "Warning",
+        legendDanger: "Danger",
+        loadingText: "Loading real-time river telemetry...",
+        bannerNormalTitle: "🟢 All Monitored Basins Normal",
+        bannerNormalDesc: "DHM Telemetry & Upstream Catchments actively monitored 24/7 across 14 stations.",
+        bannerWarningTitle: "⚠️ FLOOD WARNING ACTIVE: Swelling River Levels Detected",
+        bannerDangerTitle: "🚨 CRITICAL FLOOD EMERGENCY: Danger Mark Exceeded",
+        footerText: "Nepal River Basin Flood Early Warning System | Dedicated to the resilient communities of Nepal.",
+        sheltersTitle: "🏥 Safe Emergency Shelters:",
+        wardContactTitle: "🏛️ Local Disaster Desk:",
+        shareWhatsApp: "Share to WhatsApp",
+        copyAlert: "Copy Alert",
+        listenVoice: "Listen Audio"
+      },
+      ne: {
+        title: "नेपाल बाढी पूर्वसूचना प्रणाली",
+        subtitle: "नेपाल नदी जलसतह तथा बाढी पूर्वसूचना प्रत्यक्ष नक्सा (१००% खुला तथा निःशुल्क)",
+        safetyBtn: "सुरक्षा निर्देशिका",
+        hotlineLabel: "आपतकालीन हटलाइन:",
+        mapTitle: "नेपाल नदी जलसतह मापन नक्सा",
+        stationsLabel: "स्टेशनहरू",
+        searchPlaceholder: "नदी वा स्टेशन खोज्नुहोस्...",
+        filterAll: "सबै (१४)",
+        filterBagmati: "काठमाडौँ उपत्यका (५)",
+        filterKoshi: "कोशी बेसिन (३)",
+        filterTerai: "तराई तथा पश्चिम (६)",
+        legendNormal: "सामान्य",
+        legendWarning: "सतर्कता",
+        legendDanger: "खतरा",
+        loadingText: "नदीको प्रत्यक्ष विवरण लोड हुँदैछ...",
+        bannerNormalTitle: "🟢 सबै प्रमुख नदीहरू सुरक्षित अवस्थामा / ALL NORMAL",
+        bannerNormalDesc: "जल तथा मौसम विज्ञान विभाग र भू-उपग्रहबाट १४ नदी बेसिनहरूमा २४ सै घण्टा निरन्तर अनुगमन।",
+        bannerWarningTitle: "⚠️ सतर्कता सूचना: नदीको जलसतह बढ्दो क्रममा छ / FLOOD WARNING",
+        bannerDangerTitle: "🚨 उच्च खतराको आपतकालीन चेतावनी: नदी खतरा तह पार / FLOOD EMERGENCY",
+        footerText: "नेपाल नदी जलसतह तथा बाढी पूर्वसूचना प्रणाली | नेपाली समुदायको सुरक्षामा समर्पित।",
+        sheltersTitle: "🏥 नजिकका सुरक्षित आश्रयस्थलहरू:",
+        wardContactTitle: "🏛️ स्थानीय आपतकालीन सम्पर्क:",
+        shareWhatsApp: "ह्वाट्सएपमा पठाउनुहोस्",
+        copyAlert: "विवरण प्रतिलिपि",
+        listenVoice: "आवाज सुन्नुहोस्"
+      }
+    };
+
+    function updateLanguageUI() {
+      const t = i18n[currentLang];
+      document.getElementById('ui-title').innerText = t.title;
+      document.getElementById('ui-subtitle').innerText = t.subtitle;
+      document.getElementById('ui-safety-btn').innerText = t.safetyBtn;
+      document.getElementById('ui-hotline-label').innerText = t.hotlineLabel;
+      document.getElementById('ui-map-title').innerText = t.mapTitle;
+      document.getElementById('ui-stations-label').innerText = t.stationsLabel;
+      document.getElementById('station-search').placeholder = t.searchPlaceholder;
+      document.getElementById('filter-all').innerText = t.filterAll;
+      document.getElementById('filter-bagmati').innerText = t.filterBagmati;
+      document.getElementById('filter-koshi').innerText = t.filterKoshi;
+      document.getElementById('filter-terai').innerText = t.filterTerai;
+      document.getElementById('ui-legend-normal').innerText = t.legendNormal;
+      document.getElementById('ui-legend-warning').innerText = t.legendWarning;
+      document.getElementById('ui-legend-danger').innerText = t.legendDanger;
+      document.getElementById('ui-footer-text').innerText = t.footerText;
+      document.getElementById('lang-label').innerText = currentLang === 'ne' ? '🇬🇧 English' : '🇳🇵 नेपाली';
+      localStorage.setItem('npflood_lang', currentLang);
+
+      if (stationsData.length > 0) {
+        renderStations(stationsData);
+      }
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ne' ? 'en' : 'ne';
+      updateLanguageUI();
+    }
+
+    // Modal Control
+    function openSafetyModal() {
+      document.getElementById('safety-modal').classList.remove('hidden');
+    }
+    function closeSafetyModal() {
+      document.getElementById('safety-modal').classList.add('hidden');
+    }
+
+    // Toast control
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = text;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // Web Speech API Voice synthesis
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Speech not supported on this browser');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+      showToast('🔊 Audio alert playing...');
+    }
+
+    // Copy to clipboard
+    function copyStationSummary(stationId) {
+      const s = stationsData.find(x => x.station_id === stationId);
+      if (!s) return;
+      const text = `🚨 Nepal Flood Alert: ${s.station_name}\n• River: ${s.river_name}\n• Level: ${s.current_level}m (Danger: ${s.danger_level}m)\n• Status: ${s.severity || 'NORMAL'}\n• Vulnerable Areas: ${s.vulnerable_areas_ne || s.vulnerable_areas_en}\n• Emergency Dial: 1155 (Flood) / 100 (Police)\nLive Map: https://shadowmonarchftw-star.github.io/NpFloodBot/`;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Alert text copied to clipboard!');
+      });
+    }
+
     // Focus bounds accurately on Nepal
     const nepalBounds = L.latLngBounds([26.2, 80.0], [30.6, 88.3]);
     const map = L.map('map', { 
@@ -198,8 +505,7 @@
       minZoom: 6
     }).fitBounds(nepalBounds, { padding: [25, 25] });
 
-    // 100% Free Tile Layers (NO API KEY REQUIRED, NO WATERMARKS)
-    // 1. Esri ArcGIS Dark Gray Canvas (Default - clean, sleek, watermark-free)
+    // Free Tile Layers (NO API KEY REQUIRED, NO WATERMARKS)
     const darkBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
       maxZoom: 16
@@ -210,19 +516,16 @@
     });
     const darkGroup = L.layerGroup([darkBase, darkLabels]).addTo(map);
 
-    // 2. Esri World Imagery (Satellite)
     const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; Maxar, Earthstar Geographics',
       maxZoom: 18
     });
 
-    // 3. OpenStreetMap (Standard Street Map)
     const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19
     });
 
-    // Layer switcher control
     const baseLayers = {
       "🌙 Dark Canvas": darkGroup,
       "🛰️ Satellite": satelliteLayer,
@@ -327,43 +630,101 @@
         const trendIcon = (s.rising_velocity > 0.05) ? '↗️' : ((s.rising_velocity < -0.05) ? '↘️' : '➡️');
         const trendSymbol = (s.rising_velocity > 0) ? '+' : '';
 
+        // Emergency Shelters HTML for popup
+        let sheltersHtml = '';
+        if (s.emergency_shelters && s.emergency_shelters.length > 0) {
+          const shelterList = s.emergency_shelters.map(sh => {
+            const shName = currentLang === 'ne' ? (sh.name_ne || sh.name_en) : (sh.name_en || sh.name_ne);
+            const telLink = sh.phone ? `<a href="tel:${sh.phone}" class="text-blue-400 font-bold ml-1 hover:underline"><i class="fa-solid fa-phone text-[9px]"></i> ${sh.phone}</a>` : '';
+            return `<li class="text-[11px] text-slate-300 mb-1">• <b>${shName}</b> (${sh.location || ''}) ${telLink}</li>`;
+          }).join('');
+          sheltersHtml = `
+            <div class="mt-2 pt-2 border-t border-slate-800">
+              <div class="font-semibold text-emerald-400 text-[11px] mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-person-shelter"></i> ${i18n[currentLang].sheltersTitle}
+              </div>
+              <ul class="pl-1">${shelterList}</ul>
+            </div>
+          `;
+        }
+
+        // Ward Desks HTML for popup
+        let wardHtml = '';
+        if (s.ward_contacts && s.ward_contacts.length > 0) {
+          const wardList = s.ward_contacts.map(w => {
+            const wName = currentLang === 'ne' ? (w.name_ne || w.name_en) : (w.name_en || w.name_ne);
+            return `<span class="inline-block bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5 text-[10px] text-slate-300 mr-1 mb-1">📞 ${wName}: <a href="tel:${w.phone}" class="text-blue-400 font-bold hover:underline">${w.phone}</a></span>`;
+          }).join('');
+          wardHtml = `
+            <div class="mt-1 pt-1.5 border-t border-slate-800">
+              <div class="font-semibold text-blue-400 text-[10px] mb-1">${i18n[currentLang].wardContactTitle}</div>
+              <div class="flex flex-wrap">${wardList}</div>
+            </div>
+          `;
+        }
+
+        const shareUrl = encodeURIComponent(`https://shadowmonarchftw-star.github.io/NpFloodBot/`);
+        const shareMsg = encodeURIComponent(`🚨 Nepal Flood Alert: ${s.station_name}\nLevel: ${curr.toFixed(2)}m (Danger: ${dang.toFixed(2)}m) | Status: ${sev}\nSafe Emergency Shelters & Live Map: `);
+        const waLink = `https://api.whatsapp.com/send?text=${shareMsg}${shareUrl}`;
+
         const popupHtml = `
-          <div class="p-1 text-xs">
-            <h4 class="font-bold text-sm text-white mb-0.5">${s.station_name}</h4>
-            <div class="text-slate-400 mb-2">${s.river_name} (${s.basin})</div>
+          <div class="p-1 text-xs max-w-xs sm:max-w-sm">
+            <div class="flex items-start justify-between gap-1 mb-0.5">
+              <h4 class="font-bold text-sm text-white">${s.station_name}</h4>
+              <span class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase" style="background-color:${color}22; color:${color}; border: 1px solid ${color}55;">${sev}</span>
+            </div>
+            <div class="text-slate-400 text-[11px] mb-2">${s.river_name} (${s.basin})</div>
+            
             <div class="grid grid-cols-2 gap-1.5 mb-2 bg-slate-900/90 p-2 rounded-lg border border-slate-800">
               <div><span class="text-slate-400">Current:</span> <b class="text-white">${curr.toFixed(2)} m</b></div>
-              <div><span class="text-slate-400">Status:</span> <b style="color:${color}">${sev}</b></div>
+              <div><span class="text-slate-400">Velocity:</span> <code class="text-slate-200">${trendSymbol}${(s.rising_velocity || 0).toFixed(2)}m/h ${trendIcon}</code></div>
               <div><span class="text-slate-400">Warning:</span> <b class="text-amber-400">${warn.toFixed(2)} m</b></div>
               <div><span class="text-slate-400">Danger:</span> <b class="text-red-400">${dang.toFixed(2)} m</b></div>
             </div>
+
             <div class="flex items-center justify-between text-[11px] text-slate-300 mb-1 px-1">
-              <span>Velocity: <code>${trendSymbol}${(s.rising_velocity || 0).toFixed(2)} m/hr ${trendIcon}</code></span>
-              <span>Past 24h: <b>${(s.past_24h_rain_mm || 0).toFixed(0)} mm</b> ${s.is_soil_saturated ? '<span class="text-amber-400 font-bold">(Sat)</span>' : ''}</span>
+              <span>Past 24h Rain: <b>${(s.past_24h_rain_mm || 0).toFixed(0)} mm</b> ${s.is_soil_saturated ? '<span class="text-amber-400 font-bold">(Sat)</span>' : ''}</span>
+              <span>1h Rain: <b>${(s.forecast_1h_mm || 0).toFixed(1)} mm</b></span>
             </div>
+
             ${s.lead_time_formatted_en ? `
             <div class="mb-2 p-1.5 bg-amber-950/40 border border-amber-500/40 rounded text-[10px] text-amber-300 font-mono flex items-center gap-1.5">
-              <i class="fa-regular fa-clock text-amber-400"></i> <b>Lead Time:</b> ${s.lead_time_formatted_en}
+              <i class="fa-regular fa-clock text-amber-400"></i> <b>Lead Time:</b> ${currentLang === 'ne' ? (s.lead_time_formatted_ne || s.lead_time_formatted_en) : s.lead_time_formatted_en}
             </div>` : ''}
+
             ${s.upstream_cascade_alert_ne ? `
             <div class="mb-2 p-1.5 bg-sky-950/50 border border-sky-500/40 rounded text-[10px] text-sky-300 leading-tight">
               <i class="fa-solid fa-water text-sky-400 mr-1"></i> ${s.upstream_cascade_alert_ne}
             </div>` : ''}
-            <div class="text-slate-300 font-semibold mb-0.5">Vulnerable Areas:</div>
-            <div class="text-slate-400 text-[11px] leading-relaxed mb-2">${s.vulnerable_areas_ne || s.vulnerable_areas_en}</div>
+
+            <div class="text-slate-300 font-semibold mb-0.5 text-[11px]">Vulnerable Downstream Areas:</div>
+            <div class="text-slate-400 text-[10px] leading-relaxed mb-1">${currentLang === 'ne' ? (s.vulnerable_areas_ne || s.vulnerable_areas_en) : (s.vulnerable_areas_en || s.vulnerable_areas_ne)}</div>
+
+            ${sheltersHtml}
+            ${wardHtml}
+
+            <!-- Action Buttons: WhatsApp Share & Copy -->
+            <div class="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between gap-1.5">
+              <a href="${waLink}" target="_blank" class="px-2 py-1 rounded bg-emerald-700/80 hover:bg-emerald-600 text-white text-[10px] font-semibold flex items-center gap-1 transition">
+                <i class="fa-brands fa-whatsapp text-xs"></i> WhatsApp
+              </a>
+              <button onclick="copyStationSummary('${s.station_id}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-semibold flex items-center gap-1 transition cursor-pointer">
+                <i class="fa-regular fa-copy"></i> Copy Alert
+              </button>
+              <button onclick="speakText('${s.station_name}. River level is ${curr.toFixed(2)} meters. Status is ${sev}.')" class="px-2 py-1 rounded bg-blue-900/60 hover:bg-blue-800 text-blue-200 text-[10px] font-semibold flex items-center gap-1 transition cursor-pointer">
+                <i class="fa-solid fa-volume-high"></i> Voice
+              </button>
+            </div>
+
             ${s.sparkline_url ? `
-            <div class="mt-1 pt-2 border-t border-slate-800/80">
-              <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                <span><i class="fa-solid fa-chart-line text-sky-400 mr-1"></i>48h Water Level Trend</span>
-                <span class="text-[9px] text-slate-400">15m rolling log</span>
-              </div>
-              <img src="${s.sparkline_url}" alt="Water Level Trend" class="w-full h-9 rounded bg-slate-950/80 border border-slate-800 object-contain">
+            <div class="mt-2 pt-1.5 border-t border-slate-800/80">
+              <img src="${s.sparkline_url}" alt="Water Level Trend" class="w-full h-8 rounded bg-slate-950 border border-slate-800 object-contain">
             </div>` : ''}
           </div>
         `;
         marker.bindPopup(popupHtml);
 
-        // Sidebar card with mini sparkline & lead times
+        // Sidebar card
         const card = document.createElement('div');
         card.className = 'p-3 bg-slate-950/70 hover:bg-slate-800/80 rounded-xl border border-slate-800/80 cursor-pointer transition flex flex-col gap-2 shadow-sm';
         card.innerHTML = `
@@ -389,7 +750,7 @@
           </div>
           ${s.lead_time_formatted_en ? `
           <div class="text-[10px] text-amber-300 bg-amber-950/30 border border-amber-800/40 px-2 py-0.5 rounded font-mono flex items-center gap-1">
-            <i class="fa-regular fa-clock text-amber-400"></i> ${s.lead_time_formatted_en}
+            <i class="fa-regular fa-clock text-amber-400"></i> ${currentLang === 'ne' ? (s.lead_time_formatted_ne || s.lead_time_formatted_en) : s.lead_time_formatted_en}
           </div>` : ''}
           ${s.upstream_cascade_alert_ne ? `
           <div class="text-[10px] text-sky-300 bg-sky-950/30 border border-sky-800/40 px-2 py-1 rounded leading-tight">
@@ -403,29 +764,33 @@
         listContainer.appendChild(card);
       });
 
-      // Update header banner if elevated threats exist
+      // Update header banner
       const banner = document.getElementById('threat-banner');
       const bannerTitle = document.getElementById('banner-title');
+      const bannerDesc = document.getElementById('banner-desc');
       const bannerIcon = document.getElementById('banner-icon');
 
       if (hasEmergency) {
-        banner.className = 'bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-500/40 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
-        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 text-2xl flex-shrink-0';
+        banner.className = 'bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-500/40 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3';
+        bannerIcon.className = 'w-10 h-10 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 text-xl flex-shrink-0';
         bannerIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-        bannerTitle.className = 'text-sm sm:text-base font-bold text-red-400 flex items-center gap-2';
-        bannerTitle.innerText = '🚨 उच्च सतर्कता: नदी जलसतह खतरा तह पार / EMERGENCY ALERT';
+        bannerTitle.className = 'text-xs sm:text-sm font-bold text-red-400 flex items-center gap-2';
+        bannerTitle.innerText = i18n[currentLang].bannerDangerTitle;
+        bannerDesc.innerText = 'खतराको तह पार भएको छ। जोखिमयुक्त तटीय क्षेत्रका बासिन्दाहरू तुरुन्त सुरक्षित उच्च स्थानमा जानुहोस्। (Immediate Evacuation Required)';
       } else if (hasWarning) {
-        banner.className = 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
-        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-2xl flex-shrink-0';
+        banner.className = 'bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3';
+        bannerIcon.className = 'w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 text-xl flex-shrink-0';
         bannerIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
-        bannerTitle.className = 'text-sm sm:text-base font-bold text-amber-400 flex items-center gap-2';
-        bannerTitle.innerText = '⚠️ सतर्कता सूचना: नदी जलसतह बढ्दो क्रममा / FLOOD WARNING ACTIVE';
+        bannerTitle.className = 'text-xs sm:text-sm font-bold text-amber-400 flex items-center gap-2';
+        bannerTitle.innerText = i18n[currentLang].bannerWarningTitle;
+        bannerDesc.innerText = 'नदीको जलसतह सतर्कता तह पार गरेको छ। आकस्मिक झोला तयार राखी उच्च सतर्कतामा रहनुहोस्। (Stay on High Alert)';
       } else {
-        banner.className = 'bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4';
-        bannerIcon.className = 'w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl flex-shrink-0';
+        banner.className = 'bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3';
+        bannerIcon.className = 'w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl flex-shrink-0';
         bannerIcon.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
-        bannerTitle.className = 'text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-2';
-        bannerTitle.innerText = '🟢 सामान्य अवस्था: सबै नदी सतर्कता तहभन्दा तल / ALL NORMAL';
+        bannerTitle.className = 'text-xs sm:text-sm font-bold text-emerald-400 flex items-center gap-2';
+        bannerTitle.innerText = i18n[currentLang].bannerNormalTitle;
+        bannerDesc.innerText = i18n[currentLang].bannerNormalDesc;
       }
 
       if (data.length > 0 && data[0].timestamp) {
@@ -451,6 +816,8 @@
       applyFilters();
     });
 
+    // Initialize UI language and stations
+    updateLanguageUI();
     loadStations();
     setInterval(loadStations, 60000); // Auto-refresh every minute
   </script>
