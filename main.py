@@ -54,10 +54,45 @@ BASIN_CASCADES = {
         "transit_hours": 2.0,
         "upstream_label": "पशुपति / गौरीघाट (Gaurighat)",
     },
+    "hanumante_thimi": {
+        "downstream_id": "manohara_jadibuti",
+        "transit_hours": 1.0,
+        "upstream_label": "हनुमन्ते / राधेराधे (Hanumante)",
+    },
+    "manohara_jadibuti": {
+        "downstream_id": "bagmati_balkhu",
+        "transit_hours": 1.5,
+        "upstream_label": "मनोहरा / जडीबुटी (Manohara)",
+    },
+    "dhobikhola_anamnagar": {
+        "downstream_id": "bagmati_balkhu",
+        "transit_hours": 1.2,
+        "upstream_label": "धोबीखोला / अनामनगर (Dhobikhola)",
+    },
+    "bishnumati_gongabu": {
+        "downstream_id": "bagmati_balkhu",
+        "transit_hours": 1.0,
+        "upstream_label": "विष्णुमती / नयाँ बसपार्क (Bishnumati)",
+    },
+    "karmanasa_imadol": {
+        "downstream_id": "manohara_jadibuti",
+        "transit_hours": 1.0,
+        "upstream_label": "कर्मनाशा / इमाडोल (Karmanasa)",
+    },
     "bagmati_balkhu": {
         "downstream_id": "bagmati_chobhar",
         "transit_hours": 1.0,
         "upstream_label": "बल्खु करिडोर (Balkhu)",
+    },
+    "nakkhu_lele": {
+        "downstream_id": "bagmati_chobhar",
+        "transit_hours": 1.2,
+        "upstream_label": "नख्खु खोला / लेले (Nakkhu)",
+    },
+    "bhotekoshi_barhabise": {
+        "downstream_id": "koshi_chatara",
+        "transit_hours": 6.0,
+        "upstream_label": "भोटेकोशी / बाह्रबिसे (Bhotekoshi)",
     },
     "melamchi_helambu": {
         "downstream_id": "koshi_chatara",
@@ -214,6 +249,13 @@ def export_stations_live(readings: list, assessments: list | None = None) -> Non
                     d["upstream_cascade_alert_en"] = a.upstream_cascade_alert_en
                     d["forecast_1h_mm"] = a.upstream_forecast_1h_mm
                     d["current_rain_mm"] = a.upstream_current_rain_mm
+                    d["current_milestone_impact_en"] = a.current_milestone_impact_en
+                    d["current_milestone_impact_ne"] = a.current_milestone_impact_ne
+                    d["next_milestone_impact_en"] = a.next_milestone_impact_en
+                    d["next_milestone_impact_ne"] = a.next_milestone_impact_ne
+                    d["is_debris_flow_risk"] = a.is_debris_flow_risk
+                    d["debris_flow_alert_ne"] = a.debris_flow_alert_ne
+                    d["debris_flow_alert_en"] = a.debris_flow_alert_en
 
                 # Generate sparkline PNG for this station and add its URL
                 try:

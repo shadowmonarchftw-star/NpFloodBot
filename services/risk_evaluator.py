@@ -108,6 +108,14 @@ class RiskAssessment(BaseModel):
     upstream_cascade_alert_en: Optional[str] = None
     emergency_shelters: list = Field(default_factory=list)
     ward_contacts: list = Field(default_factory=list)
+    inundation_milestones: list = Field(default_factory=list)
+    current_milestone_impact_en: Optional[str] = None
+    current_milestone_impact_ne: Optional[str] = None
+    next_milestone_impact_en: Optional[str] = None
+    next_milestone_impact_ne: Optional[str] = None
+    is_debris_flow_risk: bool = False
+    debris_flow_alert_ne: Optional[str] = None
+    debris_flow_alert_en: Optional[str] = None
 
     @property
     def requires_immediate_alert(self) -> bool:
@@ -260,6 +268,38 @@ def evaluate_risk(
     if is_surging and "RAPID FLOOD SURGE" not in "".join(reasons):
         reasons.append(f"Flash flood alert: River level rising rapidly (+{reading.rising_velocity:.2f}m/hr).")
 
+    # Evaluate physical inundation milestones breached or upcoming
+    milestones = sorted(reading.inundation_milestones or [], key=lambda m: m.get("level_m", 0.0))
+    curr_impact_en = None
+    curr_impact_ne = None
+    next_impact_en = None
+    next_impact_ne = None
+
+    for m in milestones:
+        m_lvl = float(m.get("level_m", 0.0))
+        if current >= m_lvl:
+            curr_impact_en = f"Breached ({m_lvl:.1f}m): " + m.get("impact_en", "")
+            curr_impact_ne = f"पार भयो ({to_nepali_digits(f'{m_lvl:.1f}')}m): " + m.get("impact_ne", "")
+        elif next_impact_en is None and current < m_lvl:
+            diff = m_lvl - current
+            next_impact_en = f"Next Impact at {m_lvl:.1f}m (+{diff:.2f}m rise): " + m.get("impact_en", "")
+            next_impact_ne = f"आगामी जोखिम विन्दु {to_nepali_digits(f'{m_lvl:.1f}')}m (+{to_nepali_digits(f'{diff:.2f}')}m मा): " + m.get("impact_ne", "")
+
+    # Debris flow & landslide hazard in steep mountain catchments
+    mountain_keywords = ["mountain", "ridge", "hill", "shivapuri", "lele", "phulchowki", "langtang", "panauti", "helambu", "tibetan", "gorge", "tarebhir", "nagarkot", "tokha"]
+    is_mountain = any(k in reading.upstream_catchment.lower() for k in mountain_keywords)
+    is_debris_risk = False
+    debris_ne = None
+    debris_en = None
+
+    if is_mountain and (past_24h >= 80.0 or (f_1h >= 25.0 and past_24h >= 45.0)):
+        is_debris_risk = True
+        debris_ne = f"⚠️ पहिरो तथा गेग्रान बहाव (Debris Flow) चेतावनी: माथिल्लो जलाधारमा विगत २४ घण्टामा {to_nepali_digits(f'{past_24h:.0f}')} mm वर्षा भएकाले भीर-पहरामा पहिरो र लेदो बाढीको उच्च जोखिम छ।"
+        debris_en = f"⚠️ Debris Flow & Landslide Alert: {past_24h:.0f}mm rainfall in past 24h creates critical landslide & mudflow hazard on steep mountain slopes."
+        reasons.append(f"DEBRIS FLOW & LANDSLIDE WARNING: Torrential hill rainfall ({past_24h:.0f}mm past 24h) triggers severe slope instability.")
+        if severity == SeverityLevel.NORMAL:
+            severity = SeverityLevel.ADVISORY
+
     return RiskAssessment(
         station_id=reading.station_id,
         station_name=reading.station_name,
@@ -291,4 +331,12 @@ def evaluate_risk(
         upstream_cascade_alert_en=cascade_alert_en,
         emergency_shelters=reading.emergency_shelters,
         ward_contacts=reading.ward_contacts,
+        inundation_milestones=reading.inundation_milestones,
+        current_milestone_impact_en=curr_impact_en,
+        current_milestone_impact_ne=curr_impact_ne,
+        next_milestone_impact_en=next_impact_en,
+        next_milestone_impact_ne=next_impact_ne,
+        is_debris_flow_risk=is_debris_risk,
+        debris_flow_alert_ne=debris_ne,
+        debris_flow_alert_en=debris_en,
     )

@@ -45,6 +45,7 @@ class StationMetadata(BaseModel):
     description: str
     emergency_shelters: list = Field(default_factory=list)
     ward_contacts: list = Field(default_factory=list)
+    inundation_milestones: list = Field(default_factory=list)
 
 
 class RiverReading(BaseModel):
@@ -74,6 +75,7 @@ class RiverReading(BaseModel):
     source: str = "DHM Telemetry"
     emergency_shelters: list = Field(default_factory=list)
     ward_contacts: list = Field(default_factory=list)
+    inundation_milestones: list = Field(default_factory=list)
 
     @property
     def is_above_warning(self) -> bool:
@@ -219,6 +221,7 @@ def generate_realistic_mock_reading(
         source="DHM Resilient Telemetry (Realistic Model)",
         emergency_shelters=station.emergency_shelters,
         ward_contacts=station.ward_contacts,
+        inundation_milestones=station.inundation_milestones,
     )
 
 
@@ -292,6 +295,7 @@ def fetch_river_telemetry(
                     source="DHM Public Telemetry",
                     emergency_shelters=station.emergency_shelters,
                     ward_contacts=station.ward_contacts,
+                    inundation_milestones=station.inundation_milestones,
                 )
             )
         else:

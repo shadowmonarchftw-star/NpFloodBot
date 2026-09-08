@@ -212,10 +212,10 @@
         
         <!-- Basin Filter Pills -->
         <div class="px-2 py-1.5 border-b border-slate-800 flex items-center gap-1 overflow-x-auto text-[11px] bg-slate-950/40">
-          <button class="basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer" data-basin="all" id="filter-all">All (14)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="bagmati" id="filter-bagmati">Kathmandu (5)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="koshi" id="filter-koshi">Koshi (3)</button>
-          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="terai" id="filter-terai">Terai & West (6)</button>
+          <button class="basin-filter active px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium whitespace-nowrap transition cursor-pointer" data-basin="all" id="filter-all">All (21)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="bagmati" id="filter-bagmati">Kathmandu Valley (10)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="koshi" id="filter-koshi">Koshi & East (5)</button>
+          <button class="basin-filter px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium whitespace-nowrap transition cursor-pointer" data-basin="terai" id="filter-terai">West & Terai (6)</button>
         </div>
 
         <div id="station-list" class="flex-1 overflow-y-auto divide-y divide-slate-800/40 p-2 space-y-2">
@@ -378,21 +378,23 @@
         mapTitle: "Nepal River Gauges Map",
         stationsLabel: "Stations",
         searchPlaceholder: "Search river/station...",
-        filterAll: "All (14)",
-        filterBagmati: "Kathmandu (5)",
-        filterKoshi: "Koshi (3)",
-        filterTerai: "Terai & West (6)",
+        filterAll: "All (21)",
+        filterBagmati: "Kathmandu Valley (10)",
+        filterKoshi: "Koshi & East (5)",
+        filterTerai: "West & Terai (6)",
         legendNormal: "Normal",
         legendWarning: "Warning",
         legendDanger: "Danger",
         loadingText: "Loading real-time river telemetry...",
         bannerNormalTitle: "🟢 All Monitored Basins Normal",
-        bannerNormalDesc: "DHM Telemetry & Upstream Catchments actively monitored 24/7 across 14 stations.",
+        bannerNormalDesc: "DHM Telemetry & Upstream Catchments actively monitored 24/7 across 21 stations.",
         bannerWarningTitle: "⚠️ FLOOD WARNING ACTIVE: Swelling River Levels Detected",
         bannerDangerTitle: "🚨 CRITICAL FLOOD EMERGENCY: Danger Mark Exceeded",
         footerText: "Nepal River Basin Flood Early Warning System | Dedicated to the resilient communities of Nepal.",
         sheltersTitle: "🏥 Safe Emergency Shelters:",
         wardContactTitle: "🏛️ Local Disaster Desk:",
+        milestonesTitle: "🌊 Street-Level Inundation Milestones:",
+        debrisTitle: "⛰️ Landslide & Debris Flow Alert:",
         shareWhatsApp: "Share to WhatsApp",
         copyAlert: "Copy Alert",
         listenVoice: "Listen Audio"
@@ -405,21 +407,23 @@
         mapTitle: "नेपाल नदी जलसतह मापन नक्सा",
         stationsLabel: "स्टेशनहरू",
         searchPlaceholder: "नदी वा स्टेशन खोज्नुहोस्...",
-        filterAll: "सबै (१४)",
-        filterBagmati: "काठमाडौँ उपत्यका (५)",
-        filterKoshi: "कोशी बेसिन (३)",
-        filterTerai: "तराई तथा पश्चिम (६)",
+        filterAll: "सबै (२१)",
+        filterBagmati: "काठमाडौँ उपत्यका (१०)",
+        filterKoshi: "कोशी तथा पूर्व (५)",
+        filterTerai: "पश्चिम तथा तराई (६)",
         legendNormal: "सामान्य",
         legendWarning: "सतर्कता",
         legendDanger: "खतरा",
         loadingText: "नदीको प्रत्यक्ष विवरण लोड हुँदैछ...",
         bannerNormalTitle: "🟢 सबै प्रमुख नदीहरू सुरक्षित अवस्थामा / ALL NORMAL",
-        bannerNormalDesc: "जल तथा मौसम विज्ञान विभाग र भू-उपग्रहबाट १४ नदी बेसिनहरूमा २४ सै घण्टा निरन्तर अनुगमन।",
+        bannerNormalDesc: "जल तथा मौसम विज्ञान विभाग र भू-उपग्रहबाट २१ नदी बेसिनहरूमा २४ सै घण्टा निरन्तर अनुगमन।",
         bannerWarningTitle: "⚠️ सतर्कता सूचना: नदीको जलसतह बढ्दो क्रममा छ / FLOOD WARNING",
         bannerDangerTitle: "🚨 उच्च खतराको आपतकालीन चेतावनी: नदी खतरा तह पार / FLOOD EMERGENCY",
         footerText: "नेपाल नदी जलसतह तथा बाढी पूर्वसूचना प्रणाली | नेपाली समुदायको सुरक्षामा समर्पित।",
         sheltersTitle: "🏥 नजिकका सुरक्षित आश्रयस्थलहरू:",
         wardContactTitle: "🏛️ स्थानीय आपतकालीन सम्पर्क:",
+        milestonesTitle: "🌊 प्रत्यक्ष सडक तथा बस्ती डुबान विन्दुहरू:",
+        debrisTitle: "⛰️ पहिरो तथा लेदो बहाव चेतावनी:",
         shareWhatsApp: "ह्वाट्सएपमा पठाउनुहोस्",
         copyAlert: "विवरण प्रतिलिपि",
         listenVoice: "आवाज सुन्नुहोस्"
@@ -572,8 +576,8 @@
     function getBasinGroup(s) {
       const b = (s.basin || '').toLowerCase();
       const id = (s.station_id || '').toLowerCase();
-      if (b.includes('bagmati') || id.includes('bagmati') || id.includes('nakkhu')) return 'bagmati';
-      if (b.includes('koshi') || id.includes('koshi') || id.includes('melamchi') || id.includes('roshi')) return 'koshi';
+      if (b.includes('bagmati') || id.includes('bagmati') || id.includes('nakkhu') || id.includes('hanumante') || id.includes('manohara') || id.includes('dhobikhola') || id.includes('bishnumati') || id.includes('karmanasa')) return 'bagmati';
+      if (b.includes('koshi') || id.includes('koshi') || id.includes('melamchi') || id.includes('roshi') || id.includes('bhotekoshi') || id.includes('kankai')) return 'koshi';
       return 'terai';
     }
 
@@ -663,6 +667,36 @@
           `;
         }
 
+        // Inundation Milestones Meter HTML
+        let milestonesHtml = '';
+        if (s.inundation_milestones && s.inundation_milestones.length > 0) {
+          const mList = s.inundation_milestones.map(m => {
+            const isBreached = curr >= m.level_m;
+            const icon = isBreached ? '<span class="text-rose-400 font-bold">🔴</span>' : '<span class="text-slate-500">⚪</span>';
+            const mText = currentLang === 'ne' ? (m.impact_ne || m.impact_en) : (m.impact_en || m.impact_ne);
+            const badgeStyle = isBreached ? 'text-rose-300 font-semibold' : 'text-slate-400';
+            return `<li class="text-[10px] mb-1 flex items-start gap-1.5"><span class="flex-shrink-0 mt-0.5">${icon}</span> <span class="${badgeStyle}"><b>${m.level_m.toFixed(1)}m:</b> ${mText}</span></li>`;
+          }).join('');
+          milestonesHtml = `
+            <div class="mt-2 pt-1.5 border-t border-slate-800">
+              <div class="font-semibold text-amber-400 text-[10px] mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-water-ladder text-amber-400"></i> ${i18n[currentLang].milestonesTitle}
+              </div>
+              <ul class="pl-1 space-y-0.5">${mList}</ul>
+            </div>
+          `;
+        }
+
+        let debrisHtml = '';
+        if (s.is_debris_flow_risk) {
+          const debrisText = currentLang === 'ne' ? (s.debris_flow_alert_ne || 'पहिरो तथा लेदो बहावको उच्च जोखिम छ।') : (s.debris_flow_alert_en || 'High landslide and debris flow hazard active on steep slopes.');
+          debrisHtml = `
+            <div class="mb-2 p-1.5 bg-rose-950/70 border border-rose-500/50 rounded text-[10px] text-rose-300 leading-tight">
+              <i class="fa-solid fa-triangle-exclamation text-rose-400 mr-1"></i> <b>${i18n[currentLang].debrisTitle}</b> ${debrisText}
+            </div>
+          `;
+        }
+
         const shareUrl = encodeURIComponent(`https://shadowmonarchftw-star.github.io/NpFloodBot/`);
         const shareMsg = encodeURIComponent(`🚨 Nepal Flood Alert: ${s.station_name}\nLevel: ${curr.toFixed(2)}m (Danger: ${dang.toFixed(2)}m) | Status: ${sev}\nSafe Emergency Shelters & Live Map: `);
         const waLink = `https://api.whatsapp.com/send?text=${shareMsg}${shareUrl}`;
@@ -700,6 +734,8 @@
             <div class="text-slate-300 font-semibold mb-0.5 text-[11px]">Vulnerable Downstream Areas:</div>
             <div class="text-slate-400 text-[10px] leading-relaxed mb-1">${currentLang === 'ne' ? (s.vulnerable_areas_ne || s.vulnerable_areas_en) : (s.vulnerable_areas_en || s.vulnerable_areas_ne)}</div>
 
+            ${debrisHtml}
+            ${milestonesHtml}
             ${sheltersHtml}
             ${wardHtml}
 
@@ -755,6 +791,14 @@
           ${s.upstream_cascade_alert_ne ? `
           <div class="text-[10px] text-sky-300 bg-sky-950/30 border border-sky-800/40 px-2 py-1 rounded leading-tight">
             <i class="fa-solid fa-water text-sky-400 mr-1"></i> Upstream surge incoming
+          </div>` : ''}
+          ${s.is_debris_flow_risk ? `
+          <div class="text-[9px] text-rose-300 bg-rose-950/40 border border-rose-800/40 px-2 py-0.5 rounded flex items-center gap-1">
+            <i class="fa-solid fa-mountain text-rose-400"></i> Landslide/Debris Warning
+          </div>` : ''}
+          ${s.current_milestone_impact_ne ? `
+          <div class="text-[9px] text-rose-300 bg-rose-950/30 border border-rose-800/40 px-2 py-0.5 rounded leading-tight">
+            ${currentLang === 'ne' ? s.current_milestone_impact_ne : s.current_milestone_impact_en}
           </div>` : ''}
         `;
         card.addEventListener('click', () => {

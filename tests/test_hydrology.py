@@ -72,3 +72,22 @@ def test_stations_emergency_shelters_and_ward_contacts():
     assert len(balkhu.ward_contacts) > 0
     assert any(c.get("phone") == "1159" or "14" in c.get("name_ne", "") for c in balkhu.ward_contacts)
 
+
+def test_expanded_21_stations_network():
+    stations = load_stations_metadata()
+    assert len(stations) == 21
+    ids = [s.station_id for s in stations]
+    assert "hanumante_thimi" in ids
+    assert "dhobikhola_anamnagar" in ids
+    assert "manohara_jadibuti" in ids
+    assert "bishnumati_gongabu" in ids
+    assert "karmanasa_imadol" in ids
+    assert "bhotekoshi_barhabise" in ids
+    assert "seti_ramghat" in ids
+
+    # Check inundation milestones exist
+    hanumante = next(s for s in stations if s.station_id == "hanumante_thimi")
+    assert len(hanumante.inundation_milestones) >= 3
+    assert any(m["level_m"] == 3.5 for m in hanumante.inundation_milestones)
+
+

@@ -177,6 +177,23 @@ def format_telegram_html(assessment: RiskAssessment, advisory: AdvisoryResult) -
             f"• {html.escape(assessment.upstream_cascade_alert_ne)}"
         )
 
+    # Physical Inundation Milestone Impact
+    if assessment.current_milestone_impact_ne:
+        msg_parts.append(
+            f"🌊 <b>प्रत्यक्ष डुबान असर (Inundation Milestones):</b>\n"
+            f"• 🚨 {html.escape(assessment.current_milestone_impact_ne)}\n"
+            f"  👉 <i>{html.escape(assessment.current_milestone_impact_en or '')}</i>"
+        )
+        if assessment.next_milestone_impact_ne:
+            msg_parts.append(f"• ⚠️ {html.escape(assessment.next_milestone_impact_ne)}")
+
+    # Mountain Debris Flow / Landslide Warning
+    if assessment.is_debris_flow_risk and assessment.debris_flow_alert_ne:
+        msg_parts.append(
+            f"\n⛰️ <b>पहिरो तथा लेदो चेतावनी (Debris Flow Hazard):</b>\n"
+            f"• {html.escape(assessment.debris_flow_alert_ne)}"
+        )
+
     if assessment.compound_risk:
         msg_parts.append("\n⚡ <b>चेतावनी: दोहोरो जोखिम (Compound Flood Threat)!</b> उच्च जलसतह + माथिल्लो तटीय भीषण वर्षा।")
 

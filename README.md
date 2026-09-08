@@ -2,7 +2,7 @@
 ### 100% Free, Production-Ready Hyper-Local Flood Early Warning System in Python with Google Gemini Flash & Telegram Alerts
 
 [![Flood Monitor](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml/badge.svg)](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml)
-[![Tests](https://img.shields.io/badge/tests-35%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-38%20passed-brightgreen.svg)]()
 [![Cost](https://img.shields.io/badge/cost-%240%20(100%25%20Free)-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -37,7 +37,7 @@ flowchart TD
     end
 
     subgraph Evaluation ["2. Risk Assessment Engine"]
-        RE["services/risk_evaluator.py<br/>• Warning & Danger Mark Check<br/>• Rising Velocity (m/hr)<br/>• Compound Cloudburst Risk"]
+        RE["services/risk_evaluator.py<br/>• Warning & Danger Mark Check<br/>• Rising Velocity (m/hr)<br/>• Physical Inundation Milestones<br/>• Debris Flow / Landslide Warning"]
         SEV["Severity: NORMAL 🟢 | ADVISORY 🟡 | WARNING 🟠 | EMERGENCY 🔴"]
     end
 
@@ -66,24 +66,28 @@ flowchart TD
 1. **🏥 Designated Emergency Shelters & Local Ward Contacts:**
    - Every station includes verified safe high-ground community buildings, schools, and covered halls (e.g. *Janakalyan School* for Balkhu, *Indreshwar School* for Panauti, *Gulariya Multi-purpose Shelter* for Babai).
    - Direct local ward disaster management committee phone numbers and local police desks.
-2. **📞 1-Tap Direct National Emergency Dialing:**
+2. **🌊 Physical Inundation Milestones (Street-Level Depth Tracking):**
+   - Each station tracks specific urban and rural flood milestones (e.g. Ring Road underpass flooded, squatter huts entered by water, corridor cutoff, highway submerged) so citizens know exactly what physical infrastructure is underwater.
+3. **⛰️ Hillside Landslide & Debris Flow Warnings:**
+   - Evaluates antecedent 24h rainfall against mountain slopes (>80mm triggers severe debris flow and mudslide alerts in Melamchi, Roshi, Bhotekoshi, and valley rims).
+4. **📞 1-Tap Direct National Emergency Dialing:**
    - **1155**: DHM 24/7 Toll-Free Monsoon Flood Early Warning Hotline
    - **100**: Nepal Police Emergency
    - **1114**: Armed Police Force (APF) Disaster Rescue Division
    - **1130**: Nepal Red Cross Society (Ambulance & Blood Bank)
    - **1149**: National Emergency Operation Center (NEOC, MoHA)
-3. **🇳🇵 Instant Bilingual Language Switcher (`नेपाली` / `English`):**
+5. **🇳🇵 Instant Bilingual Language Switcher (`नेपाली` / `English`):**
    - The web dashboard supports seamless one-click switching with saved local preferences for local community accessibility.
-4. **🎒 Flood Safety, Go-Bag & Evacuation Checklist Modal:**
+6. **🎒 Flood Safety, Go-Bag & Evacuation Checklist Modal:**
    - Actionable guides: Go-Bag essential packing (water, dry food, waterproof pouches for citizenship & land title deeds, battery torch, powerbanks), electrical breaker shutoff protocol, and livestock protection.
-5. **📲 1-Tap Emergency Sharing (WhatsApp & Clipboard):**
+7. **📲 1-Tap Emergency Sharing (WhatsApp & Clipboard):**
    - Quickly broadcast formatted flood warnings and shelter coordinates to family and community groups on WhatsApp with one click.
-6. **📡 PWA & Offline Caching Support (`sw.js` + `manifest.json`):**
+8. **📡 PWA & Offline Caching Support (`sw.js` + `manifest.json`):**
    - Installable on mobile phones; displays last cached river levels and emergency hotlines even when heavy rains disrupt grid power or cellular data.
 
 ---
 
-## 📡 Monitored River Basins & Stations
+## 📡 Monitored River Basins & Stations (21 Stations)
 
 | Station ID | River | Basin | Warning (m) | Danger (m) | Upstream Ridge | Vulnerable Downstream Settlements |
 |:---|:---|:---|:---:|:---:|:---|:---|
@@ -91,11 +95,18 @@ flowchart TD
 | `bagmati_gaurighat` | Bagmati | Bagmati Basin | 6.8 m | 8.0 m | Shivapuri / Gokarna | Gaurighat, Guhyeshwari, Tilganga, Sinamangal, Pashupati banks |
 | `bagmati_sundarijal` | Bagmati | Bagmati Basin | 4.5 m | 5.8 m | Shivapuri National Park | Sundarijal, Naya Basti, Gokarneshwar, Jorpati riverside |
 | `bagmati_chobhar` | Bagmati | Bagmati Basin | 7.0 m | 8.5 m | Kathmandu Confluence | Chobhar gorge, Nakkhu confluence, Dakshinkali road |
+| `hanumante_thimi` | Hanumante | Bagmati Sub-basin | 3.5 m | 4.8 m | Nagarkot & Changunarayan | Radhe Radhe, Thimi, Sallaghari, Araniko Highway corridor |
+| `manohara_jadibuti` | Manohara | Bagmati Sub-basin | 4.0 m | 5.2 m | Sankhu & Kageshwari | Jadibuti, Koteshwor corridor, Pepsicola, squatter colonies |
+| `dhobikhola_anamnagar` | Dhobikhola | Bagmati Sub-basin | 3.2 m | 4.2 m | Budhanilkantha / Tarebhir | Anamnagar, Bijulibazar underpasses, Maitighar, Ghattekulo |
+| `bishnumati_gongabu` | Bishnumati | Bagmati Sub-basin | 3.8 m | 5.0 m | Tokha & Gurje Bhanjyang | Gongabu New Bus Park, Balaju, Shobhabhagwati, Teku |
+| `karmanasa_imadol` | Karmanasa | Bagmati Sub-basin | 3.0 m | 4.0 m | Lubhu & Godawari Hills | Imadol, Gwarko, Balkumari, Mahalaxmi housing colonies |
 | `nakkhu_lele` | Nakkhu Khola | Bagmati Sub-basin | 4.0 m | 5.2 m | Lele & Southern Lalitpur | Nakkhudol, Tikabhairab, Bungamati, Saibu squatter colony |
 | `roshi_panauti` | Roshi Khola | Koshi Sub-basin | 4.2 m | 5.5 m | Phulchowki & Panauti Hills | Panauti, Bhakundebesi, Roshi Rural Mun., BP Highway, Mangaltar |
+| `bhotekoshi_barhabise` | Bhotekoshi | Koshi Basin | 5.0 m | 6.5 m | Tibetan Plateau Watershed | Barhabise, Tatopani, Larcha, Liping, Araniko Highway |
+| `melamchi_helambu` | Melamchi | Koshi Sub-basin | 4.8 m | 6.0 m | Langtang / Jugal Ridges | Helambu, Melamchi Bazaar, Bahunepati, Indrawati confluence |
 | `koshi_chatara` | Saptakoshi | Koshi Basin | 6.0 m | 7.5 m | Barahakshetra / Tamor | Chatara, Barahakshetra, Prakashpur, Koshi Tappu, Sunsari-Saptari |
 | `narayani_devghat` | Narayani | Narayani Basin | 7.3 m | 9.0 m | Trishuli & Kali Gandaki | Devghat, Narayangarh, Bharatpur, Gaidakot, Meghauli, Susta |
-| `melamchi_helambu` | Melamchi | Koshi Sub-basin | 4.8 m | 6.0 m | Langtang / Jugal Ridges | Helambu, Melamchi Bazaar, Bahunepati, Indrawati confluence |
+| `seti_ramghat` | Seti River | Gandaki Basin | 6.5 m | 8.5 m | Machhapuchhre & Annapurna | Ramghat, Nadipur, Gaighat, Pokhara deep gorge corridor |
 | `west_rapti_kusum` | West Rapti | West Rapti Basin | 5.4 m | 6.8 m | Pyuthan / Dang Watershed | Kusum, Agaiya, Fattepur, Holiya, Banke riverfront plains |
 | `babai_chepang` | Babai River | Babai Basin | 6.1 m | 7.4 m | Dang Valley / Chure | Chepang, Gulariya municipal riverside, Barbardiya plains |
 | `karnali_chisapani` | Karnali River | Karnali Basin | 10.0 m | 12.0 m | Western Himalayas | Chisapani, Tikapur, Rajapur island, Kailali-Bardiya plains |

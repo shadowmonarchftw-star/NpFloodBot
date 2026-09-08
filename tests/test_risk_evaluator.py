@@ -111,3 +111,34 @@ def test_emergency_shelters_and_contacts_propagated(base_reading, base_weather):
     assert len(risk.ward_contacts) == 1
     assert risk.ward_contacts[0]["phone"] == "1159"
 
+
+def test_inundation_milestones_evaluation(base_reading, base_weather):
+    reading = base_reading.model_copy(
+        update={
+            "current_level": 5.4,
+            "inundation_milestones": [
+                {"level_m": 4.5, "impact_en": "Walkways flooded", "impact_ne": "पैदलमार्ग डुबान"},
+                {"level_m": 5.2, "impact_en": "Underpass submerged", "impact_ne": "अण्डरपास डुबान"},
+                {"level_m": 7.0, "impact_en": "Market flooded", "impact_ne": "बजार डुबान"},
+            ],
+        }
+    )
+    risk = evaluate_risk(reading, base_weather)
+    assert risk.current_milestone_impact_en is not None
+    assert "Underpass submerged" in risk.current_milestone_impact_en
+    assert "५.२" in risk.current_milestone_impact_ne
+    assert risk.next_milestone_impact_en is not None
+    assert "7.0m" in risk.next_milestone_impact_en
+
+
+def test_debris_flow_landslide_warning(base_reading, base_weather):
+    # Mountain catchment with high 24h antecedent rainfall
+    reading = base_reading.model_copy(update={"upstream_catchment": "Melamchi Mountain Watershed"})
+    weather = base_weather.model_copy(update={"forecast_1h_mm": 30.0, "past_24h_rain_mm": 95.0, "is_soil_saturated": True})
+    risk = evaluate_risk(reading, weather)
+    assert risk.is_debris_flow_risk is True
+    assert risk.debris_flow_alert_ne is not None
+    assert "पहिरो तथा गेग्रान बहाव" in risk.debris_flow_alert_ne
+    assert any("DEBRIS FLOW & LANDSLIDE WARNING" in r for r in risk.risk_reasons)
+
+
