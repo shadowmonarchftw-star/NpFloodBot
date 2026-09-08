@@ -4,11 +4,11 @@
     "station_name": "Bagmati at Balkhu (Kathmandu)",
     "river_name": "Bagmati",
     "basin": "Bagmati River Basin",
-    "current_level": 3.21,
+    "current_level": 3.18,
     "warning_level": 5.5,
     "danger_level": 7.0,
-    "rising_velocity": 0.14,
-    "status": "RISING",
+    "rising_velocity": -0.03,
+    "status": "STEADY",
     "upstream_catchment": "Shivapuri & Sundarijal Hilltops",
     "upstream_lat": 27.8,
     "upstream_lon": 85.39,
@@ -16,7 +16,7 @@
     "longitude": 85.2972,
     "vulnerable_areas_ne": "बल्खु, सुकुम्बासी बस्ती, सुन्दरीघाट, टेकु, चोभार, कालिमाटी करिडोर, नदी किनारका होचा भूभागहरू",
     "vulnerable_areas_en": "Balkhu, informal squatter settlements (Sukumbasi basti), Sundarighat, Teku, Kalimati corridor, low-lying riverside communities",
-    "timestamp": "2026-09-08T00:57:42.579627+00:00",
+    "timestamp": "2026-09-08T04:58:32.771123+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -52,15 +52,44 @@
         "phone": "01-4271199"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 4.5,
+        "impact_en": "Riverside walkways and lower corridor tracks waterlogged",
+        "impact_ne": "नदी किनारको पैदलमार्ग तथा तल्लो करिडोर सडकमा पानी पस्न सुरु"
+      },
+      {
+        "level_m": 5.2,
+        "impact_en": "Ring Road underpass submerged; impassable for light vehicles",
+        "impact_ne": "रिंगरोड अण्डरपास डुबानमा; साना सवारी साधन आवतजावत ठप्प"
+      },
+      {
+        "level_m": 5.5,
+        "impact_en": "Water enters ground floors of Sukumbasi squatter settlement",
+        "impact_ne": "सुकुम्बासी बस्तीका तल्लो तल्लाका घरहरूमा बाढी पस्न सुरु (सतर्कता तह)"
+      },
+      {
+        "level_m": 7.0,
+        "impact_en": "Kalimati corridor closed, settlements submerged up to 1.5m; immediate evacuation",
+        "impact_ne": "कालिमाटी करिडोर सडक पूर्ण अवरुद्ध, १.५ मिटरसम्म पानी जम्ने खतरा; तत्काल आश्रयस्थल सर्नुहोस् (खतरा तह)"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": "Warning mark in ~16h 24m (~11:06 PM NPT)",
-    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१६ घण्टा २४ मिनेट (करिब ११:०६ राति)",
-    "past_24h_rain_mm": 11.9,
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 27.9,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.1,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 3.9,
+    "current_rain_mm": 1.1,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 4.5m (+1.32m rise): Riverside walkways and lower corridor tracks waterlogged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ४.५m (+१.३२m मा): नदी किनारको पैदलमार्ग तथा तल्लो करिडोर सडकमा पानी पस्न सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/bagmati_balkhu_spark.png"
   },
   {
@@ -68,11 +97,11 @@
     "station_name": "Bagmati at Gaurighat (Pashupati)",
     "river_name": "Bagmati",
     "basin": "Bagmati River Basin",
-    "current_level": 4.16,
+    "current_level": 3.9,
     "warning_level": 6.8,
     "danger_level": 8.0,
-    "rising_velocity": 0.0,
-    "status": "STEADY",
+    "rising_velocity": -0.1,
+    "status": "FALLING",
     "upstream_catchment": "Shivapuri & Gokarna Catchment",
     "upstream_lat": 27.76,
     "upstream_lon": 85.39,
@@ -80,7 +109,7 @@
     "longitude": 85.3522,
     "vulnerable_areas_ne": "गौरीघाट, गुह्येश्वरी, तिलगंगा, सिनामंगल, पशुपति तटीय क्षेत्र",
     "vulnerable_areas_en": "Gaurighat, Guhyeshwari, Tilganga, Sinamangal, Pashupati riverbanks",
-    "timestamp": "2026-09-08T00:57:42.579700+00:00",
+    "timestamp": "2026-09-08T04:58:32.771154+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -111,15 +140,39 @@
         "phone": "01-4470094"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 5.5,
+        "impact_en": "Guhyeshwari riverside banks waterlogged",
+        "impact_ne": "गुह्येश्वरी नदी किनारको तटीय भागमा पानी पस्न सुरु"
+      },
+      {
+        "level_m": 6.8,
+        "impact_en": "Gaurighat stairs submerged, Tilganga-Sinamangal riverside homes on high alert",
+        "impact_ne": "गौरीघाट घाटहरू डुबानमा, तिलगंगा-सिनामंगल नदी किनारका घरहरूमा उच्च सतर्कता"
+      },
+      {
+        "level_m": 8.0,
+        "impact_en": "Sinamangal riverside settlements inundated; Pashupati area low grounds flooded",
+        "impact_ne": "सिनामंगल नदी किनारका बस्तीमा बाढी पस्यो; पशुपति तल्लो परिसर जलमग्न"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 10.7,
+    "past_24h_rain_mm": 31.7,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.0,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 2.0,
+    "current_rain_mm": 2.8,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 5.5m (+1.60m rise): Guhyeshwari riverside banks waterlogged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ५.५m (+१.६०m मा): गुह्येश्वरी नदी किनारको तटीय भागमा पानी पस्न सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/bagmati_gaurighat_spark.png"
   },
   {
@@ -127,10 +180,10 @@
     "station_name": "Bagmati at Sundarijal",
     "river_name": "Bagmati",
     "basin": "Bagmati River Basin",
-    "current_level": 2.64,
+    "current_level": 2.56,
     "warning_level": 4.5,
     "danger_level": 5.8,
-    "rising_velocity": 0.09,
+    "rising_velocity": 0.15,
     "status": "RISING",
     "upstream_catchment": "Shivapuri National Park Ridge",
     "upstream_lat": 27.82,
@@ -139,7 +192,7 @@
     "longitude": 85.4167,
     "vulnerable_areas_ne": "सुन्दरीजल, नयाँ बस्ती, गोकर्णेश्वर, जोरपाटी, गौरीघाट",
     "vulnerable_areas_en": "Sundarijal, Naya Basti, Gokarneshwar, Jorpati riverside corridor",
-    "timestamp": "2026-09-08T00:57:42.579727+00:00",
+    "timestamp": "2026-09-08T04:58:32.771160+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -163,15 +216,39 @@
         "phone": "01-4450100"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.8,
+        "impact_en": "Torrential mountain runoff emerging from Shivapuri ridge",
+        "impact_ne": "शिवपुरी जलाधारबाट तीव्र पहाडी बाढीको बहाव"
+      },
+      {
+        "level_m": 4.5,
+        "impact_en": "Downstream Gokarneshwar corridor warning; riverbanks waterlogged",
+        "impact_ne": "गोकर्णेश्वर करिडोरमा जलसतह सतर्कता तहमा; नदी किनार जलमग्न"
+      },
+      {
+        "level_m": 5.8,
+        "impact_en": "Dangerous flash flood wave traveling toward Jorpati and Gaurighat",
+        "impact_ne": "जोखिमपूर्ण बाढीको छाल जोरपाटी र गौरीघाटतर्फ तीव्र गतिमा अघि बढ्दै"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": "Warning mark in ~20h 42m (~03:24 AM NPT)",
-    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~२० घण्टा ४२ मिनेट (करिब ०३:२४ बिहान)",
-    "past_24h_rain_mm": 6.3,
+    "lead_time_formatted_en": "Warning mark in ~12h 54m (~11:37 PM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१२ घण्टा ५४ मिनेट (करिब ११:३७ राति)",
+    "past_24h_rain_mm": 14.2,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.4,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 1.4,
+    "current_rain_mm": 3.1,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.8m (+1.24m rise): Torrential mountain runoff emerging from Shivapuri ridge",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.८m (+१.२४m मा): शिवपुरी जलाधारबाट तीव्र पहाडी बाढीको बहाव",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/bagmati_sundarijal_spark.png"
   },
   {
@@ -179,11 +256,11 @@
     "station_name": "Bagmati at Chobhar Gorge",
     "river_name": "Bagmati",
     "basin": "Bagmati River Basin",
-    "current_level": 4.45,
+    "current_level": 4.44,
     "warning_level": 7.0,
     "danger_level": 8.5,
-    "rising_velocity": 0.01,
-    "status": "STEADY",
+    "rising_velocity": 0.13,
+    "status": "RISING",
     "upstream_catchment": "Kathmandu Valley Central Confluence",
     "upstream_lat": 27.68,
     "upstream_lon": 85.3,
@@ -191,7 +268,7 @@
     "longitude": 85.2861,
     "vulnerable_areas_ne": "चोभार गल्छी, नख्खु दोभान, बागमती तटीय क्षेत्र, दक्षिणकाली सडक किनार",
     "vulnerable_areas_en": "Chobhar gorge, Nakkhu confluence, lower Bagmati riverside, Dakshinkali road corridor",
-    "timestamp": "2026-09-08T00:57:42.579745+00:00",
+    "timestamp": "2026-09-08T04:58:32.771165+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -215,15 +292,39 @@
         "phone": "01-4330100"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 6.0,
+        "impact_en": "Valley bottleneck exit flow restricted; backwater pressure builds",
+        "impact_ne": "चोभार गल्छीमा निकास साँघुरो; उपत्यकातर्फ पानी पछाडि धकेलिने दबाब"
+      },
+      {
+        "level_m": 7.0,
+        "impact_en": "Lower Dakshinkali road embankment flooded; backwater reaches Balkhu-Teku",
+        "impact_ne": "दक्षिणकाली सडक किनार जलमग्न; बल्खु-टेकु दोभानमा ब्याकवाटरको उच्च जोखिम"
+      },
+      {
+        "level_m": 8.5,
+        "impact_en": "Catastrophic valley gorge choke; widespread upstream inundation across Kathmandu",
+        "impact_ne": "गल्छीमा चरम चाप; काठमाडौँ र ललितपुरका होचा भूभागहरूमा भीषण डुबान"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": null,
-    "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 15.7,
+    "lead_time_formatted_en": "Warning mark in ~19h 42m (~06:25 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१९ घण्टा ४२ मिनेट (करिब ०६:२५ बिहान)",
+    "past_24h_rain_mm": 36.9,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.0,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 3.5,
+    "current_rain_mm": 1.6,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 6.0m (+1.56m rise): Valley bottleneck exit flow restricted; backwater pressure builds",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ६.०m (+१.५६m मा): चोभार गल्छीमा निकास साँघुरो; उपत्यकातर्फ पानी पछाडि धकेलिने दबाब",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/bagmati_chobhar_spark.png"
   },
   {
@@ -231,10 +332,10 @@
     "station_name": "Nakkhu Khola at Tikabhairab / Nakkhu",
     "river_name": "Nakkhu Khola",
     "basin": "Bagmati Sub-basin (Lalitpur)",
-    "current_level": 2.05,
+    "current_level": 1.94,
     "warning_level": 4.0,
     "danger_level": 5.2,
-    "rising_velocity": 0.15,
+    "rising_velocity": 0.14,
     "status": "RISING",
     "upstream_catchment": "Lele & Southern Lalitpur Hills",
     "upstream_lat": 27.56,
@@ -243,7 +344,7 @@
     "longitude": 85.3167,
     "vulnerable_areas_ne": "नख्खुडोल, टीकाभैरव, बुङमती, सैंबु सुकुम्बासी टोल, नख्खु पुल आसपास बस्ती",
     "vulnerable_areas_en": "Nakkhudol, Tikabhairab, Bungamati, Saibu squatter settlements, Nakkhu bridge corridor",
-    "timestamp": "2026-09-08T00:57:42.579759+00:00",
+    "timestamp": "2026-09-08T04:58:32.771169+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -267,15 +368,39 @@
         "phone": "01-5591244"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.2,
+        "impact_en": "Tikabhairab lower corridor flooded; pedestrian bridge access threatened",
+        "impact_ne": "टीकाभैरव तल्लो करिडोरमा पानी; झोलुङ्गे पुल आवतजावत जोखिममा"
+      },
+      {
+        "level_m": 4.0,
+        "impact_en": "Bungamati & Nakkhudol squatter colonies waterlogged (WARNING)",
+        "impact_ne": "बुङमती र नख्खुडोल सुकुम्बासी बस्तीमा पानी पस्यो (सतर्कता तह)"
+      },
+      {
+        "level_m": 5.2,
+        "impact_en": "Violent flash flood carrying heavy silt; riverside structures washed away",
+        "impact_ne": "भीषण लेदोसहितको बाढी; नदी किनारका अस्थायी टहरा बगाउने चरम खतरा"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": "Warning mark in ~13h 0m (~07:42 PM NPT)",
-    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१३ घण्टा ० मिनेट (करिब ०७:४२ साँझ)",
-    "past_24h_rain_mm": 15.2,
+    "lead_time_formatted_en": "Warning mark in ~14h 42m (~01:25 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१४ घण्टा ४२ मिनेट (करिब ०१:२५ बिहान)",
+    "past_24h_rain_mm": 23.3,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.0,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 1.0,
+    "current_rain_mm": 2.9,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.2m (+1.26m rise): Tikabhairab lower corridor flooded; pedestrian bridge access threatened",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.२m (+१.२६m मा): टीकाभैरव तल्लो करिडोरमा पानी; झोलुङ्गे पुल आवतजावत जोखिममा",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/nakkhu_lele_spark.png"
   },
   {
@@ -283,10 +408,10 @@
     "station_name": "Roshi Khola at Panauti / Bhakunde Besi",
     "river_name": "Roshi Khola",
     "basin": "Koshi Sub-basin (Kavrepalanchok)",
-    "current_level": 2.34,
+    "current_level": 2.11,
     "warning_level": 4.2,
     "danger_level": 5.5,
-    "rising_velocity": -0.03,
+    "rising_velocity": -0.01,
     "status": "STEADY",
     "upstream_catchment": "Phulchowki & Panauti Hills",
     "upstream_lat": 27.58,
@@ -295,7 +420,7 @@
     "longitude": 85.5167,
     "vulnerable_areas_ne": "पनौती, भकुण्डेबेसी, रोशी गाउँपालिका, बिपी राजमार्ग तटीय क्षेत्र, मङ्गलटार",
     "vulnerable_areas_en": "Panauti, Bhakundebesi, Roshi rural municipality, BP Highway riverside settlements, Mangaltar",
-    "timestamp": "2026-09-08T00:57:42.579772+00:00",
+    "timestamp": "2026-09-08T04:58:32.771173+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -326,15 +451,39 @@
         "phone": "011-490510"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.5,
+        "impact_en": "Roshi riverbanks overflow; farmland erosion along BP Highway begins",
+        "impact_ne": "रोशी नदी तटीय खेतबारी कटान सुरु; बिपी राजमार्ग किनारमा कटान"
+      },
+      {
+        "level_m": 4.2,
+        "impact_en": "BP Highway embankment erosion; Panauti bazaar low grounds submerged",
+        "impact_ne": "बिपी राजमार्ग सडक कटानको जोखिम; पनौती बजारका होचा घरहरू डुबानमा"
+      },
+      {
+        "level_m": 5.5,
+        "impact_en": "Catastrophic debris flow; road washouts across Bhakundebesi and Mangaltar",
+        "impact_ne": "पहिरोसहितको भीषण बाढी; भकुण्डेबेसी र मङ्गलटारमा सडक पूर्ण विच्छेद हुने खतरा"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 21.0,
+    "past_24h_rain_mm": 21.6,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.6,
-    "current_rain_mm": 0.1,
+    "forecast_1h_mm": 2.0,
+    "current_rain_mm": 0.0,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.5m (+1.39m rise): Roshi riverbanks overflow; farmland erosion along BP Highway begins",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.५m (+१.३९m मा): रोशी नदी तटीय खेतबारी कटान सुरु; बिपी राजमार्ग किनारमा कटान",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/roshi_panauti_spark.png"
   },
   {
@@ -342,11 +491,11 @@
     "station_name": "Saptakoshi at Chatara",
     "river_name": "Saptakoshi",
     "basin": "Koshi River Basin (Eastern Nepal)",
-    "current_level": 4.8,
+    "current_level": 4.69,
     "warning_level": 6.0,
     "danger_level": 7.5,
-    "rising_velocity": 0.08,
-    "status": "RISING",
+    "rising_velocity": -0.07,
+    "status": "FALLING",
     "upstream_catchment": "Barahakshetra & Eastern Himalayas",
     "upstream_lat": 26.88,
     "upstream_lon": 87.15,
@@ -354,7 +503,7 @@
     "longitude": 87.1667,
     "vulnerable_areas_ne": "चतरा, बराहक्षेत्र, प्रकाशपुर, कोशी टप्पु, मधुवन, राजावास, सुनसरी र सप्तरी तटीय क्षेत्र",
     "vulnerable_areas_en": "Chatara, Barahakshetra, Prakashpur, Koshi Tappu, Madhuwan, Sunsari-Saptari embankment zones",
-    "timestamp": "2026-09-08T00:57:42.579785+00:00",
+    "timestamp": "2026-09-08T04:58:32.771178+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -385,15 +534,39 @@
         "phone": "025-520144"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 5.2,
+        "impact_en": "Eastern Nepal low river island approaches waterlogged",
+        "impact_ne": "नदी भित्रका टापु र चतरा बगर क्षेत्रमा पानी भरिन सुरु"
+      },
+      {
+        "level_m": 6.0,
+        "impact_en": "Barahakshetra and Prakashpur lowlands flood alert; Koshi Tappu threatened",
+        "impact_ne": "बराहक्षेत्र र प्रकाशपुर होचा क्षेत्रमा सतर्कता; कोशी टप्पु वन्यजन्तु क्षेत्रमा बाढी"
+      },
+      {
+        "level_m": 7.5,
+        "impact_en": "Severe embankment breach danger; downstream Sunsari-Saptari plains evacuation",
+        "impact_ne": "तटबन्ध फुट्ने खतरा; सुनसरी र सप्तरीका तटीय गाउँहरू तत्काल खाली गर्नुपर्ने"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": "Warning mark in ~15h 0m (~09:42 PM NPT)",
-    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१५ घण्टा ० मिनेट (करिब ०९:४२ राति)",
-    "past_24h_rain_mm": 6.4,
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 12.6,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.0,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 3.9,
+    "current_rain_mm": 1.9,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 5.2m (+0.51m rise): Eastern Nepal low river island approaches waterlogged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ५.२m (+०.५१m मा): नदी भित्रका टापु र चतरा बगर क्षेत्रमा पानी भरिन सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/koshi_chatara_spark.png"
   },
   {
@@ -401,10 +574,10 @@
     "station_name": "Narayani River at Devghat",
     "river_name": "Narayani",
     "basin": "Gandaki / Narayani Basin",
-    "current_level": 5.39,
+    "current_level": 5.22,
     "warning_level": 7.3,
     "danger_level": 9.0,
-    "rising_velocity": -0.04,
+    "rising_velocity": 0.05,
     "status": "STEADY",
     "upstream_catchment": "Trishuli & Kali Gandaki Confluence",
     "upstream_lat": 27.73,
@@ -413,7 +586,7 @@
     "longitude": 84.4167,
     "vulnerable_areas_ne": "देवघाट, नारायणगढ, भरतपुर, गैंडाकोट, मेघौली, त्रिवेणी सुस्ता क्षेत्र",
     "vulnerable_areas_en": "Devghat, Narayangarh, Bharatpur riverside, Gaidakot, Meghauli, Susta downstream plains",
-    "timestamp": "2026-09-08T00:57:42.579797+00:00",
+    "timestamp": "2026-09-08T04:58:32.771182+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -437,15 +610,39 @@
         "phone": "056-520155"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 6.5,
+        "impact_en": "Devghat sacred riverbanks and lower stairs submerged",
+        "impact_ne": "देवघाट संगमका तल्लो सिँढी र स्नान घाटहरू डुबानमा"
+      },
+      {
+        "level_m": 7.3,
+        "impact_en": "Narayangarh riverside market and Gaidakot embankment on high alert",
+        "impact_ne": "नारायणगढ नदी किनार बजार तथा गैंडाकोट तटबन्धमा उच्च सतर्कता"
+      },
+      {
+        "level_m": 9.0,
+        "impact_en": "Bharatpur and Meghauli lowlands flooded; Susta downstream plains inundated",
+        "impact_ne": "भरतपुर तथा मेघौली तटीय बस्ती डुबानमा; सुस्ता क्षेत्रका गाउँहरू जलमग्न"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": null,
-    "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 17.5,
+    "lead_time_formatted_en": "Warning mark in ~41h 36m (~04:19 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~४१ घण्टा ३६ मिनेट (करिब ०४:१९ बिहान)",
+    "past_24h_rain_mm": 26.1,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.1,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 3.2,
+    "current_rain_mm": 3.3,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 6.5m (+1.28m rise): Devghat sacred riverbanks and lower stairs submerged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ६.५m (+१.२८m मा): देवघाट संगमका तल्लो सिँढी र स्नान घाटहरू डुबानमा",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/narayani_devghat_spark.png"
   },
   {
@@ -453,11 +650,11 @@
     "station_name": "Melamchi River at Helambu / Melamchi Pul",
     "river_name": "Melamchi River",
     "basin": "Koshi Sub-basin (Sindhupalchok)",
-    "current_level": 2.61,
+    "current_level": 2.58,
     "warning_level": 4.8,
     "danger_level": 6.0,
-    "rising_velocity": -0.08,
-    "status": "FALLING",
+    "rising_velocity": 0.14,
+    "status": "RISING",
     "upstream_catchment": "Langtang & Jugal Himalayan Ridges",
     "upstream_lat": 27.95,
     "upstream_lon": 85.6,
@@ -465,7 +662,7 @@
     "longitude": 85.5833,
     "vulnerable_areas_ne": "हेलम्बु, मेलम्ची बजार, बाहुनेपाटी, सिपाघाट, इन्द्रावती तटीय क्षेत्र",
     "vulnerable_areas_en": "Helambu, Melamchi Bazaar, Bahunepati, Sipaghat, Indrawati confluence corridor",
-    "timestamp": "2026-09-08T00:57:42.579809+00:00",
+    "timestamp": "2026-09-08T04:58:32.771185+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -489,15 +686,39 @@
         "phone": "011-401011"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 4.0,
+        "impact_en": "Melamchi mountain runoff swelling rapidly; suspension bridges closed",
+        "impact_ne": "मेलम्ची नदीमा बाढी तीव्र गतिमा बढ्दै; झोलुङ्गे पुलहरू बन्द"
+      },
+      {
+        "level_m": 4.8,
+        "impact_en": "Melamchi Bazaar lower market flooded; heavy sediment transport active",
+        "impact_ne": "मेलम्ची बजारको तल्लो भाग जलमग्न; ढुङ्गा-माटोसहितको लेदो बहाव तीव्र"
+      },
+      {
+        "level_m": 6.0,
+        "impact_en": "Catastrophic glacial/debris flood; Bahunepati and Sipaghat bridges threatened",
+        "impact_ne": "विपद्‌जन्य लेदो बाढी; बाहुनेपाटी र सिपाघाट तटीय बस्ती तत्काल खाली गर्नुपर्ने"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": null,
-    "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 11.2,
+    "lead_time_formatted_en": "Warning mark in ~15h 54m (~02:37 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१५ घण्टा ५४ मिनेट (करिब ०२:३७ बिहान)",
+    "past_24h_rain_mm": 16.5,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.0,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 3.0,
+    "current_rain_mm": 0.5,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 4.0m (+1.42m rise): Melamchi mountain runoff swelling rapidly; suspension bridges closed",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ४.०m (+१.४२m मा): मेलम्ची नदीमा बाढी तीव्र गतिमा बढ्दै; झोलुङ्गे पुलहरू बन्द",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/melamchi_helambu_spark.png"
   },
   {
@@ -505,7 +726,7 @@
     "station_name": "West Rapti at Kusum (Banke)",
     "river_name": "West Rapti",
     "basin": "West Rapti Basin (Lumbini)",
-    "current_level": 3.16,
+    "current_level": 3.08,
     "warning_level": 5.4,
     "danger_level": 6.8,
     "rising_velocity": -0.05,
@@ -517,7 +738,7 @@
     "longitude": 82.1333,
     "vulnerable_areas_ne": "कुसुम, अगैया, फत्तेपुर, होलिका, कमैया बस्ती, नेपालगञ्ज दक्षिण तटीय क्षेत्र",
     "vulnerable_areas_en": "Kusum, Agaiya, Fattepur, Holiya, Kamaiya basti, southern Banke low-lying plains",
-    "timestamp": "2026-09-08T00:57:42.579821+00:00",
+    "timestamp": "2026-09-08T04:58:32.771189+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -541,15 +762,39 @@
         "phone": "081-520088"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 4.5,
+        "impact_en": "Kusum riverbanks overflow; Banke agricultural plains begin waterlogging",
+        "impact_ne": "कुसुम तटीय भाग भरियो; बाँकेका होचा खेतबारी जलमग्न हुन सुरु"
+      },
+      {
+        "level_m": 5.4,
+        "impact_en": "Agaiya & Fattepur lowlands flooded; thousands of households on alert",
+        "impact_ne": "अगैया र फत्तेपुर तटीय गाउँहरूमा बाढी पस्यो; हजारौँ घरपरिवार उच्च सतर्कतामा"
+      },
+      {
+        "level_m": 6.8,
+        "impact_en": "Widespread devastating inundation across southern Banke; relief rescue active",
+        "impact_ne": "बाँके र दाङका दक्षिणी समथर भूभागमा व्यापक डुबान; जल उद्धार टोली परिचालन"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 10.8,
+    "past_24h_rain_mm": 28.2,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.5,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 0.3,
+    "current_rain_mm": 0.6,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 4.5m (+1.42m rise): Kusum riverbanks overflow; Banke agricultural plains begin waterlogging",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ४.५m (+१.४२m मा): कुसुम तटीय भाग भरियो; बाँकेका होचा खेतबारी जलमग्न हुन सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/west_rapti_kusum_spark.png"
   },
   {
@@ -557,11 +802,11 @@
     "station_name": "Babai River at Chepang (Bardiya)",
     "river_name": "Babai River",
     "basin": "Babai Basin (Lumbini)",
-    "current_level": 3.86,
+    "current_level": 3.72,
     "warning_level": 6.1,
     "danger_level": 7.4,
-    "rising_velocity": 0.0,
-    "status": "STEADY",
+    "rising_velocity": -0.09,
+    "status": "FALLING",
     "upstream_catchment": "Dang Valley & Chure Ridges",
     "upstream_lat": 28.4,
     "upstream_lon": 81.85,
@@ -569,7 +814,7 @@
     "longitude": 81.7167,
     "vulnerable_areas_ne": "चेपाङ, गुलरिया, बारबर्दिया, मधुवन, बबई तटीय बस्तीहरू",
     "vulnerable_areas_en": "Chepang, Gulariya municipal riverside, Barbardiya, Madhuwan, southern Bardiya plains",
-    "timestamp": "2026-09-08T00:57:42.579832+00:00",
+    "timestamp": "2026-09-08T04:58:32.771193+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -593,15 +838,39 @@
         "phone": "084-420133"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 5.0,
+        "impact_en": "Chepang lower corridor waterlogged; Bardiya irrigation channel spillover",
+        "impact_ne": "चेपाङ तल्लो क्षेत्र जलमग्न; बबई सिँचाइ नहरबाट पानी ओभरफ्लो"
+      },
+      {
+        "level_m": 6.1,
+        "impact_en": "Gulariya municipal riverbank wards on flood alert; Barbardiya inundated",
+        "impact_ne": "गुलरिया नगरका नदी किनार बस्तीमा सतर्कता; बारबर्दियामा बाढी पस्यो"
+      },
+      {
+        "level_m": 7.4,
+        "impact_en": "Critical urban flood in Gulariya municipality; main highway and markets submerged",
+        "impact_ne": "गुलरिया सदरमुकाममा भीषण सहरी बाढी; बजार तथा मुख्य सडक पूर्ण डुबानमा"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 23.9,
+    "past_24h_rain_mm": 24.4,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 0.1,
-    "current_rain_mm": 0.0,
+    "forecast_1h_mm": 1.0,
+    "current_rain_mm": 2.6,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 5.0m (+1.28m rise): Chepang lower corridor waterlogged; Bardiya irrigation channel spillover",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ५.०m (+१.२८m मा): चेपाङ तल्लो क्षेत्र जलमग्न; बबई सिँचाइ नहरबाट पानी ओभरफ्लो",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/babai_chepang_spark.png"
   },
   {
@@ -609,11 +878,11 @@
     "station_name": "Karnali River at Chisapani",
     "river_name": "Karnali",
     "basin": "Karnali River Basin (Western Nepal)",
-    "current_level": 6.43,
+    "current_level": 6.32,
     "warning_level": 10.0,
     "danger_level": 12.0,
-    "rising_velocity": 0.15,
-    "status": "RISING",
+    "rising_velocity": 0.04,
+    "status": "STEADY",
     "upstream_catchment": "Western High Himalayas (Humla / Jumla)",
     "upstream_lat": 28.85,
     "upstream_lon": 81.35,
@@ -621,7 +890,7 @@
     "longitude": 81.2861,
     "vulnerable_areas_ne": "चिसापानी, दौलतपुर, टीकापुर, राजापुर टापु, जानकी गाउँपालिका, कैलाली-बर्दिया तटबन्ध क्षेत्र",
     "vulnerable_areas_en": "Chisapani, Daulatpur, Tikapur, Rajapur island, Janaki rural municipality, Kailali-Bardiya plains",
-    "timestamp": "2026-09-08T00:57:42.579843+00:00",
+    "timestamp": "2026-09-08T04:58:32.771219+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -644,15 +913,39 @@
         "phone": "091-560010"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 8.5,
+        "impact_en": "Karnali bridge gorge velocity increases; Chisapani low beach submerged",
+        "impact_ne": "चिसापानी पुल मुनि नदीको गति तीव्र; तल्लो बगर क्षेत्र डुबानमा"
+      },
+      {
+        "level_m": 10.0,
+        "impact_en": "Rajapur island & Tikapur lowlands flood warning; emergency siren sounded",
+        "impact_ne": "राजापुर टापु र टीकापुर होचा भूभागमा सतर्कता; आपतकालीन साइरन बजाइयो"
+      },
+      {
+        "level_m": 12.0,
+        "impact_en": "Massive delta overflow; Rajapur cutoff from mainland, Kailali-Bardiya inundation",
+        "impact_ne": "राजापुर टापु चारैतिरबाट पानीले घेरियो; कैलाली-बर्दियाका तटबन्ध बस्ती जलमग्न"
+      }
+    ],
     "severity": "NORMAL",
-    "lead_time_formatted_en": "Warning mark in ~23h 48m (~06:30 AM NPT)",
-    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~२३ घण्टा ४८ मिनेट (करिब ०६:३० बिहान)",
-    "past_24h_rain_mm": 23.1,
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 33.8,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 2.2,
-    "current_rain_mm": 2.7,
+    "forecast_1h_mm": 3.6,
+    "current_rain_mm": 2.8,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 8.5m (+2.18m rise): Karnali bridge gorge velocity increases; Chisapani low beach submerged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ८.५m (+२.१८m मा): चिसापानी पुल मुनि नदीको गति तीव्र; तल्लो बगर क्षेत्र डुबानमा",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/karnali_chisapani_spark.png"
   },
   {
@@ -660,10 +953,10 @@
     "station_name": "Kamala River at Ranibas",
     "river_name": "Kamala River",
     "basin": "Kamala River Basin (Madhesh)",
-    "current_level": 2.51,
+    "current_level": 2.42,
     "warning_level": 4.5,
     "danger_level": 5.8,
-    "rising_velocity": 0.04,
+    "rising_velocity": -0.04,
     "status": "STEADY",
     "upstream_catchment": "Sindhuli Hills & Chure Foothills",
     "upstream_lat": 27.15,
@@ -672,7 +965,7 @@
     "longitude": 85.95,
     "vulnerable_areas_ne": "रानीबास, बर्दिबास, इनर्वा, धनुषा-सिरहा तटीय क्षेत्र, कमला तटबन्ध आसपास बस्ती",
     "vulnerable_areas_en": "Ranibas, Bardibas lower plains, Inarwa, Dhanusha-Siraha riverbanks, Kamala embankment zone",
-    "timestamp": "2026-09-08T00:57:42.579855+00:00",
+    "timestamp": "2026-09-08T04:58:32.771224+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -696,15 +989,39 @@
         "phone": "047-520133"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.8,
+        "impact_en": "Sindhuli foothill flood surge; Kamala riverbank sandbars covered",
+        "impact_ne": "सिन्धुली चुरे पहाडबाट बाढीको चाप; बगर क्षेत्र पानीले ढाकियो"
+      },
+      {
+        "level_m": 4.5,
+        "impact_en": "Ranibas & Bardibas plains warning; Dhanusha-Siraha embankments tested",
+        "impact_ne": "रानीबास र बर्दिबास होचा क्षेत्रमा सतर्कता; धनुषा-सिरहा तटबन्धमा कटान जोखिम"
+      },
+      {
+        "level_m": 5.8,
+        "impact_en": "Kamala embankment breach threat; Madhesh downstream settlements flooded",
+        "impact_ne": "कमला नदीको तटबन्ध भत्किने चरम खतरा; मधेशका सयौँ बस्तीमा बाढी पस्ने"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 36.7,
+    "past_24h_rain_mm": 25.5,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 1.7,
-    "current_rain_mm": 1.5,
+    "forecast_1h_mm": 1.8,
+    "current_rain_mm": 0.0,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.8m (+1.38m rise): Sindhuli foothill flood surge; Kamala riverbank sandbars covered",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.८m (+१.३८m मा): सिन्धुली चुरे पहाडबाट बाढीको चाप; बगर क्षेत्र पानीले ढाकियो",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/kamala_ranibas_spark.png"
   },
   {
@@ -712,7 +1029,7 @@
     "station_name": "Kankai River at Mainachuli (Jhapa)",
     "river_name": "Kankai River",
     "basin": "Kankai River Basin (Eastern Terai)",
-    "current_level": 2.11,
+    "current_level": 2.08,
     "warning_level": 4.2,
     "danger_level": 5.6,
     "rising_velocity": -0.03,
@@ -724,7 +1041,7 @@
     "longitude": 87.9,
     "vulnerable_areas_ne": "मैनाचुली, शिवसताक्षी, कन्काई नगरपालिका, सुरुङ्गा, झापा तटीय क्षेत्र",
     "vulnerable_areas_en": "Mainachuli, Shivasatakshi, Kankai municipality, Surunga, southern Jhapa plains",
-    "timestamp": "2026-09-08T00:57:42.579868+00:00",
+    "timestamp": "2026-09-08T04:58:32.771229+00:00",
     "is_mock": true,
     "source": "DHM Resilient Telemetry (Realistic Model)",
     "emergency_shelters": [
@@ -748,15 +1065,583 @@
         "phone": "023-520144"
       }
     ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.5,
+        "impact_en": "Ilam foothill torrents enter Kankai; Mainachuli lower banks flooded",
+        "impact_ne": "इलाम पहाडबाट तीव्र बहाव; मैनाचुली तल्लो बगर क्षेत्र जलमग्न"
+      },
+      {
+        "level_m": 4.2,
+        "impact_en": "Shivasatakshi & Surunga lowlands flood warning; agricultural land erosion",
+        "impact_ne": "शिवसताक्षी र सुरुङ्गा होचा क्षेत्रमा सतर्कता; कृषि भूभाग कटान सुरु"
+      },
+      {
+        "level_m": 5.6,
+        "impact_en": "Devastating flash flood in southern Jhapa; residential settlements submerged",
+        "impact_ne": "झापाका दक्षिणी गाउँहरूमा भीषण बाढी; घरआँगन १ मिटरसम्म जलमग्न"
+      }
+    ],
     "severity": "NORMAL",
     "lead_time_formatted_en": null,
     "lead_time_formatted_ne": null,
-    "past_24h_rain_mm": 18.8,
+    "past_24h_rain_mm": 26.0,
     "is_soil_saturated": false,
     "upstream_cascade_alert_ne": null,
     "upstream_cascade_alert_en": null,
-    "forecast_1h_mm": 3.6,
-    "current_rain_mm": 3.3,
+    "forecast_1h_mm": 2.9,
+    "current_rain_mm": 1.2,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.5m (+1.42m rise): Ilam foothill torrents enter Kankai; Mainachuli lower banks flooded",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.५m (+१.४२m मा): इलाम पहाडबाट तीव्र बहाव; मैनाचुली तल्लो बगर क्षेत्र जलमग्न",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
     "sparkline_url": "trends/kankai_mainachuli_spark.png"
+  },
+  {
+    "station_id": "hanumante_thimi",
+    "station_name": "Hanumante River at Radhe Radhe / Thimi",
+    "river_name": "Hanumante River",
+    "basin": "Bagmati Sub-basin (Bhaktapur)",
+    "current_level": 1.77,
+    "warning_level": 3.5,
+    "danger_level": 4.8,
+    "rising_velocity": 0.07,
+    "status": "RISING",
+    "upstream_catchment": "Nagarkot & Changunarayan Ridges",
+    "upstream_lat": 27.71,
+    "upstream_lon": 85.45,
+    "latitude": 27.674,
+    "longitude": 85.388,
+    "vulnerable_areas_ne": "राधेराधे, मध्यपुर थिमी, सल्लाघारी, जगाती, चारदोबाटो, भाटभटेनी तथा अस्पताल आसपास",
+    "vulnerable_areas_en": "Radhe Radhe, Madhyapur Thimi, Sallaghari, Jagati, Chardobato, Bhatbhateni & hospital vicinity",
+    "timestamp": "2026-09-08T04:58:32.771233+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "मध्यपुर थिमी नगरपालिका कभर्डहल",
+        "name_en": "Madhyapur Thimi Covered Hall Shelter",
+        "location": "Thimi Higher Ground",
+        "type": "Indoor Stadium Shelter",
+        "phone": "01-6630123"
+      },
+      {
+        "name_ne": "सल्लाघारी खुला चौर तथा उच्च विद्यालय",
+        "name_en": "Sallaghari Open Ground & Secondary School",
+        "location": "Sallaghari High Ground",
+        "type": "Open Ground / School Shelter",
+        "phone": "01-6610050"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "मध्यपुर थिमी वडा ४ विपद् सम्पर्क",
+        "name_en": "Thimi Ward 4 Disaster Desk",
+        "phone": "01-6630123"
+      },
+      {
+        "name_ne": "जिल्ला आपतकालीन कार्यसञ्चालन केन्द्र भक्तपुर (DEOC)",
+        "name_en": "DEOC Bhaktapur",
+        "phone": "01-6614821"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी परिसर भक्तपुर",
+        "name_en": "Bhaktapur District Police",
+        "phone": "01-6610011"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 2.8,
+        "impact_en": "Araniko Highway underpass approaches waterlogged",
+        "impact_ne": "अरनिको राजमार्ग अण्डरपास तथा छेउछाउमा पानी जम्न सुरु"
+      },
+      {
+        "level_m": 3.5,
+        "impact_en": "Radhe Radhe roadside shops and ground floors flooded (WARNING)",
+        "impact_ne": "राधेराधे सडक किनारका पसल तथा घरका भुइँतल्लामा बाढी पस्यो (सतर्कता तह)"
+      },
+      {
+        "level_m": 4.8,
+        "impact_en": "Araniko Highway completely submerged; Radhe Radhe under 1-1.5m water (DANGER)",
+        "impact_ne": "अरनिको राजमार्ग पूर्ण जलमग्न; राधेराधे आवासीय क्षेत्र १-१.५ मिटर डुबानमा (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": "Warning mark in ~24h 42m (~11:25 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~२४ घण्टा ४२ मिनेट (करिब ११:२५ बिहान)",
+    "past_24h_rain_mm": 34.4,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 1.9,
+    "current_rain_mm": 0.1,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 2.8m (+1.03m rise): Araniko Highway underpass approaches waterlogged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु २.८m (+१.०३m मा): अरनिको राजमार्ग अण्डरपास तथा छेउछाउमा पानी जम्न सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/hanumante_thimi_spark.png"
+  },
+  {
+    "station_id": "manohara_jadibuti",
+    "station_name": "Manohara River at Jadibuti / Koteshwor Corridor",
+    "river_name": "Manohara River",
+    "basin": "Bagmati Sub-basin (Kathmandu / Lalitpur border)",
+    "current_level": 2.0,
+    "warning_level": 4.0,
+    "danger_level": 5.2,
+    "rising_velocity": 0.04,
+    "status": "STEADY",
+    "upstream_catchment": "Sankhu & Kageshwari Manohara Foothills",
+    "upstream_lat": 27.74,
+    "upstream_lon": 85.47,
+    "latitude": 27.678,
+    "longitude": 85.352,
+    "vulnerable_areas_ne": "जडीबुटी, कोटेश्वर करिडोर, पेप्सीकोला, सुकुम्बासी बस्ती, विमानस्थल पूर्व किनार",
+    "vulnerable_areas_en": "Jadibuti, Koteshwor corridor road, Pepsicola, squatter settlements, TIA airport eastern perimeter",
+    "timestamp": "2026-09-08T04:58:32.771237+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "कोटेश्वर उच्च माध्यमिक विद्यालय",
+        "name_en": "Koteshwor High School Shelter",
+        "location": "Koteshwor High Ground",
+        "type": "School Shelter",
+        "phone": "01-4991122"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "काठमाडौँ वडा नं ३२ विपद् सम्पर्क",
+        "name_en": "KMC Ward 32 Disaster Desk",
+        "phone": "01-4991122"
+      },
+      {
+        "name_ne": "प्रहरी प्रभाग कोटेश्वर",
+        "name_en": "Koteshwor Police Post",
+        "phone": "01-4991199"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.4,
+        "impact_en": "Manohara corridor track submerged; vehicular movement restricted",
+        "impact_ne": "मनोहरा करिडोर सडकमा पानी पस्यो; साना सवारी आवागमन अवरुद्ध"
+      },
+      {
+        "level_m": 4.0,
+        "impact_en": "Jadibuti squatter settlements inundated; Koteshwor lowlands flooded (WARNING)",
+        "impact_ne": "जडीबुटी सुकुम्बासी बस्तीमा पानी पस्यो; कोटेश्वर होचा भूभाग जलमग्न (सतर्कता तह)"
+      },
+      {
+        "level_m": 5.2,
+        "impact_en": "Major corridor cutoff; extensive flooding behind airport runway (DANGER)",
+        "impact_ne": "करिडोर सडक पूर्ण अवरुद्ध; विमानस्थलको पूर्वी भूभाग तथा बस्ती डुबानमा (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 31.9,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 1.3,
+    "current_rain_mm": 1.2,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.4m (+1.40m rise): Manohara corridor track submerged; vehicular movement restricted",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.४m (+१.४०m मा): मनोहरा करिडोर सडकमा पानी पस्यो; साना सवारी आवागमन अवरुद्ध",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/manohara_jadibuti_spark.png"
+  },
+  {
+    "station_id": "dhobikhola_anamnagar",
+    "station_name": "Dhobikhola at Anamnagar / Bijulibazar Corridor",
+    "river_name": "Dhobikhola (Rudramati)",
+    "basin": "Bagmati Sub-basin (Kathmandu Valley)",
+    "current_level": 1.51,
+    "warning_level": 3.2,
+    "danger_level": 4.2,
+    "rising_velocity": -0.04,
+    "status": "STEADY",
+    "upstream_catchment": "Budhanilkantha & Tarebhir Hills",
+    "upstream_lat": 27.79,
+    "upstream_lon": 85.37,
+    "latitude": 27.694,
+    "longitude": 85.326,
+    "vulnerable_areas_ne": "अनामनगर, बिजुलीबजार, माइतीघर करिडोर, घट्टेकुलो, चाबहिल, कपन तटीय क्षेत्र",
+    "vulnerable_areas_en": "Anamnagar, Bijulibazar, Maitighar corridor, Ghattekulo, Chabahil, Kapan low-lying banks",
+    "timestamp": "2026-09-08T04:58:32.771242+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "अनामनगर सामुदायिक भवन तथा सिंहदरबार उच्च परिसर",
+        "name_en": "Anamnagar Community Building & Singhadurbar High Grounds",
+        "location": "Anamnagar / Singhadurbar",
+        "type": "Community / Government High Elevation Facility",
+        "phone": "01-4770155"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "काठमाडौँ वडा नं २९ वडा कार्यालय",
+        "name_en": "KMC Ward 29 Office",
+        "phone": "01-4770155"
+      },
+      {
+        "name_ne": "सिंहदरबार प्रहरी वृत्त",
+        "name_en": "Singhadurbar Police Circle",
+        "phone": "01-4220011"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 2.7,
+        "impact_en": "Under-bridge corridor tracks submerged at Bijulibazar and Maitighar",
+        "impact_ne": "बिजुलीबजार तथा माइतीघर मुनिको करिडोर ट्र्याक जलमग्न"
+      },
+      {
+        "level_m": 3.2,
+        "impact_en": "Anamnagar government offices and residential basements flooded (WARNING)",
+        "impact_ne": "अनामनगरका सरकारी कार्यालय र आवासीय घरका भूमिगत तल्ला (Basement) मा बाढी (सतर्कता तह)"
+      },
+      {
+        "level_m": 4.2,
+        "impact_en": "Dhobikhola corridor road completely blocked; widespread flooding (DANGER)",
+        "impact_ne": "धोबीखोला करिडोर पूर्ण ठप्प; घना सहरी क्षेत्रमा गम्भीर डुबान (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 12.3,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 3.9,
+    "current_rain_mm": 1.4,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 2.7m (+1.19m rise): Under-bridge corridor tracks submerged at Bijulibazar and Maitighar",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु २.७m (+१.१९m मा): बिजुलीबजार तथा माइतीघर मुनिको करिडोर ट्र्याक जलमग्न",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/dhobikhola_anamnagar_spark.png"
+  },
+  {
+    "station_id": "bishnumati_gongabu",
+    "station_name": "Bishnumati River at Gongabu / Balaju",
+    "river_name": "Bishnumati River",
+    "basin": "Bagmati Sub-basin (Kathmandu)",
+    "current_level": 1.66,
+    "warning_level": 3.8,
+    "danger_level": 5.0,
+    "rising_velocity": -0.08,
+    "status": "FALLING",
+    "upstream_catchment": "Tokha & Gurje Bhanjyang Hills",
+    "upstream_lat": 27.81,
+    "upstream_lon": 85.32,
+    "latitude": 27.732,
+    "longitude": 85.308,
+    "vulnerable_areas_ne": "नयाँ बसपार्क, गोँगबु, बालाजु, शोभावगवती, टेकु दोभान तटीय क्षेत्र",
+    "vulnerable_areas_en": "New Bus Park, Gongabu, Balaju, Shobhabhagwati, Teku confluence corridor",
+    "timestamp": "2026-09-08T04:58:32.771245+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "बालाजु उच्च सामुदायिक भवन तथा मा.वि.",
+        "name_en": "Balaju Community Safe Center & School",
+        "location": "Balaju Height",
+        "type": "School & Elevated Safe Center",
+        "phone": "01-4350123"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "काठमाडौँ वडा नं २६ विपद् सम्पर्क",
+        "name_en": "KMC Ward 26 Disaster Desk",
+        "phone": "01-4350123"
+      },
+      {
+        "name_ne": "बालाजु प्रहरी वृत्त",
+        "name_en": "Balaju Police Circle",
+        "phone": "01-4350033"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 3.0,
+        "impact_en": "Bishnumati corridor footpath and low riverbank walls overflow",
+        "impact_ne": "विष्णुमती करिडोर पैदलमार्ग तथा होचा पर्खालबाट पानी छचल्किन सुरु"
+      },
+      {
+        "level_m": 3.8,
+        "impact_en": "Gongabu Bus Park low parking bays and Balaju corridor flooded (WARNING)",
+        "impact_ne": "नयाँ बसपार्कको तल्लो पार्किङ र बालाजु करिडोर जलमग्न (सतर्कता तह)"
+      },
+      {
+        "level_m": 5.0,
+        "impact_en": "Riverside residential communities flooded; bridges closed to traffic (DANGER)",
+        "impact_ne": "तटीय आवासीय बस्तीमा भीषण बाढी; पुलहरूमा सवारी आवागमन बन्द (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": null,
+    "lead_time_formatted_ne": null,
+    "past_24h_rain_mm": 36.7,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 3.1,
+    "current_rain_mm": 0.4,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 3.0m (+1.34m rise): Bishnumati corridor footpath and low riverbank walls overflow",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ३.०m (+१.३४m मा): विष्णुमती करिडोर पैदलमार्ग तथा होचा पर्खालबाट पानी छचल्किन सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/bishnumati_gongabu_spark.png"
+  },
+  {
+    "station_id": "karmanasa_imadol",
+    "station_name": "Karmanasa (Khadku) at Imadol / Gwarko",
+    "river_name": "Karmanasa River",
+    "basin": "Bagmati Sub-basin (Lalitpur)",
+    "current_level": 1.37,
+    "warning_level": 3.0,
+    "danger_level": 4.0,
+    "rising_velocity": 0.13,
+    "status": "RISING",
+    "upstream_catchment": "Lubhu & Godawari Foothills",
+    "upstream_lat": 27.6,
+    "upstream_lon": 85.38,
+    "latitude": 27.665,
+    "longitude": 85.337,
+    "vulnerable_areas_ne": "इमाडोल, ग्वार्को, बालकुमारी, टिकाथली, महालक्ष्मी नगरपालिका तटीय बस्ती",
+    "vulnerable_areas_en": "Imadol, Gwarko, Balkumari, Tikathali, Mahalaxmi municipality riverside communities",
+    "timestamp": "2026-09-08T04:58:32.771250+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "महालक्ष्मी नगरपालिका विपद् आश्रय भवन",
+        "name_en": "Mahalaxmi Municipal Disaster Shelter",
+        "location": "Imadol High Ground",
+        "type": "Municipal Shelter",
+        "phone": "01-5201100"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "महालक्ष्मी नगरपालिका विपद् शाखा",
+        "name_en": "Mahalaxmi Municipality Disaster Desk",
+        "phone": "01-5201100"
+      },
+      {
+        "name_ne": "प्रहरी चौकी इमाडोल",
+        "name_en": "Imadol Police Post",
+        "phone": "01-5201234"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 2.3,
+        "impact_en": "Gwarko-Imadol link road shoulder waterlogged",
+        "impact_ne": "ग्वार्को-इमाडोल सडक छेउमा पानी जम्न सुरु"
+      },
+      {
+        "level_m": 3.0,
+        "impact_en": "Basements and ground floors inundated in Imadol colonies (WARNING)",
+        "impact_ne": "इमाडोल र बालकुमारीका हाउजिङ तथा बस्तीमा बाढी पस्यो (सतर्कता तह)"
+      },
+      {
+        "level_m": 4.0,
+        "impact_en": "Extensive residential inundation across Mahalaxmi municipality (DANGER)",
+        "impact_ne": "महालक्ष्मी नगर क्षेत्रमा व्यापक सहरी डुबान; उद्दार टोली परिचालन (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": "Warning mark in ~12h 30m (~11:13 PM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१२ घण्टा ३० मिनेट (करिब ११:१३ राति)",
+    "past_24h_rain_mm": 33.0,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 1.5,
+    "current_rain_mm": 0.8,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 2.3m (+0.93m rise): Gwarko-Imadol link road shoulder waterlogged",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु २.३m (+०.९३m मा): ग्वार्को-इमाडोल सडक छेउमा पानी जम्न सुरु",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/karmanasa_imadol_spark.png"
+  },
+  {
+    "station_id": "bhotekoshi_barhabise",
+    "station_name": "Bhotekoshi River at Barhabise / Tatopani",
+    "river_name": "Bhotekoshi River",
+    "basin": "Koshi Basin (Sindhupalchok)",
+    "current_level": 3.06,
+    "warning_level": 5.0,
+    "danger_level": 6.5,
+    "rising_velocity": 0.08,
+    "status": "RISING",
+    "upstream_catchment": "Tibetan Plateau / Zhangmu High Watershed",
+    "upstream_lat": 28.0,
+    "upstream_lon": 85.98,
+    "latitude": 27.788,
+    "longitude": 85.898,
+    "vulnerable_areas_ne": "बाह्रबिसे, तातोपानी, लार्चा, लिपिङ, अरनिको राजमार्ग तटीय क्षेत्र",
+    "vulnerable_areas_en": "Barhabise, Tatopani, Larcha, Liping, Araniko Highway riverside settlements",
+    "timestamp": "2026-09-08T04:58:32.771253+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "बाह्रबिसे नगर विपद् आश्रयस्थल तथा शारदा उच्च मा.वि.",
+        "name_en": "Barhabise Municipal Shelter & Sharada High School",
+        "location": "Barhabise Ridge High Ground",
+        "type": "School & Safe Center",
+        "phone": "011-489123"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "बाह्रबिसे नगरपालिका विपद् शाखा",
+        "name_en": "Barhabise Municipality Disaster Unit",
+        "phone": "011-489123"
+      },
+      {
+        "name_ne": "इलाका प्रहरी कार्यालय बाह्रबिसे",
+        "name_en": "Barhabise Area Police",
+        "phone": "011-489014"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 4.2,
+        "impact_en": "Araniko Highway road shoulder erosion; riverside trails closed",
+        "impact_ne": "अरनिको राजमार्ग सडक कटानको जोखिम; तटीय बाटोहरू बन्द"
+      },
+      {
+        "level_m": 5.0,
+        "impact_en": "Barhabise lower market flooded; highway transport halted (WARNING)",
+        "impact_ne": "बाह्रबिसे बजारको तल्लो भाग जलमग्न; अरनिको राजमार्ग अवरुद्ध (सतर्कता तह)"
+      },
+      {
+        "level_m": 6.5,
+        "impact_en": "Extreme transboundary flash flood/GLOF; catastrophic bridge washaway risk (DANGER)",
+        "impact_ne": "हिमनदी/पहिरो बाँध फुटेर आउने भीषण बाढी; पुल तथा बस्ती बगाउने चरम खतरा (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": "Warning mark in ~24h 12m (~10:55 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~२४ घण्टा १२ मिनेट (करिब १०:५५ बिहान)",
+    "past_24h_rain_mm": 27.2,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 3.5,
+    "current_rain_mm": 1.9,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 4.2m (+1.14m rise): Araniko Highway road shoulder erosion; riverside trails closed",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ४.२m (+१.१४m मा): अरनिको राजमार्ग सडक कटानको जोखिम; तटीय बाटोहरू बन्द",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/bhotekoshi_barhabise_spark.png"
+  },
+  {
+    "station_id": "seti_ramghat",
+    "station_name": "Seti River at Ramghat (Pokhara)",
+    "river_name": "Seti River",
+    "basin": "Gandaki Basin (Kaski)",
+    "current_level": 3.91,
+    "warning_level": 6.5,
+    "danger_level": 8.5,
+    "rising_velocity": 0.13,
+    "status": "RISING",
+    "upstream_catchment": "Machhapuchhre & Annapurna Gorge",
+    "upstream_lat": 28.45,
+    "upstream_lon": 83.95,
+    "latitude": 28.216,
+    "longitude": 83.998,
+    "vulnerable_areas_ne": "रामघाट, नदीपुर, गाईघाट, सेती खोँच तटीय क्षेत्र, पोखरा वडा ३ र ९",
+    "vulnerable_areas_en": "Ramghat, Nadipur, Gaighat, Seti deep canyon corridor, Pokhara Wards 3 & 9",
+    "timestamp": "2026-09-08T04:58:32.771257+00:00",
+    "is_mock": true,
+    "source": "DHM Resilient Telemetry (Realistic Model)",
+    "emergency_shelters": [
+      {
+        "name_ne": "रामघाट सामुदायिक भवन तथा नदीपुर उच्च परिसर",
+        "name_en": "Ramghat Community Safe Center & Nadipur High Ground",
+        "location": "Nadipur / Pokhara Height",
+        "type": "Elevated Community Safe Center",
+        "phone": "061-521105"
+      }
+    ],
+    "ward_contacts": [
+      {
+        "name_ne": "पोखरा महानगरपालिका विपद् व्यवस्थापन शाखा",
+        "name_en": "Pokhara Metro Disaster Unit",
+        "phone": "061-521105"
+      },
+      {
+        "name_ne": "जिल्ला प्रहरी कार्यालय कास्की",
+        "name_en": "Kaski District Police",
+        "phone": "061-520033"
+      }
+    ],
+    "inundation_milestones": [
+      {
+        "level_m": 5.2,
+        "impact_en": "Seti river gorge walking trails closed; turbulent muddy current",
+        "impact_ne": "सेती खोँच पैदलमार्ग बन्द; तीव्र धमिलो भेल"
+      },
+      {
+        "level_m": 6.5,
+        "impact_en": "Ramghat lower cremation platforms submerged; canyon warning (WARNING)",
+        "impact_ne": "रामघाट तल्लो भाग जलमग्न; सेती खोँच आसपास उच्च सतर्कता (सतर्कता तह)"
+      },
+      {
+        "level_m": 8.5,
+        "impact_en": "Debris flood in deep gorge; bridges closed to pedestrian traffic (DANGER)",
+        "impact_ne": "खोँचमा लेदोसहितको भयानक बहाव; पुल तथा तटीय क्षेत्र पूर्ण निषेधित (खतरा तह)"
+      }
+    ],
+    "severity": "NORMAL",
+    "lead_time_formatted_en": "Warning mark in ~19h 54m (~06:37 AM NPT)",
+    "lead_time_formatted_ne": "सतर्कता सीमा उल्लङ्घन अनुमान: ~१९ घण्टा ५४ मिनेट (करिब ०६:३७ बिहान)",
+    "past_24h_rain_mm": 29.3,
+    "is_soil_saturated": false,
+    "upstream_cascade_alert_ne": null,
+    "upstream_cascade_alert_en": null,
+    "forecast_1h_mm": 1.4,
+    "current_rain_mm": 3.1,
+    "current_milestone_impact_en": null,
+    "current_milestone_impact_ne": null,
+    "next_milestone_impact_en": "Next Impact at 5.2m (+1.29m rise): Seti river gorge walking trails closed; turbulent muddy current",
+    "next_milestone_impact_ne": "आगामी जोखिम विन्दु ५.२m (+१.२९m मा): सेती खोँच पैदलमार्ग बन्द; तीव्र धमिलो भेल",
+    "is_debris_flow_risk": false,
+    "debris_flow_alert_ne": null,
+    "debris_flow_alert_en": null,
+    "sparkline_url": "trends/seti_ramghat_spark.png"
   }
 ]
