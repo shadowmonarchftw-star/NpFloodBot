@@ -256,20 +256,128 @@ def export_stations_live(readings: list, assessments: list | None = None) -> Non
                     d["is_debris_flow_risk"] = a.is_debris_flow_risk
                     d["debris_flow_alert_ne"] = a.debris_flow_alert_ne
                     d["debris_flow_alert_en"] = a.debris_flow_alert_en
+                    d["projected_levels_6h"] = a.projected_levels_6h
+                    d["predicted_peak_level"] = a.predicted_peak_level
+                    d["predicted_peak_time_hours"] = a.predicted_peak_time_hours
+                    d["predicted_peak_formatted_en"] = a.predicted_peak_formatted_en
+                    d["predicted_peak_formatted_ne"] = a.predicted_peak_formatted_ne
 
-                # Generate sparkline PNG for this station and add its URL
+                # Generate sparkline PNG with future projection for this station and add its URL
                 try:
                     from services.sparkline_generator import generate_sparkline
-                    spark_path = generate_sparkline(r.station_id)
+                    proj_data = d.get("projected_levels_6h", [])
+                    spark_path = generate_sparkline(r.station_id, projected_levels=proj_data)
                     if spark_path and spark_path.exists():
                         d["sparkline_url"] = f"trends/{spark_path.name}"
                 except Exception as e:
                     logger.debug(f"Sparkline generation failed for {r.station_id}: {e}")
                 payload.append(d)
+
             with open(docs_dir / "stations_live.json", "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=2, ensure_ascii=False)
+
+            # Export Open GeoJSON FeatureCollection & RSS feeds
+            export_geojson_feed(payload, docs_dir)
+            export_rss_feed(payload, docs_dir)
     except Exception as e:
-        logger.debug(f"Could not export stations_live.json: {e}")
+        logger.debug(f"Could not export stations_live.json / feeds: {e}")
+
+
+def export_geojson_feed(payload: list, docs_dir: Path) -> None:
+    """Export standard GeoJSON FeatureCollection for GIS software, Leaflet, and humanitarian agencies."""
+    now_iso = datetime.now(timezone.utc).isoformat()
+    features = []
+    for item in payload:
+        lat = item.get("latitude")
+        lon = item.get("longitude")
+        if lat is not None and lon is not None:
+            features.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [float(lon), float(lat)],
+                },
+                "properties": item,
+            })
+    geojson_data = {
+        "type": "FeatureCollection",
+        "metadata": {
+            "title": "Nepal Flood Early Warning Live GeoJSON Feed",
+            "provider": "NpFloodBot Open Disaster Intelligence",
+            "generated_at": now_iso,
+            "total_stations": len(features),
+            "license": "Public Domain / Open Data",
+        },
+        "features": features,
+    }
+    with open(docs_dir / "feed.geojson", "w", encoding="utf-8") as f:
+        json.dump(geojson_data, f, indent=2, ensure_ascii=False)
+
+
+def export_rss_feed(payload: list, docs_dir: Path) -> None:
+    """Export standard RSS 2.0 / GeoRSS disaster feed for news portals and aggregators."""
+    now_rfc822 = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    items_xml = []
+    for item in payload:
+        sid = item.get("station_id", "")
+        sname = item.get("station_name", sid)
+        river = item.get("river_name", "")
+        sev = item.get("severity", "NORMAL")
+        lvl = float(item.get("current_level", 0.0))
+        vel = float(item.get("rising_velocity", 0.0))
+        lat = item.get("latitude", 0.0)
+        lon = item.get("longitude", 0.0)
+        warn = float(item.get("warning_level", 0.0))
+        dang = float(item.get("danger_level", 0.0))
+        lead_en = item.get("lead_time_formatted_en") or "Stable / Within bounds"
+        peak_en = item.get("predicted_peak_formatted_en") or "No sharp crest expected"
+        curr_impact = item.get("current_milestone_impact_en") or "Normal riverbed conditions"
+        next_impact = item.get("next_milestone_impact_en") or "No imminent urban breach"
+
+        title = f"[{sev}] {sname} ({river}) - Level: {lvl:.2f}m (v: {vel:+.2f}m/h)"
+        desc = (
+            f"Station: {sname} ({river})\n"
+            f"Severity: {sev}\n"
+            f"Current Level: {lvl:.2f}m (Warning: {warn:.2f}m, Danger: {dang:.2f}m)\n"
+            f"Velocity: {vel:+.2f} m/hr | Lead-Time: {lead_en}\n"
+            f"Hydrograph Forecast: {peak_en}\n"
+            f"Current Impact: {curr_impact}\n"
+            f"Next Milestone: {next_impact}"
+        )
+        link = f"https://thesuccess-tech.github.io/googleweatherbot/#{sid}"
+        guid = f"{sid}-{now_iso}"
+
+        item_xml = (
+            f"    <item>\n"
+            f"      <title><![CDATA[{title}]]></title>\n"
+            f"      <link>{link}</link>\n"
+            f"      <guid isPermaLink=\"false\">{guid}</guid>\n"
+            f"      <pubDate>{now_rfc822}</pubDate>\n"
+            f"      <description><![CDATA[{desc}]]></description>\n"
+            f"      <geo:lat>{lat}</geo:lat>\n"
+            f"      <geo:long>{lon}</geo:long>\n"
+            f"    </item>"
+        )
+        items_xml.append(item_xml)
+
+    all_items = "\n".join(items_xml)
+    rss_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nepal Flood Early Warning &amp; River Level Feed</title>
+    <link>https://thesuccess-tech.github.io/googleweatherbot/</link>
+    <description>Real-time hydrological monitoring, +6h forecast hydrograph, and disaster early warning for Nepal river basins.</description>
+    <language>en-us</language>
+    <lastBuildDate>{now_rfc822}</lastBuildDate>
+    <atom:link href="https://thesuccess-tech.github.io/googleweatherbot/feed.rss" rel="self" type="application/rss+xml" />
+{all_items}
+  </channel>
+</rss>
+"""
+    with open(docs_dir / "feed.rss", "w", encoding="utf-8") as f:
+        f.write(rss_content)
 
 
 def append_history(readings: list) -> None:

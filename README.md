@@ -2,7 +2,7 @@
 ### 100% Free, Production-Ready Hyper-Local Flood Early Warning System in Python with Google Gemini Flash & Telegram Alerts
 
 [![Flood Monitor](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml/badge.svg)](https://github.com/shadowmonarchftw-star/NpFloodBot/actions/workflows/flood_monitor.yml)
-[![Tests](https://img.shields.io/badge/tests-38%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-43%20passed-brightgreen.svg)]()
 [![Cost](https://img.shields.io/badge/cost-%240%20(100%25%20Free)-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -11,6 +11,8 @@
 > 🗺️ **[Live Interactive Dashboard](https://shadowmonarchftw-star.github.io/NpFloodBot/)** · 📱 **[Telegram Channel](https://t.me/npfloodbot)** · 🤖 **[GitHub Repo](https://github.com/shadowmonarchftw-star/NpFloodBot)**
 > 
 > 🆘 **National 24/7 Flood Hotline: `1155` (Toll-Free)** | Police: `100` | APF Rescue: `1114` | Red Cross: `1130` | NEOC: `1149`
+> 
+> 📡 **Open Disaster Feeds:** [feed.geojson](https://shadowmonarchftw-star.github.io/NpFloodBot/feed.geojson) (GIS / Leaflet) · [feed.rss](https://shadowmonarchftw-star.github.io/NpFloodBot/feed.rss) (RSS 2.0 / GeoRSS / CAP)
 
 
 
@@ -34,10 +36,12 @@ flowchart TD
     subgraph Ingestion ["1. Data Ingestion Module"]
         DHM["Nepal DHM Telemetry<br/>(Real-time Gauge Levels + Fallback)"]
         OM["Open-Meteo API<br/>(Upstream Ridge Rain Forecast)"]
+        RADAR["RainViewer Live Radar<br/>(Real-time Doppler Cloudburst Overlay)"]
+        CITIZEN["Citizen Eye Ground Reports<br/>(Crowdsourced Verification)"]
     end
 
-    subgraph Evaluation ["2. Risk Assessment Engine"]
-        RE["services/risk_evaluator.py<br/>• Warning & Danger Mark Check<br/>• Rising Velocity (m/hr)<br/>• Physical Inundation Milestones<br/>• Debris Flow / Landslide Warning"]
+    subgraph Evaluation ["2. Risk Assessment & Hydrograph Engine"]
+        RE["services/risk_evaluator.py<br/>• Warning & Danger Mark Check<br/>• Rising Velocity (m/hr)<br/>• +6h Forward Predictive Hydrograph<br/>• Physical Inundation Milestones<br/>• Debris Flow / Landslide Warning"]
         SEV["Severity: NORMAL 🟢 | ADVISORY 🟡 | WARNING 🟠 | EMERGENCY 🔴"]
     end
 
@@ -46,9 +50,11 @@ flowchart TD
         FALLBACK["Resilient Disaster Template Engine<br/>(Bilingual Deterministic Fallback)"]
     end
 
-    subgraph Dispatcher ["4. Alert Dispatcher & Fatigue Prevention"]
-        COOLDOWN["services/telegram_notifier.py<br/>• State Tracking (data/state.json)<br/>• 120min Cooldown for Static State<br/>• Immediate Bypass on Escalation or Surge"]
-        TG["Telegram Bot API ($0 Cost)<br/>Broadcast to Public/Private Channels"]
+    subgraph Dispatcher ["4. Alert & Open Data Feeds"]
+        COOLDOWN["services/telegram_notifier.py<br/>• State Tracking (data/state.json)<br/>• Cooldown Bypass on Surge/Escalation"]
+        TG["Telegram Bot API<br/>Broadcast Channel"]
+        FEEDS["Open Data Feeds<br/>• docs/feed.geojson (GIS / QGIS)<br/>• docs/feed.rss (GeoRSS / CAP)"]
+        PUSH["Browser Web Push Notifications"]
     end
 
     Ingestion --> Evaluation
@@ -57,33 +63,33 @@ flowchart TD
     GEMINI -.->|If Offline/Rate-limited| FALLBACK
     AI --> Dispatcher
     Dispatcher --> TG
+    Dispatcher --> FEEDS
+    Dispatcher --> PUSH
 ```
 
 ---
 
 ## 🛡️ Citizen-First Life-Saving Features
 
-1. **🏥 Designated Emergency Shelters & Local Ward Contacts:**
-   - Every station includes verified safe high-ground community buildings, schools, and covered halls (e.g. *Janakalyan School* for Balkhu, *Indreshwar School* for Panauti, *Gulariya Multi-purpose Shelter* for Babai).
-   - Direct local ward disaster management committee phone numbers and local police desks.
-2. **🌊 Physical Inundation Milestones (Street-Level Depth Tracking):**
-   - Each station tracks specific urban and rural flood milestones (e.g. Ring Road underpass flooded, squatter huts entered by water, corridor cutoff, highway submerged) so citizens know exactly what physical infrastructure is underwater.
-3. **⛰️ Hillside Landslide & Debris Flow Warnings:**
-   - Evaluates antecedent 24h rainfall against mountain slopes (>80mm triggers severe debris flow and mudslide alerts in Melamchi, Roshi, Bhotekoshi, and valley rims).
-4. **📞 1-Tap Direct National Emergency Dialing:**
-   - **1155**: DHM 24/7 Toll-Free Monsoon Flood Early Warning Hotline
-   - **100**: Nepal Police Emergency
-   - **1114**: Armed Police Force (APF) Disaster Rescue Division
-   - **1130**: Nepal Red Cross Society (Ambulance & Blood Bank)
-   - **1149**: National Emergency Operation Center (NEOC, MoHA)
-5. **🇳🇵 Instant Bilingual Language Switcher (`नेपाली` / `English`):**
-   - The web dashboard supports seamless one-click switching with saved local preferences for local community accessibility.
-6. **🎒 Flood Safety, Go-Bag & Evacuation Checklist Modal:**
-   - Actionable guides: Go-Bag essential packing (water, dry food, waterproof pouches for citizenship & land title deeds, battery torch, powerbanks), electrical breaker shutoff protocol, and livestock protection.
-7. **📲 1-Tap Emergency Sharing (WhatsApp & Clipboard):**
-   - Quickly broadcast formatted flood warnings and shelter coordinates to family and community groups on WhatsApp with one click.
-8. **📡 PWA & Offline Caching Support (`sw.js` + `manifest.json`):**
-   - Installable on mobile phones; displays last cached river levels and emergency hotlines even when heavy rains disrupt grid power or cellular data.
+1. **🌧️ Live Doppler Weather Radar Overlay (RainViewer Free Maps):**
+   - Real-time animated rain radar tiles rendered directly onto the Leaflet map, letting citizens see storm clouds approaching their specific catchment before rivers rise.
+2. **📈 Multi-Hour Predictive Hydrograph Modeling (+6h Future Projection Curve):**
+   - Forward-looking physics-informed hydrological simulation calculating expected river levels (+1h to +6h), estimated crest arrival time, and peak height. Rendered with dashed trendlines on sparklines and map popups.
+3. **📸 "Citizen Eye" (नागरिक प्रत्यक्ष प्रतिवेदन - Crowdsourced Flood Verification):**
+   - Fast 2-click ground reporting tool where riverside residents can verify on-site water conditions (e.g. road flooded, water entered shops) and pin live community reports directly to the map.
+4. **📡 Open GeoJSON & RSS/CAP Disaster Feeds:**
+   - Standard `feed.geojson` (for QGIS, Leaflet, ArcGIS, UN/Red Cross GIS teams) and `feed.rss` (for news portals and aggregators) updated automatically on every cycle.
+5. **🔔 Browser Web Push Notification Alerts:**
+   - HTML5 Notification API integration delivering immediate audio/visual desktop and smartphone alerts whenever a river crosses the warning threshold.
+6. **🏥 Designated Emergency Shelters & Local Ward Contacts:**
+   - Verified safe high-ground schools and covered halls for all 21 stations with 1-tap phone dialing.
+7. **🌊 Physical Inundation Milestones (Street-Level Depth Tracking):**
+   - Exact physical landmarks (underpasses, corridor roads, bridges) mapped to calibrated gauge depths.
+8. **⛰️ Hillside Landslide & Debris Flow Warnings:**
+   - High-rainfall slope stability alerts (>80mm in 24h) for vulnerable mountain tributaries.
+9. **🇳🇵 Instant Bilingual Language Switcher (`नेपाली` / `English`):**
+   - One-tap toggle designed for local community ease of use.
+10. **🎒 Evacuation Safety Checklist & 1-Tap Emergency Hotlines (1155, 100, 1114, 1130, 1149).**
 
 ---
 

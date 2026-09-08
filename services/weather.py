@@ -11,7 +11,7 @@ import logging
 import os
 import random
 from datetime import datetime, timezone
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import requests
 from pydantic import BaseModel, Field
@@ -49,6 +49,14 @@ class CatchmentForecast(BaseModel):
     is_soil_saturated: bool = Field(
         False,
         description="True if past 24-hour rainfall >= 50mm, indicating saturated soil and high runoff risk.",
+    )
+    forecast_6h_mm: float = Field(
+        0.0,
+        description="Cumulative forecasted precipitation for the next 6 hours (mm).",
+    )
+    hourly_forecast_mm: List[float] = Field(
+        default_factory=list,
+        description="Next 6 hours of individual hourly precipitation forecasts [r1..r6] in mm.",
     )
     weather_description: str
     timestamp: datetime
@@ -98,6 +106,8 @@ def fetch_catchment_weather(
             is_heavy_rain=True,
             past_24h_rain_mm=p_24h,
             is_soil_saturated=True,
+            forecast_6h_mm=round(f_1h * 3.8, 1),
+            hourly_forecast_mm=[f_1h, round(f_1h * 0.9, 1), round(f_1h * 0.8, 1), round(f_1h * 0.7, 1), round(f_1h * 0.5, 1), round(f_1h * 0.4, 1)],
             weather_description="Torrential Downpour / Extreme Convective Storm (>25mm/hr)",
             timestamp=now,
             is_mock=True,
@@ -138,6 +148,12 @@ def fetch_catchment_weather(
                 f_3h = round(sum(future_rain[:3]), 1) if len(future_rain) >= 3 else round(f_1h * 3, 1)
                 peak = round(max(future_rain[:6]), 1) if future_rain else f_1h
 
+                # Extract 6-hour hourly projection series
+                h_proj = [round(x, 1) for x in future_rain[:6]]
+                while len(h_proj) < 6:
+                    h_proj.append(round(h_proj[-1] * 0.8, 1) if h_proj else 0.0)
+                f_6h = round(sum(h_proj), 1)
+
                 is_heavy = peak >= HEAVY_RAIN_THRESHOLD_MM_HR or f_1h >= HEAVY_RAIN_THRESHOLD_MM_HR
                 is_sat = past_24h >= 50.0
 
@@ -158,6 +174,8 @@ def fetch_catchment_weather(
                     current_rain_mm=round(current_rain, 1),
                     forecast_1h_mm=round(f_1h, 1),
                     forecast_3h_mm=f_3h,
+                    forecast_6h_mm=f_6h,
+                    hourly_forecast_mm=h_proj,
                     max_hourly_rain_mm=peak,
                     is_heavy_rain=is_heavy,
                     past_24h_rain_mm=past_24h,
@@ -169,7 +187,7 @@ def fetch_catchment_weather(
                 )
                 _WEATHER_CACHE[cache_key] = forecast
                 logger.info(
-                    f"Fetched weather for {catchment_name}: current={current_rain}mm, 1h={f_1h}mm, past24h={past_24h}mm, peak={peak}mm/hr"
+                    f"Fetched weather for {catchment_name}: current={current_rain}mm, 1h={f_1h}mm, 6h={f_6h}mm, past24h={past_24h}mm, peak={peak}mm/hr"
                 )
                 return forecast
         except Exception as err:
@@ -183,6 +201,15 @@ def fetch_catchment_weather(
     simulated_3h = round(simulated_1h * 2.8, 1)
     simulated_24h = round(random.uniform(12.0, 38.0), 1)
     peak = max(simulated_curr, simulated_1h)
+    sim_hourly = [
+        simulated_1h,
+        round(simulated_1h * 0.9, 1),
+        round(simulated_1h * 0.8, 1),
+        round(simulated_1h * 0.6, 1),
+        round(simulated_1h * 0.5, 1),
+        round(simulated_1h * 0.4, 1),
+    ]
+    sim_6h = round(sum(sim_hourly), 1)
 
     forecast = CatchmentForecast(
         catchment_name=catchment_name,
@@ -191,6 +218,8 @@ def fetch_catchment_weather(
         current_rain_mm=simulated_curr,
         forecast_1h_mm=simulated_1h,
         forecast_3h_mm=simulated_3h,
+        forecast_6h_mm=sim_6h,
+        hourly_forecast_mm=sim_hourly,
         max_hourly_rain_mm=peak,
         is_heavy_rain=False,
         past_24h_rain_mm=simulated_24h,

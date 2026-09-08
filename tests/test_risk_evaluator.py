@@ -3,7 +3,7 @@
 from datetime import datetime, timezone
 import pytest
 from services.hydrology import RiverReading
-from services.risk_evaluator import evaluate_risk, SeverityLevel
+from services.risk_evaluator import evaluate_risk, SeverityLevel, compute_hydrograph_projection
 from services.weather import CatchmentForecast
 
 
@@ -140,5 +140,40 @@ def test_debris_flow_landslide_warning(base_reading, base_weather):
     assert risk.debris_flow_alert_ne is not None
     assert "पहिरो तथा गेग्रान बहाव" in risk.debris_flow_alert_ne
     assert any("DEBRIS FLOW & LANDSLIDE WARNING" in r for r in risk.risk_reasons)
+
+
+def test_compute_hydrograph_projection():
+    # Test momentum decay and rain runoff amplification
+    proj, peak_lvl, peak_hr = compute_hydrograph_projection(
+        current_level=3.5,
+        rising_velocity=0.4,
+        hourly_rain_mm=[15.0, 25.0, 30.0, 10.0, 5.0, 0.0],
+        is_soil_saturated=True,
+        warning_level=5.0,
+        danger_level=6.5,
+        basin="Bagmati Basin",
+    )
+    assert len(proj) == 6
+    assert peak_lvl > 3.5
+    assert peak_hr > 0
+    # Projections should stay positive and physically realistic
+    assert all(p > 0.0 for p in proj)
+
+
+def test_evaluate_risk_predictive_hydrograph(base_reading, base_weather):
+    weather = base_weather.model_copy(update={
+        "forecast_1h_mm": 20.0,
+        "hourly_forecast_mm": [25.0, 35.0, 40.0, 15.0, 5.0, 0.0],
+        "is_soil_saturated": True,
+    })
+    reading = base_reading.model_copy(update={"current_level": 4.8, "warning_level": 5.0, "danger_level": 6.5, "rising_velocity": 0.3})
+    risk = evaluate_risk(reading, weather)
+    assert len(risk.projected_levels_6h) == 6
+    assert risk.predicted_peak_level > 4.8
+    assert risk.predicted_peak_formatted_en is not None
+    assert "Peak:" in risk.predicted_peak_formatted_en
+    assert risk.predicted_peak_formatted_ne is not None
+    assert "उच्च विन्दु" in risk.predicted_peak_formatted_ne
+
 
 

@@ -117,6 +117,13 @@ class RiskAssessment(BaseModel):
     debris_flow_alert_ne: Optional[str] = None
     debris_flow_alert_en: Optional[str] = None
 
+    # 6-Hour Forward Predictive Hydrograph
+    projected_levels_6h: List[float] = Field(default_factory=list)
+    predicted_peak_level: Optional[float] = None
+    predicted_peak_time_hours: Optional[float] = None
+    predicted_peak_formatted_en: Optional[str] = None
+    predicted_peak_formatted_ne: Optional[str] = None
+
     @property
     def requires_immediate_alert(self) -> bool:
         return self.severity in (SeverityLevel.WARNING, SeverityLevel.EMERGENCY)
@@ -131,6 +138,63 @@ NEPALI_DIGITS = str.maketrans("0123456789", "०१२३४५६७८९")
 def to_nepali_digits(num_val: Any) -> str:
     """Convert western digits to Nepali Devanagari numerals."""
     return str(num_val).translate(NEPALI_DIGITS)
+
+
+def compute_hydrograph_projection(
+    current_level: float,
+    rising_velocity: float,
+    hourly_rain_mm: List[float],
+    is_soil_saturated: bool,
+    warning_level: float,
+    danger_level: float,
+    basin: str,
+) -> Tuple[List[float], float, float]:
+    """Calculate 6-hour forward river hydrograph projection using physics-informed unit hydrograph modeling.
+
+    Considers:
+    - Inertial momentum decay from current velocity.
+    - Catchment infiltration and soil saturation runoff amplification.
+    - Basin size response lag.
+    - Natural channel drainage / baseflow recession.
+    """
+    if not hourly_rain_mm:
+        hourly_rain_mm = [0.0] * 6
+    else:
+        hourly_rain_mm = (list(hourly_rain_mm) + [0.0] * 6)[:6]
+
+    is_fast_basin = any(b in basin.lower() for b in ["bagmati", "kathmandu", "tributary", "pokhara", "seti"])
+    runoff_factor = 0.024 if is_soil_saturated else 0.014
+    if is_fast_basin:
+        runoff_factor *= 1.35
+
+    proj_levels: List[float] = []
+    prev_h = current_level
+    vel_momentum = max(-0.8, min(1.8, rising_velocity))
+
+    for h_idx in range(6):
+        rain = hourly_rain_mm[h_idx]
+        prior_rain = hourly_rain_mm[h_idx - 1] if h_idx > 0 else rain * 0.7
+        effective_rain = (rain * 0.65) + (prior_rain * 0.35)
+        rain_surge = effective_rain * runoff_factor
+
+        # Damped momentum from initial velocity
+        momentum_step = vel_momentum * (0.65 ** (h_idx + 1))
+
+        # Base drainage
+        drainage = 0.04 if rain < 1.0 and vel_momentum <= 0 else 0.0
+
+        new_h = prev_h + momentum_step + rain_surge - drainage
+        new_h = max(0.1, round(new_h, 2))
+        proj_levels.append(new_h)
+        prev_h = new_h
+
+    peak_lvl = max([current_level] + proj_levels)
+    if peak_lvl > current_level:
+        peak_hr = float(proj_levels.index(max(proj_levels)) + 1)
+    else:
+        peak_hr = 0.0
+
+    return proj_levels, round(peak_lvl, 2), peak_hr
 
 
 def evaluate_risk(
@@ -300,6 +364,41 @@ def evaluate_risk(
         if severity == SeverityLevel.NORMAL:
             severity = SeverityLevel.ADVISORY
 
+    # 6-Hour Predictive Hydrograph Projection
+    hourly_rain = getattr(weather, "hourly_forecast_mm", []) or []
+    proj_6h, peak_lvl, peak_hr = compute_hydrograph_projection(
+        current_level=current,
+        rising_velocity=reading.rising_velocity,
+        hourly_rain_mm=hourly_rain,
+        is_soil_saturated=is_sat,
+        warning_level=warn,
+        danger_level=dang,
+        basin=reading.basin,
+    )
+
+    pred_peak_en = None
+    pred_peak_ne = None
+    if peak_hr > 0 and peak_lvl > current:
+        p_dt = (now_utc + timedelta(hours=int(peak_hr))).astimezone(NPT_TIMEZONE)
+        p_clock_en = p_dt.strftime("%I:%M %p NPT")
+        p_ampm_ne = "बिहान" if p_dt.hour < 12 else ("दिउँसो" if p_dt.hour < 16 else ("साँझ" if p_dt.hour < 20 else "राति"))
+        p_clock_ne = f"{to_nepali_digits(p_dt.strftime('%I:%M'))} {p_ampm_ne}"
+        pred_peak_en = f"Peak: {peak_lvl:.2f}m in ~{int(peak_hr)}h (~{p_clock_en})"
+        pred_peak_ne = f"अनुमानित उच्च विन्दु: {to_nepali_digits(f'{peak_lvl:.2f}')}m, करिब {to_nepali_digits(int(peak_hr))} घण्टामा ({p_clock_ne})"
+
+        if peak_lvl >= dang and current < dang:
+            reasons.append(
+                f"PREDICTIVE HYDROGRAPH ALERT: Upstream rainfall projected to push river to DANGER mark ({peak_lvl:.2f}m >= {dang:.2f}m) in ~{int(peak_hr)}h."
+            )
+            if severity.rank < SeverityLevel.WARNING.rank:
+                severity = SeverityLevel.WARNING
+        elif peak_lvl >= warn and current < warn:
+            reasons.append(
+                f"PREDICTIVE HYDROGRAPH ADVISORY: Level projected to reach WARNING mark ({peak_lvl:.2f}m >= {warn:.2f}m) in ~{int(peak_hr)}h."
+            )
+            if severity.rank < SeverityLevel.ADVISORY.rank:
+                severity = SeverityLevel.ADVISORY
+
     return RiskAssessment(
         station_id=reading.station_id,
         station_name=reading.station_name,
@@ -339,4 +438,9 @@ def evaluate_risk(
         is_debris_flow_risk=is_debris_risk,
         debris_flow_alert_ne=debris_ne,
         debris_flow_alert_en=debris_en,
+        projected_levels_6h=proj_6h,
+        predicted_peak_level=peak_lvl,
+        predicted_peak_time_hours=peak_hr,
+        predicted_peak_formatted_en=pred_peak_en,
+        predicted_peak_formatted_ne=pred_peak_ne,
     )

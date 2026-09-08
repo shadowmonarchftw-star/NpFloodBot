@@ -110,6 +110,18 @@
 
       <!-- Quick Actions (Language Switcher, Safety Checklist Modal Trigger, GitHub) -->
       <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <!-- Citizen Eye Ground Reporting Button -->
+        <button onclick="openCitizenModal()" class="px-2.5 py-1.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 text-emerald-200 border border-emerald-600/50 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <i class="fa-solid fa-camera text-emerald-400"></i>
+          <span id="ui-citizen-btn">नागरिक प्रतिवेदन</span>
+        </button>
+
+        <!-- Push Notifications Toggle -->
+        <button id="notify-toggle" onclick="requestPushNotifications()" class="px-2.5 py-1.5 rounded-lg bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-600/50 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <i class="fa-solid fa-bell text-purple-400"></i>
+          <span id="ui-notify-btn">सूचना (Alerts)</span>
+        </button>
+
         <!-- Safety Guide Button -->
         <button onclick="openSafetyModal()" class="px-2.5 py-1.5 rounded-lg bg-red-950/70 hover:bg-red-900/80 text-red-200 border border-red-700/50 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
           <i class="fa-solid fa-kit-medical text-red-400"></i>
@@ -155,6 +167,14 @@
       <a href="tel:1149" class="hover:text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap flex items-center gap-1">
         🏛️ <b>1149</b> <span class="text-slate-400">(NEOC आपतकालीन)</span>
       </a>
+      <span class="text-slate-600 hidden lg:inline">|</span>
+      <span class="text-slate-400 font-bold hidden lg:inline">खुला डाटा (Open Feeds):</span>
+      <a href="feed.geojson" download class="bg-blue-950/80 text-blue-300 border border-blue-700/60 px-2 py-0.5 rounded text-[10px] font-mono hover:bg-blue-900 transition flex items-center gap-1 whitespace-nowrap">
+        <i class="fa-solid fa-code-fork"></i> GeoJSON
+      </a>
+      <a href="feed.rss" target="_blank" class="bg-amber-950/80 text-amber-300 border border-amber-700/60 px-2 py-0.5 rounded text-[10px] font-mono hover:bg-amber-900 transition flex items-center gap-1 whitespace-nowrap">
+        <i class="fa-solid fa-rss"></i> RSS / CAP
+      </a>
     </div>
   </header>
 
@@ -193,6 +213,11 @@
             <i class="fa-solid fa-map-location-dot text-blue-400"></i> <span id="ui-map-title">Nepal River Gauges Map</span>
           </h3>
           <div class="flex items-center gap-2 sm:gap-3 text-[11px]">
+            <!-- RainViewer Radar Toggle Button -->
+            <button id="radar-toggle-btn" onclick="toggleRadarOverlay()" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-500/40 text-[10px] sm:text-[11px] font-medium transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-satellite-dish text-sky-400"></i>
+              <span id="ui-radar-status">Radar: OFF</span>
+            </button>
             <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block ring-2 ring-emerald-500/20"></span> <span id="ui-legend-normal">Normal</span></span>
             <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block ring-2 ring-amber-500/20"></span> <span id="ui-legend-warning">Warning</span></span>
             <span class="flex items-center gap-1 text-slate-300"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block ring-2 ring-red-500/20"></span> <span id="ui-legend-danger">Danger</span></span>
@@ -327,6 +352,58 @@
     </div>
   </div>
 
+  <!-- Citizen Eye Crowdsourced Ground Verification Modal -->
+  <div id="citizen-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl flex flex-col">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-eye text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white" id="cm-title">नागरिक प्रत्यक्ष प्रतिवेदन (Citizen Eye)</h3>
+            <p class="text-[11px] text-slate-400" id="cm-subtitle">Crowdsourced Ground Flood Situation Verification</p>
+          </div>
+        </div>
+        <button onclick="closeCitizenModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="citizen-form" onsubmit="submitCitizenReport(event)" class="p-4 space-y-3 text-xs text-slate-300">
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold" id="cm-station-lbl">नदी / स्टेसन चयन गर्नुहोस् (Select River Station):</label>
+          <select id="cr-station" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold" id="cm-condition-lbl">प्रत्यक्ष अवस्था (Current Water Condition):</label>
+          <select id="cr-condition" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer">
+            <option value="NORMAL">🟢 सामान्य बहाव (Normal riverbed flow)</option>
+            <option value="BANK_TOUCH">🟡 किनार छोइसकेको (Touching riverbanks / corridor)</option>
+            <option value="ROAD_FLOOD">🟠 सडक/करिडोर जलमग्न (Corridor roads waterlogged)</option>
+            <option value="HOUSE_INUNDATED">🔴 घर/बस्तीमा पानी पसेको (Settlements & houses inundated)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold" id="cm-details-lbl">विस्तृत विवरण वा ल्यान्डमार्क (Details / Exact Landmark):</label>
+          <textarea id="cr-notes" rows="2" placeholder="उदा: बल्खु पुलमुनि करिडोरमा २ फिट पानी जमेको छ, सवारी साधन आवतजावत बन्द..." required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold" id="cm-author-lbl">तपाईंको नाम / संस्था (Reporter Name / Local Resident - Optional):</label>
+          <input type="text" id="cr-author" placeholder="उदा: स्थानीय बासिन्दा (Local Resident) / वडा प्रतिनिधि" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-800">
+          <button type="button" onclick="closeCitizenModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold cursor-pointer">रद्द गर्नुहोस् (Cancel)</button>
+          <button type="submit" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-1.5 shadow cursor-pointer">
+            <i class="fa-solid fa-paper-plane"></i> प्रतिवेदन पठाउनुहोस् (Submit Report)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 pointer-events-none">
     <i class="fa-solid fa-check"></i> <span id="toast-text">Alert Copied!</span>
@@ -397,7 +474,12 @@
         debrisTitle: "⛰️ Landslide & Debris Flow Alert:",
         shareWhatsApp: "Share to WhatsApp",
         copyAlert: "Copy Alert",
-        listenVoice: "Listen Audio"
+        listenVoice: "Listen Audio",
+        citizenBtn: "Citizen Eye",
+        notifyBtn: "Alerts",
+        radarBtnOff: "Radar: OFF",
+        radarBtnOn: "Radar: ON",
+        hydrographTitle: "Hydrograph Forecast (+6h):"
       },
       ne: {
         title: "नेपाल बाढी पूर्वसूचना प्रणाली",
@@ -426,7 +508,12 @@
         debrisTitle: "⛰️ पहिरो तथा लेदो बहाव चेतावनी:",
         shareWhatsApp: "ह्वाट्सएपमा पठाउनुहोस्",
         copyAlert: "विवरण प्रतिलिपि",
-        listenVoice: "आवाज सुन्नुहोस्"
+        listenVoice: "आवाज सुन्नुहोस्",
+        citizenBtn: "नागरिक प्रतिवेदन",
+        notifyBtn: "सूचना (Alerts)",
+        radarBtnOff: "राडार: बन्द",
+        radarBtnOn: "राडार: सक्रिय",
+        hydrographTitle: "पूर्वानुमानित बहाव (+६ घण्टा):"
       }
     };
 
@@ -447,6 +534,9 @@
       document.getElementById('ui-legend-warning').innerText = t.legendWarning;
       document.getElementById('ui-legend-danger').innerText = t.legendDanger;
       document.getElementById('ui-footer-text').innerText = t.footerText;
+      if (document.getElementById('ui-citizen-btn')) document.getElementById('ui-citizen-btn').innerText = t.citizenBtn;
+      if (document.getElementById('ui-notify-btn')) document.getElementById('ui-notify-btn').innerText = t.notifyBtn;
+      if (document.getElementById('ui-radar-status')) document.getElementById('ui-radar-status').innerText = radarActive ? t.radarBtnOn : t.radarBtnOff;
       document.getElementById('lang-label').innerText = currentLang === 'ne' ? '🇬🇧 English' : '🇳🇵 नेपाली';
       localStorage.setItem('npflood_lang', currentLang);
 
@@ -556,6 +646,212 @@
       }
     }
 
+
+    // --- State-of-the-Art Extensions: RainViewer Weather Radar ---
+    let rainRadarLayer = null;
+    let radarActive = false;
+
+    async function initRainRadar() {
+      try {
+        const resp = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (data && data.radar && data.radar.past && data.radar.past.length > 0) {
+          const latest = data.radar.past[data.radar.past.length - 1];
+          rainRadarLayer = L.tileLayer(`https://tilecache.rainviewer.com${latest.path}/256/{z}/{x}/{y}/2/1_1.png`, {
+            opacity: 0.60,
+            zIndex: 150,
+            attribution: 'Radar &copy; RainViewer Free Weather Maps'
+          });
+        }
+      } catch (err) {
+        console.log("RainViewer radar init note:", err);
+      }
+    }
+    initRainRadar();
+
+    function toggleRadarOverlay() {
+      const btn = document.getElementById('radar-toggle-btn');
+      const status = document.getElementById('ui-radar-status');
+      if (!rainRadarLayer) {
+        showToast('Radar layer loading, please wait...');
+        return;
+      }
+      if (radarActive) {
+        map.removeLayer(rainRadarLayer);
+        radarActive = false;
+        status.innerText = currentLang === 'ne' ? 'राडार: बन्द' : 'Radar: OFF';
+        btn.className = 'px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-500/40 text-[10px] sm:text-[11px] font-medium transition flex items-center gap-1 cursor-pointer';
+        showToast('🌧️ Weather Radar turned OFF');
+      } else {
+        rainRadarLayer.addTo(map);
+        radarActive = true;
+        status.innerText = currentLang === 'ne' ? 'राडार: सक्रिय' : 'Radar: ON';
+        btn.className = 'px-2 py-0.5 rounded bg-sky-600 hover:bg-sky-500 text-white border border-sky-400 text-[10px] sm:text-[11px] font-medium transition flex items-center gap-1 cursor-pointer animate-pulse';
+        showToast('🌧️ Live RainViewer Radar overlay activated!');
+      }
+    }
+
+    // --- State-of-the-Art Extensions: Citizen Eye (नागरिक प्रतिवेदन) ---
+    const citizenMarkers = [];
+
+    function openCitizenModal() {
+      const select = document.getElementById('cr-station');
+      select.innerHTML = '';
+      const sorted = [...stationsData].sort((a, b) => a.station_name.localeCompare(b.station_name));
+      sorted.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.station_id;
+        opt.innerText = `${s.station_name} (${s.river_name})`;
+        select.appendChild(opt);
+      });
+      document.getElementById('citizen-modal').classList.remove('hidden');
+    }
+
+    function closeCitizenModal() {
+      document.getElementById('citizen-modal').classList.add('hidden');
+    }
+
+    function submitCitizenReport(e) {
+      e.preventDefault();
+      const stationId = document.getElementById('cr-station').value;
+      const condition = document.getElementById('cr-condition').value;
+      const notes = document.getElementById('cr-notes').value.trim();
+      const author = document.getElementById('cr-author').value.trim() || (currentLang === 'ne' ? 'स्थानीय बासिन्दा' : 'Local Resident');
+
+      const st = stationsData.find(x => x.station_id === stationId);
+      if (!st) return;
+
+      const report = {
+        id: 'cr_' + Date.now(),
+        station_id: stationId,
+        station_name: st.station_name,
+        river_name: st.river_name,
+        latitude: st.latitude || 27.7,
+        longitude: st.longitude || 85.3,
+        condition: condition,
+        notes: notes,
+        author: author,
+        timestamp: new Date().toISOString()
+      };
+
+      // Save to localStorage
+      const existing = JSON.parse(localStorage.getItem('npflood_citizen_reports') || '[]');
+      existing.unshift(report);
+      if (existing.length > 50) existing.pop();
+      localStorage.setItem('npflood_citizen_reports', JSON.stringify(existing));
+
+      plotCitizenReport(report);
+      closeCitizenModal();
+      document.getElementById('citizen-form').reset();
+      showToast(currentLang === 'ne' ? '✅ तपाईंको प्रतिवेदन सफलतापूर्वक दर्ता भयो!' : '✅ Citizen report recorded successfully!');
+    }
+
+    function plotCitizenReport(r) {
+      const conditionIcons = {
+        NORMAL: '🟢',
+        BANK_TOUCH: '🟡',
+        ROAD_FLOOD: '🟠',
+        HOUSE_INUNDATED: '🔴'
+      };
+      const iconChar = conditionIcons[r.condition] || '⚠️';
+      const cIcon = L.divIcon({
+        className: 'citizen-icon',
+        html: `<div style="background:#0f172a; border:2px solid #10b981; border-radius:50%; width:26px; height:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 10px rgba(16,185,129,0.8); font-size:12px;">📸</div>`,
+        iconSize: [26, 26],
+        iconAnchor: [13, 13]
+      });
+
+      const repMarker = L.marker([r.latitude + 0.003, r.longitude + 0.003], { icon: cIcon }).addTo(map);
+      const timeStr = formatNpt(r.timestamp);
+      repMarker.bindPopup(`
+        <div class="p-1 text-xs max-w-xs">
+          <div class="flex items-center justify-between gap-1 mb-1">
+            <span class="font-bold text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-camera"></i> नागरिक प्रत्यक्ष प्रतिवेदन</span>
+            <span class="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-700/50 px-1.5 py-0.5 rounded">Ground Check</span>
+          </div>
+          <div class="font-semibold text-white mb-0.5">${r.station_name}</div>
+          <div class="text-slate-300 mb-1"><b>अवस्था:</b> ${iconChar} ${r.condition}</div>
+          <div class="text-slate-200 bg-slate-900 p-1.5 rounded border border-slate-800 text-[11px] mb-1 italic">"${r.notes}"</div>
+          <div class="text-[10px] text-slate-400 flex items-center justify-between">
+            <span>प्रतिवेदक: ${r.author}</span>
+            <span>${timeStr}</span>
+          </div>
+        </div>
+      `);
+      citizenMarkers.push(repMarker);
+    }
+
+    function loadCitizenReports() {
+      try {
+        const stored = JSON.parse(localStorage.getItem('npflood_citizen_reports') || '[]');
+        stored.forEach(r => plotCitizenReport(r));
+      } catch (err) {
+        console.log("Could not load citizen reports:", err);
+      }
+    }
+
+    // --- State-of-the-Art Extensions: Web Push Browser Notification Alerts ---
+    let notificationsEnabled = localStorage.getItem('npflood_notify_enabled') === 'true';
+
+    function updateNotifyButtonUI() {
+      const btn = document.getElementById('notify-toggle');
+      if (!btn) return;
+      if (notificationsEnabled) {
+        btn.className = 'px-2.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white border border-purple-400 text-xs font-semibold transition flex items-center gap-1.5 shadow cursor-pointer';
+        document.getElementById('ui-notify-btn').innerText = currentLang === 'ne' ? 'सूचना: सक्रिय 🔔' : 'Alerts: ON 🔔';
+      } else {
+        btn.className = 'px-2.5 py-1.5 rounded-lg bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-600/50 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer';
+        document.getElementById('ui-notify-btn').innerText = currentLang === 'ne' ? 'सूचना (Alerts)' : 'Alerts';
+      }
+    }
+
+    async function requestPushNotifications() {
+      if (!('Notification' in window)) {
+        showToast('Notifications not supported by this browser.');
+        return;
+      }
+      if (Notification.permission === 'granted') {
+        notificationsEnabled = !notificationsEnabled;
+        localStorage.setItem('npflood_notify_enabled', notificationsEnabled);
+        updateNotifyButtonUI();
+        showToast(notificationsEnabled ? '🔔 Push notifications enabled!' : '🔕 Push notifications paused.');
+      } else {
+        const perm = await Notification.requestPermission();
+        if (perm === 'granted') {
+          notificationsEnabled = true;
+          localStorage.setItem('npflood_notify_enabled', true);
+          updateNotifyButtonUI();
+          new Notification('🚨 Nepal Flood Alert Active', {
+            body: 'You will receive real-time push alerts whenever river gauges breach warning thresholds.',
+            icon: 'icons/icon-192.png'
+          });
+          showToast('🔔 Flood alerts enabled!');
+        } else {
+          showToast('Notification permission was not granted.');
+        }
+      }
+    }
+
+    const lastNotifiedStations = {};
+    function checkAndTriggerPushAlerts(data) {
+      if (!notificationsEnabled || !('Notification' in window) || Notification.permission !== 'granted') return;
+      const now = Date.now();
+      data.forEach(s => {
+        if (s.severity === 'WARNING' || s.severity === 'EMERGENCY') {
+          const lastTime = lastNotifiedStations[s.station_id] || 0;
+          // Notify at most once every 30 minutes per station
+          if (now - lastTime > 30 * 60 * 1000) {
+            lastNotifiedStations[s.station_id] = now;
+            new Notification(`🚨 Nepal Flood Alert: ${s.station_name}`, {
+              body: `Level: ${s.current_level}m (Danger: ${s.danger_level}m). Status: ${s.severity}. ${s.lead_time_formatted_en || ''}`,
+              icon: 'icons/icon-192.png'
+            });
+          }
+        }
+      });
+    }
+
     async function loadStations() {
       try {
         const res = await fetch('stations_live.json?t=' + Date.now());
@@ -571,6 +867,9 @@
         }
       }
       renderStations(stationsData);
+      loadCitizenReports();
+      checkAndTriggerPushAlerts(stationsData);
+      updateNotifyButtonUI();
     }
 
     function getBasinGroup(s) {
@@ -752,8 +1051,18 @@
               </button>
             </div>
 
+            ${s.predicted_peak_formatted_en ? `
+            <div class="mt-2 p-1.5 bg-indigo-950/50 border border-indigo-500/40 rounded text-[10px] text-indigo-300 flex items-center justify-between">
+              <span><i class="fa-solid fa-chart-line text-indigo-400 mr-1"></i> <b>${currentLang === 'ne' ? 'पूर्वानुमानित उच्च बहाव (+६ घण्टा):' : 'Hydrograph Forecast (+6h):'}</b></span>
+              <span class="font-bold text-amber-300">${currentLang === 'ne' ? (s.predicted_peak_formatted_ne || s.predicted_peak_formatted_en) : s.predicted_peak_formatted_en}</span>
+            </div>` : ''}
+
             ${s.sparkline_url ? `
             <div class="mt-2 pt-1.5 border-t border-slate-800/80">
+              <div class="text-[9px] text-slate-400 mb-0.5 flex justify-between">
+                <span>Hydrograph & Forecast Curve</span>
+                <span class="text-amber-400">-- Projected</span>
+              </div>
               <img src="${s.sparkline_url}" alt="Water Level Trend" class="w-full h-8 rounded bg-slate-950 border border-slate-800 object-contain">
             </div>` : ''}
           </div>
@@ -784,6 +1093,11 @@
             <span>🌧️ 24h: <b>${(s.past_24h_rain_mm || 0).toFixed(0)}mm</b> ${s.is_soil_saturated ? '<span class="text-amber-400 font-bold">(Sat)</span>' : ''}</span>
             ${s.sparkline_url ? `<img src="${s.sparkline_url}" class="h-5 w-16 object-contain rounded bg-slate-900 border border-slate-800" alt="Trend" />` : ''}
           </div>
+          ${s.predicted_peak_formatted_en ? `
+          <div class="text-[9px] text-indigo-300 bg-indigo-950/40 border border-indigo-800/40 px-2 py-0.5 rounded flex items-center justify-between font-mono">
+            <span><i class="fa-solid fa-chart-line text-indigo-400 mr-1"></i> +6h Peak:</span>
+            <b class="text-amber-300">${currentLang === 'ne' ? (s.predicted_peak_formatted_ne || s.predicted_peak_formatted_en) : s.predicted_peak_formatted_en}</b>
+          </div>` : ''}
           ${s.lead_time_formatted_en ? `
           <div class="text-[10px] text-amber-300 bg-amber-950/30 border border-amber-800/40 px-2 py-0.5 rounded font-mono flex items-center gap-1">
             <i class="fa-regular fa-clock text-amber-400"></i> ${currentLang === 'ne' ? (s.lead_time_formatted_ne || s.lead_time_formatted_en) : s.lead_time_formatted_en}
