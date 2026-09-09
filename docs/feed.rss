@@ -5,320 +5,320 @@
     <link>https://thesuccess-tech.github.io/googleweatherbot/</link>
     <description>Real-time hydrological monitoring, +6h forecast hydrograph, and disaster early warning for Nepal river basins.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Sep 2026 08:47:31 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 03:30:28 +0000</lastBuildDate>
     <atom:link href="https://thesuccess-tech.github.io/googleweatherbot/feed.rss" rel="self" type="application/rss+xml" />
     <item>
-      <title><![CDATA[[NORMAL] Bagmati at Balkhu (Kathmandu) (Bagmati) - Level: 3.35m (v: +0.03m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bagmati at Balkhu (Kathmandu) (Bagmati) - Level: 3.30m (v: +0.01m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bagmati_balkhu</link>
-      <guid isPermaLink="false">bagmati_balkhu-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bagmati_balkhu-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bagmati at Balkhu (Kathmandu) (Bagmati)
 Severity: NORMAL
-Current Level: 3.35m (Warning: 5.50m, Danger: 7.00m)
-Velocity: +0.03 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 3.42m in ~5h (~07:32 PM NPT)
+Current Level: 3.30m (Warning: 5.50m, Danger: 7.00m)
+Velocity: +0.01 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 3.57m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 4.5m (+1.15m rise): Riverside walkways and lower corridor tracks waterlogged]]></description>
+Next Milestone: Next Impact at 4.5m (+1.20m rise): Riverside walkways and lower corridor tracks waterlogged]]></description>
       <geo:lat>27.6833</geo:lat>
       <geo:long>85.2972</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Bagmati at Gaurighat (Pashupati) (Bagmati) - Level: 4.28m (v: +0.04m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bagmati at Gaurighat (Pashupati) (Bagmati) - Level: 4.11m (v: -0.06m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bagmati_gaurighat</link>
-      <guid isPermaLink="false">bagmati_gaurighat-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bagmati_gaurighat-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bagmati at Gaurighat (Pashupati) (Bagmati)
 Severity: NORMAL
-Current Level: 4.28m (Warning: 6.80m, Danger: 8.00m)
-Velocity: +0.04 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 4.41m in ~6h (~08:32 PM NPT)
+Current Level: 4.11m (Warning: 6.80m, Danger: 8.00m)
+Velocity: -0.06 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 4.32m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 5.5m (+1.22m rise): Guhyeshwari riverside banks waterlogged]]></description>
+Next Milestone: Next Impact at 5.5m (+1.39m rise): Guhyeshwari riverside banks waterlogged]]></description>
       <geo:lat>27.7125</geo:lat>
       <geo:long>85.3522</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Bagmati at Sundarijal (Bagmati) - Level: 2.78m (v: +0.08m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bagmati at Sundarijal (Bagmati) - Level: 2.62m (v: +0.13m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bagmati_sundarijal</link>
-      <guid isPermaLink="false">bagmati_sundarijal-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bagmati_sundarijal-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bagmati at Sundarijal (Bagmati)
 Severity: NORMAL
-Current Level: 2.78m (Warning: 4.50m, Danger: 5.80m)
-Velocity: +0.08 m/hr | Lead-Time: Warning mark in ~21h 30m (~12:02 PM NPT)
-Hydrograph Forecast: Peak: 3.14m in ~6h (~08:32 PM NPT)
+Current Level: 2.62m (Warning: 4.50m, Danger: 5.80m)
+Velocity: +0.13 m/hr | Lead-Time: Warning mark in ~14h 30m (~11:45 PM NPT)
+Hydrograph Forecast: Peak: 2.87m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.8m (+1.02m rise): Torrential mountain runoff emerging from Shivapuri ridge]]></description>
+Next Milestone: Next Impact at 3.8m (+1.18m rise): Torrential mountain runoff emerging from Shivapuri ridge]]></description>
       <geo:lat>27.7667</geo:lat>
       <geo:long>85.4167</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Bagmati at Chobhar Gorge (Bagmati) - Level: 4.59m (v: +0.13m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bagmati at Chobhar Gorge (Bagmati) - Level: 4.54m (v: +0.11m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bagmati_chobhar</link>
-      <guid isPermaLink="false">bagmati_chobhar-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bagmati_chobhar-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bagmati at Chobhar Gorge (Bagmati)
 Severity: NORMAL
-Current Level: 4.59m (Warning: 7.00m, Danger: 8.50m)
-Velocity: +0.13 m/hr | Lead-Time: Warning mark in ~18h 30m (~09:02 AM NPT)
-Hydrograph Forecast: Peak: 5.07m in ~6h (~08:32 PM NPT)
+Current Level: 4.54m (Warning: 7.00m, Danger: 8.50m)
+Velocity: +0.11 m/hr | Lead-Time: Warning mark in ~22h 24m (~07:39 AM NPT)
+Hydrograph Forecast: Peak: 4.97m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 6.0m (+1.41m rise): Valley bottleneck exit flow restricted; backwater pressure builds]]></description>
+Next Milestone: Next Impact at 6.0m (+1.46m rise): Valley bottleneck exit flow restricted; backwater pressure builds]]></description>
       <geo:lat>27.6583</geo:lat>
       <geo:long>85.2861</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Nakkhu Khola at Tikabhairab / Nakkhu (Nakkhu Khola) - Level: 2.25m (v: -0.09m/h)]]></title>
+      <title><![CDATA[[NORMAL] Nakkhu Khola at Tikabhairab / Nakkhu (Nakkhu Khola) - Level: 2.14m (v: -0.06m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#nakkhu_lele</link>
-      <guid isPermaLink="false">nakkhu_lele-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">nakkhu_lele-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Nakkhu Khola at Tikabhairab / Nakkhu (Nakkhu Khola)
 Severity: NORMAL
-Current Level: 2.25m (Warning: 4.00m, Danger: 5.20m)
-Velocity: -0.09 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 2.29m in ~6h (~08:32 PM NPT)
+Current Level: 2.14m (Warning: 4.00m, Danger: 5.20m)
+Velocity: -0.06 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 2.29m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.2m (+0.95m rise): Tikabhairab lower corridor flooded; pedestrian bridge access threatened]]></description>
+Next Milestone: Next Impact at 3.2m (+1.06m rise): Tikabhairab lower corridor flooded; pedestrian bridge access threatened]]></description>
       <geo:lat>27.6333</geo:lat>
       <geo:long>85.3167</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Roshi Khola at Panauti / Bhakunde Besi (Roshi Khola) - Level: 2.38m (v: +0.11m/h)]]></title>
+      <title><![CDATA[[NORMAL] Roshi Khola at Panauti / Bhakunde Besi (Roshi Khola) - Level: 2.39m (v: +0.00m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#roshi_panauti</link>
-      <guid isPermaLink="false">roshi_panauti-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">roshi_panauti-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Roshi Khola at Panauti / Bhakunde Besi (Roshi Khola)
 Severity: NORMAL
-Current Level: 2.38m (Warning: 4.20m, Danger: 5.50m)
-Velocity: +0.11 m/hr | Lead-Time: Warning mark in ~16h 30m (~07:02 AM NPT)
-Hydrograph Forecast: Peak: 2.77m in ~6h (~08:32 PM NPT)
+Current Level: 2.39m (Warning: 4.20m, Danger: 5.50m)
+Velocity: +0.00 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 2.54m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.5m (+1.12m rise): Roshi riverbanks overflow; farmland erosion along BP Highway begins]]></description>
+Next Milestone: Next Impact at 3.5m (+1.11m rise): Roshi riverbanks overflow; farmland erosion along BP Highway begins]]></description>
       <geo:lat>27.5833</geo:lat>
       <geo:long>85.5167</geo:long>
     </item>
     <item>
-      <title><![CDATA[[ADVISORY] Saptakoshi at Chatara (Saptakoshi) - Level: 4.95m (v: +0.15m/h)]]></title>
+      <title><![CDATA[[NORMAL] Saptakoshi at Chatara (Saptakoshi) - Level: 4.76m (v: -0.03m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#koshi_chatara</link>
-      <guid isPermaLink="false">koshi_chatara-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">koshi_chatara-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Saptakoshi at Chatara (Saptakoshi)
-Severity: ADVISORY
-Current Level: 4.95m (Warning: 6.00m, Danger: 7.50m)
-Velocity: +0.15 m/hr | Lead-Time: Warning mark in ~7h 0m (~09:32 PM NPT)
-Hydrograph Forecast: Peak: 5.23m in ~6h (~08:32 PM NPT)
+Severity: NORMAL
+Current Level: 4.76m (Warning: 6.00m, Danger: 7.50m)
+Velocity: -0.03 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 4.90m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 5.2m (+0.25m rise): Eastern Nepal low river island approaches waterlogged]]></description>
+Next Milestone: Next Impact at 5.2m (+0.44m rise): Eastern Nepal low river island approaches waterlogged]]></description>
       <geo:lat>26.85</geo:lat>
       <geo:long>87.1667</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Narayani River at Devghat (Narayani) - Level: 5.49m (v: +0.08m/h)]]></title>
+      <title><![CDATA[[NORMAL] Narayani River at Devghat (Narayani) - Level: 5.34m (v: +0.12m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#narayani_devghat</link>
-      <guid isPermaLink="false">narayani_devghat-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">narayani_devghat-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Narayani River at Devghat (Narayani)
 Severity: NORMAL
-Current Level: 5.49m (Warning: 7.30m, Danger: 9.00m)
-Velocity: +0.08 m/hr | Lead-Time: Warning mark in ~22h 36m (~01:08 PM NPT)
-Hydrograph Forecast: Peak: 5.77m in ~6h (~08:32 PM NPT)
+Current Level: 5.34m (Warning: 7.30m, Danger: 9.00m)
+Velocity: +0.12 m/hr | Lead-Time: Warning mark in ~16h 18m (~01:33 AM NPT)
+Hydrograph Forecast: Peak: 5.68m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 6.5m (+1.01m rise): Devghat sacred riverbanks and lower stairs submerged]]></description>
+Next Milestone: Next Impact at 6.5m (+1.16m rise): Devghat sacred riverbanks and lower stairs submerged]]></description>
       <geo:lat>27.7167</geo:lat>
       <geo:long>84.4167</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Melamchi River at Helambu / Melamchi Pul (Melamchi River) - Level: 2.85m (v: +0.07m/h)]]></title>
+      <title><![CDATA[[NORMAL] Melamchi River at Helambu / Melamchi Pul (Melamchi River) - Level: 2.76m (v: +0.09m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#melamchi_helambu</link>
-      <guid isPermaLink="false">melamchi_helambu-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">melamchi_helambu-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Melamchi River at Helambu / Melamchi Pul (Melamchi River)
 Severity: NORMAL
-Current Level: 2.85m (Warning: 4.80m, Danger: 6.00m)
-Velocity: +0.07 m/hr | Lead-Time: Warning mark in ~27h 54m (~06:26 PM NPT)
-Hydrograph Forecast: Peak: 3.10m in ~6h (~08:32 PM NPT)
+Current Level: 2.76m (Warning: 4.80m, Danger: 6.00m)
+Velocity: +0.09 m/hr | Lead-Time: Warning mark in ~22h 42m (~07:57 AM NPT)
+Hydrograph Forecast: Peak: 2.93m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 4.0m (+1.15m rise): Melamchi mountain runoff swelling rapidly; suspension bridges closed]]></description>
+Next Milestone: Next Impact at 4.0m (+1.24m rise): Melamchi mountain runoff swelling rapidly; suspension bridges closed]]></description>
       <geo:lat>27.8333</geo:lat>
       <geo:long>85.5833</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] West Rapti at Kusum (Banke) (West Rapti) - Level: 3.15m (v: +0.01m/h)]]></title>
+      <title><![CDATA[[NORMAL] West Rapti at Kusum (Banke) (West Rapti) - Level: 3.21m (v: -0.01m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#west_rapti_kusum</link>
-      <guid isPermaLink="false">west_rapti_kusum-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">west_rapti_kusum-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: West Rapti at Kusum (Banke) (West Rapti)
 Severity: NORMAL
-Current Level: 3.15m (Warning: 5.40m, Danger: 6.80m)
-Velocity: +0.01 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 3.19m in ~4h (~06:32 PM NPT)
+Current Level: 3.21m (Warning: 5.40m, Danger: 6.80m)
+Velocity: -0.01 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 3.32m in ~5h (~02:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 4.5m (+1.35m rise): Kusum riverbanks overflow; Banke agricultural plains begin waterlogging]]></description>
+Next Milestone: Next Impact at 4.5m (+1.29m rise): Kusum riverbanks overflow; Banke agricultural plains begin waterlogging]]></description>
       <geo:lat>27.9833</geo:lat>
       <geo:long>82.1333</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Babai River at Chepang (Bardiya) (Babai River) - Level: 4.00m (v: -0.08m/h)]]></title>
+      <title><![CDATA[[NORMAL] Babai River at Chepang (Bardiya) (Babai River) - Level: 3.87m (v: -0.03m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#babai_chepang</link>
-      <guid isPermaLink="false">babai_chepang-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">babai_chepang-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Babai River at Chepang (Bardiya) (Babai River)
 Severity: NORMAL
-Current Level: 4.00m (Warning: 6.10m, Danger: 7.40m)
-Velocity: -0.08 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 4.02m in ~6h (~08:32 PM NPT)
+Current Level: 3.87m (Warning: 6.10m, Danger: 7.40m)
+Velocity: -0.03 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 4.01m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 5.0m (+1.00m rise): Chepang lower corridor waterlogged; Bardiya irrigation channel spillover]]></description>
+Next Milestone: Next Impact at 5.0m (+1.13m rise): Chepang lower corridor waterlogged; Bardiya irrigation channel spillover]]></description>
       <geo:lat>28.35</geo:lat>
       <geo:long>81.7167</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Karnali River at Chisapani (Karnali) - Level: 6.74m (v: +0.13m/h)]]></title>
+      <title><![CDATA[[NORMAL] Karnali River at Chisapani (Karnali) - Level: 6.49m (v: +0.02m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#karnali_chisapani</link>
-      <guid isPermaLink="false">karnali_chisapani-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">karnali_chisapani-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Karnali River at Chisapani (Karnali)
 Severity: NORMAL
-Current Level: 6.74m (Warning: 10.00m, Danger: 12.00m)
-Velocity: +0.13 m/hr | Lead-Time: Warning mark in ~25h 6m (~03:38 PM NPT)
-Hydrograph Forecast: Peak: 7.14m in ~6h (~08:32 PM NPT)
+Current Level: 6.49m (Warning: 10.00m, Danger: 12.00m)
+Velocity: +0.02 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 6.57m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 8.5m (+1.76m rise): Karnali bridge gorge velocity increases; Chisapani low beach submerged]]></description>
+Next Milestone: Next Impact at 8.5m (+2.01m rise): Karnali bridge gorge velocity increases; Chisapani low beach submerged]]></description>
       <geo:lat>28.6417</geo:lat>
       <geo:long>81.2861</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Kamala River at Ranibas (Kamala River) - Level: 2.68m (v: -0.09m/h)]]></title>
+      <title><![CDATA[[NORMAL] Kamala River at Ranibas (Kamala River) - Level: 2.56m (v: -0.06m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#kamala_ranibas</link>
-      <guid isPermaLink="false">kamala_ranibas-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">kamala_ranibas-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Kamala River at Ranibas (Kamala River)
 Severity: NORMAL
-Current Level: 2.68m (Warning: 4.50m, Danger: 5.80m)
-Velocity: -0.09 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: No sharp crest expected
+Current Level: 2.56m (Warning: 4.50m, Danger: 5.80m)
+Velocity: -0.06 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 2.59m in ~5h (~02:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.8m (+1.12m rise): Sindhuli foothill flood surge; Kamala riverbank sandbars covered]]></description>
+Next Milestone: Next Impact at 3.8m (+1.24m rise): Sindhuli foothill flood surge; Kamala riverbank sandbars covered]]></description>
       <geo:lat>27.0167</geo:lat>
       <geo:long>85.95</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Kankai River at Mainachuli (Jhapa) (Kankai River) - Level: 2.32m (v: +0.06m/h)]]></title>
+      <title><![CDATA[[NORMAL] Kankai River at Mainachuli (Jhapa) (Kankai River) - Level: 2.26m (v: +0.06m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#kankai_mainachuli</link>
-      <guid isPermaLink="false">kankai_mainachuli-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">kankai_mainachuli-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Kankai River at Mainachuli (Jhapa) (Kankai River)
 Severity: NORMAL
-Current Level: 2.32m (Warning: 4.20m, Danger: 5.60m)
-Velocity: +0.06 m/hr | Lead-Time: Warning mark in ~31h 18m (~09:50 PM NPT)
-Hydrograph Forecast: Peak: 2.49m in ~6h (~08:32 PM NPT)
+Current Level: 2.26m (Warning: 4.20m, Danger: 5.60m)
+Velocity: +0.06 m/hr | Lead-Time: Warning mark in ~32h 18m (~05:33 PM NPT)
+Hydrograph Forecast: Peak: 2.57m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.5m (+1.18m rise): Ilam foothill torrents enter Kankai; Mainachuli lower banks flooded]]></description>
+Next Milestone: Next Impact at 3.5m (+1.24m rise): Ilam foothill torrents enter Kankai; Mainachuli lower banks flooded]]></description>
       <geo:lat>26.6667</geo:lat>
       <geo:long>87.9</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Hanumante River at Radhe Radhe / Thimi (Hanumante River) - Level: 2.02m (v: +0.04m/h)]]></title>
+      <title><![CDATA[[NORMAL] Hanumante River at Radhe Radhe / Thimi (Hanumante River) - Level: 1.85m (v: -0.01m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#hanumante_thimi</link>
-      <guid isPermaLink="false">hanumante_thimi-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">hanumante_thimi-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Hanumante River at Radhe Radhe / Thimi (Hanumante River)
 Severity: NORMAL
-Current Level: 2.02m (Warning: 3.50m, Danger: 4.80m)
-Velocity: +0.04 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 2.22m in ~6h (~08:32 PM NPT)
+Current Level: 1.85m (Warning: 3.50m, Danger: 4.80m)
+Velocity: -0.01 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 2.00m in ~5h (~02:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 2.8m (+0.78m rise): Araniko Highway underpass approaches waterlogged]]></description>
+Next Milestone: Next Impact at 2.8m (+0.95m rise): Araniko Highway underpass approaches waterlogged]]></description>
       <geo:lat>27.674</geo:lat>
       <geo:long>85.388</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Manohara River at Jadibuti / Koteshwor Corridor (Manohara River) - Level: 2.45m (v: +0.08m/h)]]></title>
+      <title><![CDATA[[NORMAL] Manohara River at Jadibuti / Koteshwor Corridor (Manohara River) - Level: 2.32m (v: +0.13m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#manohara_jadibuti</link>
-      <guid isPermaLink="false">manohara_jadibuti-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">manohara_jadibuti-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Manohara River at Jadibuti / Koteshwor Corridor (Manohara River)
 Severity: NORMAL
-Current Level: 2.45m (Warning: 4.00m, Danger: 5.20m)
-Velocity: +0.08 m/hr | Lead-Time: Warning mark in ~19h 24m (~09:56 AM NPT)
-Hydrograph Forecast: Peak: 2.82m in ~6h (~08:32 PM NPT)
+Current Level: 2.32m (Warning: 4.00m, Danger: 5.20m)
+Velocity: +0.13 m/hr | Lead-Time: Warning mark in ~12h 54m (~10:09 PM NPT)
+Hydrograph Forecast: Peak: 2.57m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.4m (+0.95m rise): Manohara corridor track submerged; vehicular movement restricted]]></description>
+Next Milestone: Next Impact at 3.4m (+1.08m rise): Manohara corridor track submerged; vehicular movement restricted]]></description>
       <geo:lat>27.678</geo:lat>
       <geo:long>85.352</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Dhobikhola at Anamnagar / Bijulibazar Corridor (Dhobikhola (Rudramati)) - Level: 1.72m (v: +0.04m/h)]]></title>
+      <title><![CDATA[[NORMAL] Dhobikhola at Anamnagar / Bijulibazar Corridor (Dhobikhola (Rudramati)) - Level: 1.64m (v: +0.14m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#dhobikhola_anamnagar</link>
-      <guid isPermaLink="false">dhobikhola_anamnagar-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">dhobikhola_anamnagar-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Dhobikhola at Anamnagar / Bijulibazar Corridor (Dhobikhola (Rudramati))
 Severity: NORMAL
-Current Level: 1.72m (Warning: 3.20m, Danger: 4.20m)
-Velocity: +0.04 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 1.86m in ~6h (~08:32 PM NPT)
+Current Level: 1.64m (Warning: 3.20m, Danger: 4.20m)
+Velocity: +0.14 m/hr | Lead-Time: Warning mark in ~11h 6m (~08:21 PM NPT)
+Hydrograph Forecast: Peak: 1.90m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 2.7m (+0.98m rise): Under-bridge corridor tracks submerged at Bijulibazar and Maitighar]]></description>
+Next Milestone: Next Impact at 2.7m (+1.06m rise): Under-bridge corridor tracks submerged at Bijulibazar and Maitighar]]></description>
       <geo:lat>27.694</geo:lat>
       <geo:long>85.326</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Bishnumati River at Gongabu / Balaju (Bishnumati River) - Level: 2.04m (v: -0.07m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bishnumati River at Gongabu / Balaju (Bishnumati River) - Level: 1.84m (v: -0.07m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bishnumati_gongabu</link>
-      <guid isPermaLink="false">bishnumati_gongabu-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bishnumati_gongabu-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bishnumati River at Gongabu / Balaju (Bishnumati River)
 Severity: NORMAL
-Current Level: 2.04m (Warning: 3.80m, Danger: 5.00m)
+Current Level: 1.84m (Warning: 3.80m, Danger: 5.00m)
 Velocity: -0.07 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 2.18m in ~6h (~08:32 PM NPT)
+Hydrograph Forecast: Peak: 1.98m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 3.0m (+0.96m rise): Bishnumati corridor footpath and low riverbank walls overflow]]></description>
+Next Milestone: Next Impact at 3.0m (+1.16m rise): Bishnumati corridor footpath and low riverbank walls overflow]]></description>
       <geo:lat>27.732</geo:lat>
       <geo:long>85.308</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Karmanasa (Khadku) at Imadol / Gwarko (Karmanasa River) - Level: 1.52m (v: -0.06m/h)]]></title>
+      <title><![CDATA[[NORMAL] Karmanasa (Khadku) at Imadol / Gwarko (Karmanasa River) - Level: 1.38m (v: +0.11m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#karmanasa_imadol</link>
-      <guid isPermaLink="false">karmanasa_imadol-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">karmanasa_imadol-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Karmanasa (Khadku) at Imadol / Gwarko (Karmanasa River)
 Severity: NORMAL
-Current Level: 1.52m (Warning: 3.00m, Danger: 4.00m)
-Velocity: -0.06 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: No sharp crest expected
+Current Level: 1.38m (Warning: 3.00m, Danger: 4.00m)
+Velocity: +0.11 m/hr | Lead-Time: Warning mark in ~14h 42m (~11:57 PM NPT)
+Hydrograph Forecast: Peak: 1.80m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 2.3m (+0.78m rise): Gwarko-Imadol link road shoulder waterlogged]]></description>
+Next Milestone: Next Impact at 2.3m (+0.92m rise): Gwarko-Imadol link road shoulder waterlogged]]></description>
       <geo:lat>27.665</geo:lat>
       <geo:long>85.337</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Bhotekoshi River at Barhabise / Tatopani (Bhotekoshi River) - Level: 3.27m (v: -0.03m/h)]]></title>
+      <title><![CDATA[[NORMAL] Bhotekoshi River at Barhabise / Tatopani (Bhotekoshi River) - Level: 3.17m (v: +0.10m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#bhotekoshi_barhabise</link>
-      <guid isPermaLink="false">bhotekoshi_barhabise-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">bhotekoshi_barhabise-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Bhotekoshi River at Barhabise / Tatopani (Bhotekoshi River)
 Severity: NORMAL
-Current Level: 3.27m (Warning: 5.00m, Danger: 6.50m)
-Velocity: -0.03 m/hr | Lead-Time: Stable / Within bounds
-Hydrograph Forecast: Peak: 3.41m in ~6h (~08:32 PM NPT)
+Current Level: 3.17m (Warning: 5.00m, Danger: 6.50m)
+Velocity: +0.10 m/hr | Lead-Time: Warning mark in ~18h 18m (~03:33 AM NPT)
+Hydrograph Forecast: Peak: 3.47m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 4.2m (+0.93m rise): Araniko Highway road shoulder erosion; riverside trails closed]]></description>
+Next Milestone: Next Impact at 4.2m (+1.03m rise): Araniko Highway road shoulder erosion; riverside trails closed]]></description>
       <geo:lat>27.788</geo:lat>
       <geo:long>85.898</geo:long>
     </item>
     <item>
-      <title><![CDATA[[NORMAL] Seti River at Ramghat (Pokhara) (Seti River) - Level: 4.33m (v: +0.10m/h)]]></title>
+      <title><![CDATA[[NORMAL] Seti River at Ramghat (Pokhara) (Seti River) - Level: 4.08m (v: -0.02m/h)]]></title>
       <link>https://thesuccess-tech.github.io/googleweatherbot/#seti_ramghat</link>
-      <guid isPermaLink="false">seti_ramghat-2026-09-08T08:47:31.965741+00:00</guid>
-      <pubDate>Tue, 08 Sep 2026 08:47:31 +0000</pubDate>
+      <guid isPermaLink="false">seti_ramghat-2026-09-09T03:30:28.150932+00:00</guid>
+      <pubDate>Wed, 09 Sep 2026 03:30:28 +0000</pubDate>
       <description><![CDATA[Station: Seti River at Ramghat (Pokhara) (Seti River)
 Severity: NORMAL
-Current Level: 4.33m (Warning: 6.50m, Danger: 8.50m)
-Velocity: +0.10 m/hr | Lead-Time: Warning mark in ~21h 42m (~12:14 PM NPT)
-Hydrograph Forecast: Peak: 4.67m in ~6h (~08:32 PM NPT)
+Current Level: 4.08m (Warning: 6.50m, Danger: 8.50m)
+Velocity: -0.02 m/hr | Lead-Time: Stable / Within bounds
+Hydrograph Forecast: Peak: 4.22m in ~6h (~03:15 PM NPT)
 Current Impact: Normal riverbed conditions
-Next Milestone: Next Impact at 5.2m (+0.87m rise): Seti river gorge walking trails closed; turbulent muddy current]]></description>
+Next Milestone: Next Impact at 5.2m (+1.12m rise): Seti river gorge walking trails closed; turbulent muddy current]]></description>
       <geo:lat>28.216</geo:lat>
       <geo:long>83.998</geo:long>
     </item>
